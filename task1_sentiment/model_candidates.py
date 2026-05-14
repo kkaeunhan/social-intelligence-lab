@@ -137,6 +137,67 @@ def parse_args() -> argparse.Namespace:
         default=0.01,
         help="Weight decay for transformer fine-tuning.",
     )
+    parser.add_argument(
+        "--class-weight-mode",
+        choices=["inverse", "none", "sqrt_inverse", "effective_number", "custom"],
+        default="inverse",
+        help="Class weighting strategy for transformer loss.",
+    )
+    parser.add_argument(
+        "--effective-number-beta",
+        type=float,
+        default=0.999,
+        help="Beta for effective-number class weights.",
+    )
+    parser.add_argument(
+        "--custom-class-weights",
+        nargs=4,
+        type=float,
+        default=None,
+        metavar=("W0", "W1", "W2", "W3"),
+        help="Four custom class weights used when --class-weight-mode custom.",
+    )
+    parser.add_argument(
+        "--loss",
+        choices=["cross_entropy", "focal"],
+        default="cross_entropy",
+        help="Transformer loss function.",
+    )
+    parser.add_argument(
+        "--focal-gamma",
+        type=float,
+        default=1.0,
+        help="Gamma for focal loss when --loss focal.",
+    )
+    parser.add_argument(
+        "--experiment-name",
+        default=None,
+        help="Optional suffix for output filenames to avoid overwriting experiments.",
+    )
+    parser.add_argument(
+        "--ensemble-only",
+        action="store_true",
+        help="Evaluate an ensemble from saved validation prediction files only.",
+    )
+    parser.add_argument(
+        "--ensemble-models",
+        nargs="+",
+        default=["klue_roberta", "koelectra_sentiment", "beomi_kc_electra"],
+        help="Saved model names to combine for ensemble evaluation.",
+    )
+    parser.add_argument(
+        "--ensemble-method",
+        choices=["hard", "soft", "weighted_soft"],
+        default="soft",
+        help="Ensemble method. soft methods require saved class probabilities.",
+    )
+    parser.add_argument(
+        "--ensemble-weights",
+        nargs="+",
+        type=float,
+        default=None,
+        help="Optional model weights in the same order as --ensemble-models.",
+    )
     return parser.parse_args()
 
 
@@ -379,7 +440,42 @@ def get_texts_and_labels(
     return texts, labels
 
 
-def evaluate_predictions(y_true: list[int], y_pred: list[int]) -> dict[str, float]:
+def build_confusion_matrix(
+    y_true: list[int],
+    y_pred: list[int],
+    num_classes: int = 4,
+) -> list[list[int]]:
+    matrix = [[0 for _ in range(num_classes)] for _ in range(num_classes)]
+    for true_label, pred_label in zip(y_true, y_pred, strict=True):
+        matrix[int(true_label)][int(pred_label)] += 1
+    return matrix
+
+
+def build_per_class_metrics(
+    y_true: list[int],
+    y_pred: list[int],
+    num_classes: int = 4,
+) -> dict[str, dict[str, float | int]]:
+    matrix = build_confusion_matrix(y_true, y_pred, num_classes=num_classes)
+    per_class = {}
+    for label in range(num_classes):
+        tp = matrix[label][label]
+        fp = sum(matrix[row][label] for row in range(num_classes) if row != label)
+        fn = sum(matrix[label][col] for col in range(num_classes) if col != label)
+        support = sum(matrix[label])
+        precision = tp / (tp + fp) if tp + fp else 0.0
+        recall = tp / (tp + fn) if tp + fn else 0.0
+        f1 = (2 * precision * recall / (precision + recall)) if precision + recall else 0.0
+        per_class[str(label)] = {
+            "precision": float(precision),
+            "recall": float(recall),
+            "f1": float(f1),
+            "support": int(support),
+        }
+    return per_class
+
+
+def evaluate_predictions(y_true: list[int], y_pred: list[int]) -> dict[str, Any]:
     if accuracy_score is None or f1_score is None:
         raise ImportError("Install scikit-learn to compute classification metrics.")
 
@@ -387,38 +483,81 @@ def evaluate_predictions(y_true: list[int], y_pred: list[int]) -> dict[str, floa
         "qwk": float(quadratic_weighted_kappa(y_true, y_pred, num_classes=4)),
         "accuracy": float(accuracy_score(y_true, y_pred)),
         "macro_f1": float(f1_score(y_true, y_pred, average="macro")),
+        "confusion_matrix": build_confusion_matrix(y_true, y_pred),
+        "per_class": build_per_class_metrics(y_true, y_pred),
+        "label_distribution": {
+            str(label): Counter(y_true).get(label, 0) for label in range(4)
+        },
+        "pred_distribution": {
+            str(label): Counter(y_pred).get(label, 0) for label in range(4)
+        },
     }
 
 
 def build_validation_predictions(
     validation_records: list[dict[str, Any]],
     y_pred: list[int],
+    y_prob: list[list[float]] | None = None,
 ) -> list[dict[str, Any]]:
-    return [
-        {
+    rows = []
+    for index, (record, pred) in enumerate(
+        zip(validation_records, y_pred, strict=True)
+    ):
+        row = {
             "review_id": record["review_id"],
             "label": int(record["label"]),
             "pred": int(pred),
         }
-        for record, pred in zip(validation_records, y_pred, strict=True)
-    ]
+        if y_prob is not None:
+            row["probabilities"] = [float(value) for value in y_prob[index]]
+        rows.append(row)
+    return rows
+
+
+def format_float_for_tag(value: float) -> str:
+    text = f"{value:g}"
+    return text.replace("-", "m").replace(".", "p")
+
+
+def build_experiment_tag(args: argparse.Namespace) -> str:
+    if args.experiment_name:
+        return args.experiment_name
+    if args.loss == "cross_entropy" and args.class_weight_mode == "inverse":
+        return ""
+
+    parts = [args.loss, args.class_weight_mode]
+    if args.class_weight_mode == "effective_number":
+        parts.append(f"beta{format_float_for_tag(args.effective_number_beta)}")
+    if args.loss == "focal":
+        parts.append(f"gamma{format_float_for_tag(args.focal_gamma)}")
+    if args.class_weight_mode == "custom" and args.custom_class_weights:
+        weights = "_".join(format_float_for_tag(weight) for weight in args.custom_class_weights)
+        parts.append(f"w{weights}")
+    return "_".join(parts)
+
+
+def append_experiment_tag(stem: str, args: argparse.Namespace) -> str:
+    tag = build_experiment_tag(args)
+    return f"{stem}_{tag}" if tag else stem
 
 
 def save_validation_predictions(
     model_name: str,
-    metrics: dict[str, float],
+    metrics: dict[str, Any],
     validation_records: list[dict[str, Any]],
     y_pred: list[int],
     args: argparse.Namespace,
+    y_prob: list[list[float]] | None = None,
 ) -> Path:
     output = {
         "model_name": model_name,
         "split": f"stratified_{1 - args.validation_size:.0%}_{args.validation_size:.0%}_seed_{args.seed}",
         "metrics": metrics,
-        "predictions": build_validation_predictions(validation_records, y_pred),
+        "predictions": build_validation_predictions(validation_records, y_pred, y_prob),
     }
     output_path = (
-        Path(args.output_dir) / f"validation_predictions_{model_name}_seed{args.seed}.json"
+        Path(args.output_dir)
+        / f"validation_predictions_{append_experiment_tag(model_name, args)}_seed{args.seed}.json"
     )
     write_json(output, output_path)
     return output_path
@@ -430,17 +569,19 @@ def save_kfold_validation_predictions(
     fold_metrics: list[dict[str, Any]],
     predictions: list[dict[str, Any]],
     args: argparse.Namespace,
+    oof_metrics: dict[str, Any] | None = None,
 ) -> Path:
     output = {
         "model_name": model_name,
         "split": f"stratified_kfold_k{args.cv_folds}_seed_{args.seed}",
         "metrics": aggregate_metrics,
+        "oof_metrics": oof_metrics,
         "fold_metrics": fold_metrics,
         "predictions": predictions,
     }
     output_path = (
         Path(args.output_dir)
-        / f"validation_predictions_{model_name}_seed{args.seed}_k{args.cv_folds}.json"
+        / f"validation_predictions_{append_experiment_tag(model_name, args)}_seed{args.seed}_k{args.cv_folds}.json"
     )
     write_json(output, output_path)
     return output_path
@@ -464,7 +605,7 @@ def save_model_comparison(
 ) -> Path:
     output_path = (
         Path(args.output_dir)
-        / f"model_comparison_seed{args.seed}_k{args.cv_folds}.json"
+        / f"model_comparison_{append_experiment_tag('transformer', args)}_seed{args.seed}_k{args.cv_folds}.json"
     )
     sorted_rows = sorted(
         comparison_rows,
@@ -563,14 +704,104 @@ def fit_predict_tfidf_logreg(
     return [int(pred) for pred in model.predict(validation_texts)]
 
 
-def make_class_weights(labels: list[int]) -> list[float]:
+def normalize_class_weights(weights: list[float]) -> list[float]:
+    mean_weight = sum(weights) / len(weights)
+    if mean_weight <= 0:
+        raise ValueError("Class weights must have a positive mean.")
+    return [float(weight) / mean_weight for weight in weights]
+
+
+def make_class_weights(
+    labels: list[int],
+    mode: str = "inverse",
+    effective_number_beta: float = 0.999,
+    custom_class_weights: list[float] | None = None,
+) -> list[float] | None:
+    if mode == "none":
+        return None
+
+    if mode == "custom":
+        if custom_class_weights is None or len(custom_class_weights) != 4:
+            raise ValueError("--custom-class-weights requires exactly four values.")
+        return normalize_class_weights([float(weight) for weight in custom_class_weights])
+
     counts = Counter(labels)
     num_labels = 4
     total = len(labels)
-    return [
-        total / (num_labels * max(counts.get(label, 0), 1))
-        for label in range(num_labels)
-    ]
+
+    if mode == "inverse":
+        weights = [
+            total / (num_labels * max(counts.get(label, 0), 1))
+            for label in range(num_labels)
+        ]
+    elif mode == "sqrt_inverse":
+        weights = [
+            math.sqrt(total / (num_labels * max(counts.get(label, 0), 1)))
+            for label in range(num_labels)
+        ]
+    elif mode == "effective_number":
+        if not 0 < effective_number_beta < 1:
+            raise ValueError("--effective-number-beta must be between 0 and 1.")
+        weights = []
+        for label in range(num_labels):
+            count = max(counts.get(label, 0), 1)
+            effective_num = (1 - effective_number_beta**count) / (
+                1 - effective_number_beta
+            )
+            weights.append(total / (num_labels * effective_num))
+    else:
+        raise ValueError(f"Unknown class weight mode: {mode}")
+
+    return normalize_class_weights(weights)
+
+
+def make_loss_fn(
+    torch: Any,
+    class_weights: Any,
+    args: argparse.Namespace,
+) -> Any:
+    if args.loss == "cross_entropy":
+        return torch.nn.CrossEntropyLoss(weight=class_weights)
+    if args.loss == "focal":
+        if args.focal_gamma < 0:
+            raise ValueError("--focal-gamma must be non-negative.")
+
+        def focal_loss(logits: Any, labels: Any) -> Any:
+            ce_loss = torch.nn.functional.cross_entropy(
+                logits,
+                labels,
+                weight=class_weights,
+                reduction="none",
+            )
+            pt = torch.exp(-ce_loss)
+            loss = ((1 - pt) ** args.focal_gamma) * ce_loss
+            return loss.mean()
+
+        return focal_loss
+    raise ValueError(f"Unknown loss: {args.loss}")
+
+
+def get_loss_config(
+    labels: list[int],
+    class_weights: list[float] | None,
+    args: argparse.Namespace,
+) -> dict[str, Any]:
+    return {
+        "loss": args.loss,
+        "focal_gamma": args.focal_gamma if args.loss == "focal" else None,
+        "class_weight_mode": args.class_weight_mode,
+        "effective_number_beta": (
+            args.effective_number_beta
+            if args.class_weight_mode == "effective_number"
+            else None
+        ),
+        "custom_class_weights": args.custom_class_weights,
+        "class_weights": class_weights,
+        "train_label_distribution": {
+            str(label): Counter(labels).get(label, 0) for label in range(4)
+        },
+        "experiment_tag": build_experiment_tag(args),
+    }
 
 
 def make_transformer_dataset_class(Dataset: Any) -> Any:
@@ -675,12 +906,18 @@ def train_transformer_candidate(
         num_warmup_steps=warmup_steps,
         num_training_steps=total_steps,
     )
-    class_weights = torch.tensor(
-        make_class_weights(train_labels),
-        dtype=torch.float,
-        device=device,
+    class_weight_values = make_class_weights(
+        train_labels,
+        mode=args.class_weight_mode,
+        effective_number_beta=args.effective_number_beta,
+        custom_class_weights=args.custom_class_weights,
     )
-    loss_fn = torch.nn.CrossEntropyLoss(weight=class_weights)
+    class_weights = (
+        torch.tensor(class_weight_values, dtype=torch.float, device=device)
+        if class_weight_values is not None
+        else None
+    )
+    loss_fn = make_loss_fn(torch, class_weights, args)
 
     for epoch in range(args.transformer_epochs):
         model.train()
@@ -704,14 +941,18 @@ def train_transformer_candidate(
 
     model.eval()
     y_pred = []
+    y_prob = []
     with torch.no_grad():
         for batch in validation_loader:
             batch.pop("labels")
             batch = {key: value.to(device) for key, value in batch.items()}
             logits = model(**batch).logits
-            y_pred.extend(logits.argmax(dim=-1).detach().cpu().tolist())
+            probabilities = torch.softmax(logits, dim=-1)
+            y_pred.extend(probabilities.argmax(dim=-1).detach().cpu().tolist())
+            y_prob.extend(probabilities.detach().cpu().tolist())
 
     y_pred = [int(pred) for pred in y_pred]
+    y_prob = [[float(value) for value in row] for row in y_prob]
     metrics = evaluate_predictions(validation_labels, y_pred)
     predictions_path = None
     if save_output:
@@ -721,6 +962,7 @@ def train_transformer_candidate(
             validation_records=validation_records,
             y_pred=y_pred,
             args=args,
+            y_prob=y_prob,
         )
 
     return {
@@ -728,6 +970,7 @@ def train_transformer_candidate(
         "metrics": metrics,
         "validation_predictions_path": str(predictions_path) if predictions_path else None,
         "y_pred": y_pred,
+        "y_prob": y_prob,
         "config": {
             "pretrained_model_name": pretrained_model_name,
             "num_labels": 4,
@@ -737,7 +980,7 @@ def train_transformer_candidate(
             "max_length": args.transformer_max_length,
             "warmup_ratio": args.transformer_warmup_ratio,
             "weight_decay": args.transformer_weight_decay,
-            "class_weights": make_class_weights(train_labels),
+            "loss_config": get_loss_config(train_labels, class_weight_values, args),
             "device": str(device),
         },
     }
@@ -747,8 +990,9 @@ def build_fold_prediction_rows(
     fold_index: int,
     validation_records: list[dict[str, Any]],
     y_pred: list[int],
+    y_prob: list[list[float]] | None = None,
 ) -> list[dict[str, Any]]:
-    rows = build_validation_predictions(validation_records, y_pred)
+    rows = build_validation_predictions(validation_records, y_pred, y_prob)
     for row in rows:
         row["fold"] = fold_index
     return rows
@@ -782,12 +1026,17 @@ def run_tfidf_logreg_kfold(
         print(f"tfidf_logreg fold {fold_index} metrics:", metrics)
 
     aggregate_metrics = summarize_fold_metrics(fold_metrics)
+    oof_metrics = evaluate_predictions(
+        [int(row["label"]) for row in all_predictions],
+        [int(row["pred"]) for row in all_predictions],
+    )
     predictions_path = save_kfold_validation_predictions(
         model_name="tfidf_logreg",
         aggregate_metrics=aggregate_metrics,
         fold_metrics=fold_metrics,
         predictions=all_predictions,
         args=args,
+        oof_metrics=oof_metrics,
     )
 
     return {
@@ -825,19 +1074,30 @@ def run_transformer_kfold(
         y_pred = [int(pred) for pred in result["y_pred"]]
         metrics = evaluate_predictions(validation_labels, y_pred)
         fold_metrics.append({"fold": fold_index, "metrics": metrics})
+        y_prob = result.get("y_prob")
         all_predictions.extend(
-            build_fold_prediction_rows(fold_index, fold["validation_records"], y_pred)
+            build_fold_prediction_rows(
+                fold_index,
+                fold["validation_records"],
+                y_pred,
+                y_prob,
+            )
         )
         config = result["config"]
         print(f"{model_name} fold {fold_index} metrics:", metrics)
 
     aggregate_metrics = summarize_fold_metrics(fold_metrics)
+    oof_metrics = evaluate_predictions(
+        [int(row["label"]) for row in all_predictions],
+        [int(row["pred"]) for row in all_predictions],
+    )
     predictions_path = save_kfold_validation_predictions(
         model_name=model_name,
         aggregate_metrics=aggregate_metrics,
         fold_metrics=fold_metrics,
         predictions=all_predictions,
         args=args,
+        oof_metrics=oof_metrics,
     )
 
     return {
@@ -847,6 +1107,118 @@ def run_transformer_kfold(
         "validation_predictions_path": str(predictions_path),
         "config": config,
     }
+
+
+def load_saved_prediction_output(
+    model_name: str,
+    args: argparse.Namespace,
+) -> dict[str, Any]:
+    path = (
+        Path(args.output_dir)
+        / f"validation_predictions_{append_experiment_tag(model_name, args)}_seed{args.seed}_k{args.cv_folds}.json"
+    )
+    if not path.exists():
+        raise FileNotFoundError(f"Missing saved prediction file: {path}")
+    return json_read(path)
+
+
+def json_read(path: str | Path) -> Any:
+    import json
+
+    with Path(path).open("r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def normalize_weights(weights: list[float]) -> list[float]:
+    total = sum(weights)
+    if total <= 0:
+        raise ValueError("Ensemble weights must sum to a positive value.")
+    return [float(weight) / total for weight in weights]
+
+
+def argmax(values: list[float]) -> int:
+    return max(range(len(values)), key=lambda index: values[index])
+
+
+def run_saved_prediction_ensemble(args: argparse.Namespace) -> dict[str, Any]:
+    outputs = [load_saved_prediction_output(model_name, args) for model_name in args.ensemble_models]
+    prediction_maps = [
+        {str(item["review_id"]): item for item in output["predictions"]}
+        for output in outputs
+    ]
+    review_ids = sorted(prediction_maps[0])
+    if any(set(prediction_map) != set(review_ids) for prediction_map in prediction_maps):
+        raise ValueError("All ensemble prediction files must contain the same review_ids.")
+
+    if args.ensemble_weights is None:
+        if args.ensemble_method == "weighted_soft":
+            weights = [float(output["metrics"].get("qwk_mean", 1.0)) for output in outputs]
+        else:
+            weights = [1.0 for _ in outputs]
+    else:
+        weights = args.ensemble_weights
+
+    if len(weights) != len(outputs):
+        raise ValueError("--ensemble-weights must match --ensemble-models length.")
+    weights = normalize_weights(weights)
+
+    rows = []
+    y_true = []
+    y_pred = []
+    for review_id in review_ids:
+        items = [prediction_map[review_id] for prediction_map in prediction_maps]
+        label = int(items[0]["label"])
+        fold = items[0].get("fold")
+
+        if args.ensemble_method == "hard":
+            scores = [0.0, 0.0, 0.0, 0.0]
+            for item, weight in zip(items, weights, strict=True):
+                scores[int(item["pred"])] += weight
+        else:
+            if any("probabilities" not in item for item in items):
+                raise ValueError(
+                    "soft ensemble requires saved probabilities. "
+                    "Rerun the selected transformer models with the updated code first."
+                )
+            scores = [0.0, 0.0, 0.0, 0.0]
+            for item, weight in zip(items, weights, strict=True):
+                for label_index, probability in enumerate(item["probabilities"]):
+                    scores[label_index] += weight * float(probability)
+
+        pred = argmax(scores)
+        row = {
+            "review_id": items[0]["review_id"],
+            "label": label,
+            "pred": pred,
+            "fold": fold,
+            "ensemble_scores": scores,
+            "member_predictions": {
+                model_name: int(item["pred"])
+                for model_name, item in zip(args.ensemble_models, items, strict=True)
+            },
+        }
+        rows.append(row)
+        y_true.append(label)
+        y_pred.append(pred)
+
+    metrics = evaluate_predictions(y_true, y_pred)
+    output = {
+        "model_name": "ensemble_" + "_".join(args.ensemble_models),
+        "split": f"stratified_kfold_k{args.cv_folds}_seed_{args.seed}",
+        "ensemble_method": args.ensemble_method,
+        "ensemble_models": args.ensemble_models,
+        "ensemble_weights": weights,
+        "metrics": metrics,
+        "predictions": rows,
+    }
+    output_path = (
+        Path(args.output_dir)
+        / f"validation_predictions_ensemble_{args.ensemble_method}_seed{args.seed}_k{args.cv_folds}.json"
+    )
+    write_json(output, output_path)
+    print("ensemble metrics:", metrics)
+    print("Saved ensemble predictions:", output_path)
+    return output
 
 
 def run_model_candidates(
@@ -895,7 +1267,9 @@ def main() -> None:
         folds=folds,
         args=args,
     )
-    if not args.prepare_only:
+    if args.ensemble_only:
+        run_saved_prediction_ensemble(args)
+    elif not args.prepare_only:
         run_model_candidates(
             folds=folds,
             args=args,
