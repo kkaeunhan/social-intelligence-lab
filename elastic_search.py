@@ -28,12 +28,43 @@ class SearchOutput(TypedDict):
 
 # TODO: Update this mapping to match the documents you will index.
 DEFAULT_INDEX_MAPPING = {
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "korean_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "nori_tokenizer"
+                }
+            }
+        }
+    },
     "mappings": {
         "properties": {
             "review_id": {"type": "keyword"},
-            "product_name": {"type": "keyword"},
+            "review_at": {"type": "date", "format": "strict_date_optional_time||epoch_millis"},
+
+            "product_name": {"type": "keyword", "fields": {"search": {"type": "text", "analyzer": "korean_analyzer"}}},
+            "item_name": {"type": "text", "analyzer": "korean_analyzer"},
+            "title": {"type": "text", "analyzer": "korean_analyzer"},
+            "content": {"type": "text", "analyzer": "korean_analyzer"},
+            "review_survey_answers": {
+                "type": "nested",
+                "properties": {
+                    "question": {"type": "keyword"},
+                    "answer": {"type": "keyword", "fields": {"search": {"type": "text", "analyzer": "korean_analyzer"}}}
+                }
+            },
+
             "rating": {"type": "integer"},
-            "content": {"type": "text", "analyzer": "standard"},
+            "helpful_count": {"type": "integer"},
+            "helpful_true_count": {"type": "integer"},
+            "helpful_false_count": {"type": "integer"},
+            "has_image": {"type": "boolean"},
+            "has_video": {"type": "boolean"},
+            "reviewer_rank": {"type": "float"},
+
+            "label": {"type": "integer"},
+            "label_string": {"type": "keyword"}
         }
     }
 }
@@ -77,11 +108,62 @@ def get_client(config: ElasticsearchConfig | None = None) -> Elasticsearch:
 
     return Elasticsearch(**client_options)
 
-
 def preprocess_record(record: dict[str, Any]) -> dict[str, Any]:
-    """Convert one raw record into the document schema for indexing."""
-    # TODO: Normalize fields, clean text, and add any metadata you need.
-    raise NotImplementedError("preprocess_record is not implemented yet.")
+    import re
+    import html
+    import unicodedata
+    def clean_text(text: Any) -> str:
+        if text is None or str(text).lower() == "nan":
+            return ""
+        
+        text = unicodedata.normalize('NFKC', html.unescape(str(text)))
+        text = re.sub(r"<[^>]+>", " ", text)
+        text = re.sub(r"https?://\S+|www\.\S+", " ", text)
+        text = re.sub(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+", " ", text)
+        text = re.sub(r"\b(?:\d{2,3}[-.\s]?\d{3,4}[-.\s]?\d{4})\b", " ", text)
+        text = re.sub(r"[\u200b\u200c\u200d\ufeff]", "", text)
+        text = re.sub(r"(ㅋ)\1{4,}", "ㅋㅋㅋㅋ", text)
+        text = re.sub(r"(ㅎ)\1{4,}", "ㅎㅎㅎㅎ", text)
+        text = re.sub(r"([!?])\1{2,}", r"\1\1\1", text)
+        text = re.sub(r"(\.)\1{2,}", "...", text)
+        return re.sub(r"\s+", " ", text).strip()
+
+    def safe_value(val: Any, default: Any = 0):
+        if val is None or str(val).lower() == "nan":
+            return default
+        return val
+
+    doc = {
+        "review_id": str(record.get("reviewId", "")),
+        "review_at": record.get("reviewAt", 0),
+
+        "product_name": clean_text(record.get("product_name", "")),
+        "item_name": clean_text(record.get("itemName")),
+        "title": clean_text(record.get("title")),
+        "content": clean_text(record.get("content")),
+
+        "review_survey_answers": [
+            {
+                "question": str(s.get("question", "")),
+                "answer": clean_text(s.get("answer", ""))
+            }
+            for s in (record.get("reviewSurveyAnswers") or [])
+            if s.get("question")
+        ],
+
+        "rating": int(safe_value(record.get("rating"), 0)),
+        "helpful_count": int(safe_value(record.get("helpfulCount"), 0)),
+        "helpful_true_count": int(safe_value(record.get("helpfulTrueCount"), 0)),
+        "helpful_false_count": int(safe_value(record.get("helpfulFalseCount"), 0)),
+        "has_image": len(record.get("attachments") or []) > 0,
+        "has_video": len(record.get("videoAttachments") or []) > 0,
+        "reviewer_rank": float(safe_value(record.get("reviewerRank"), 0.0)),
+
+        "label": safe_value(record.get("label"), None),
+        "label_string": safe_value(record.get("label_string"), None)
+    }
+
+    return doc
 
 
 def build_documents(records: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
