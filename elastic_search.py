@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 from dataclasses import dataclass
 from typing import Any, Iterable, TypedDict
@@ -60,11 +62,7 @@ DEFAULT_INDEX_MAPPING = {
             "helpful_true_count": {"type": "integer"},
             "helpful_false_count": {"type": "integer"},
             "has_image": {"type": "boolean"},
-            "has_video": {"type": "boolean"},
-            "reviewer_rank": {"type": "float"},
-
-            "label": {"type": "integer"},
-            "label_string": {"type": "keyword"}
+            "has_video": {"type": "boolean"}
         }
     }
 }
@@ -108,10 +106,13 @@ def get_client(config: ElasticsearchConfig | None = None) -> Elasticsearch:
 
     return Elasticsearch(**client_options)
 
-def preprocess_record(record: dict[str, Any]) -> dict[str, Any]:
+def preprocess_record(record: dict[str, Any]) -> dict[str, Any] | None:
     import re
     import html
     import unicodedata
+
+    min_content_length = 10
+
     def clean_text(text: Any) -> str:
         if text is None or str(text).lower() == "nan":
             return ""
@@ -133,14 +134,28 @@ def preprocess_record(record: dict[str, Any]) -> dict[str, Any]:
             return default
         return val
 
+    def has_enough_signal(text: str) -> bool:
+        meaningful_chars = re.findall(r"[0-9A-Za-z가-힣]", text)
+        return len(text) >= min_content_length and len(meaningful_chars) >= min_content_length
+
+    review_id = str(record.get("reviewId") or record.get("review_id") or "").strip()
+    product_name = clean_text(record.get("product_name", ""))
+    title = clean_text(record.get("title"))
+    content = clean_text(record.get("content"))
+
+    if not review_id or not product_name or not content:
+        return None
+    if not has_enough_signal(content):
+        return None
+
     doc = {
-        "review_id": str(record.get("reviewId", "")),
+        "review_id": review_id,
         "review_at": record.get("reviewAt", 0),
 
-        "product_name": clean_text(record.get("product_name", "")),
+        "product_name": product_name,
         "item_name": clean_text(record.get("itemName")),
-        "title": clean_text(record.get("title")),
-        "content": clean_text(record.get("content")),
+        "title": title,
+        "content": content,
 
         "review_survey_answers": [
             {
@@ -156,11 +171,7 @@ def preprocess_record(record: dict[str, Any]) -> dict[str, Any]:
         "helpful_true_count": int(safe_value(record.get("helpfulTrueCount"), 0)),
         "helpful_false_count": int(safe_value(record.get("helpfulFalseCount"), 0)),
         "has_image": len(record.get("attachments") or []) > 0,
-        "has_video": len(record.get("videoAttachments") or []) > 0,
-        "reviewer_rank": float(safe_value(record.get("reviewerRank"), 0.0)),
-
-        "label": safe_value(record.get("label"), None),
-        "label_string": safe_value(record.get("label_string"), None)
+        "has_video": len(record.get("videoAttachments") or []) > 0
     }
 
     return doc
@@ -168,7 +179,33 @@ def preprocess_record(record: dict[str, Any]) -> dict[str, Any]:
 
 def build_documents(records: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
     """Build preprocessed documents before calling index_documents."""
-    return [preprocess_record(record) for record in records]
+    import re
+
+    def content_fingerprint(content: str) -> str:
+        content = content.lower()
+        content = re.sub(r"\s+", "", content)
+        content = re.sub(r"[^0-9a-z가-힣]", "", content)
+        return content
+
+    documents = []
+    seen_review_ids = set()
+    seen_contents = set()
+
+    for record in records:
+        document = preprocess_record(record)
+        if document is None:
+            continue
+
+        review_id = document["review_id"]
+        content_key = content_fingerprint(document["content"])
+        if review_id in seen_review_ids or content_key in seen_contents:
+            continue
+
+        seen_review_ids.add(review_id)
+        seen_contents.add(content_key)
+        documents.append(document)
+
+    return documents
 
 
 def create_index(
