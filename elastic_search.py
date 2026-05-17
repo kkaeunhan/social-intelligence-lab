@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import os
 from dataclasses import dataclass
 from typing import Any, Iterable, TypedDict
@@ -28,14 +29,27 @@ class SearchOutput(TypedDict):
     results: list[SearchOutputItem]
 
 
-# TODO: Update this mapping to match the documents you will index.
+ISSUE_CATEGORIES = [
+    "배송/포장",
+    "배터리/충전",
+    "발열",
+    "카메라",
+    "성능/속도",
+    "디자인/무게",
+    "화면/디스플레이",
+    "가격/가성비",
+    "교환/반품/AS",
+    "기타",
+]
+
+
 DEFAULT_INDEX_MAPPING = {
     "settings": {
         "analysis": {
             "analyzer": {
                 "korean_analyzer": {
                     "type": "custom",
-                    "tokenizer": "nori_tokenizer"
+                    "tokenizer": "nori_tokenizer",
                 }
             }
         }
@@ -44,8 +58,10 @@ DEFAULT_INDEX_MAPPING = {
         "properties": {
             "review_id": {"type": "keyword"},
             "review_at": {"type": "date", "format": "strict_date_optional_time||epoch_millis"},
-
-            "product_name": {"type": "keyword", "fields": {"search": {"type": "text", "analyzer": "korean_analyzer"}}},
+            "product_name": {
+                "type": "keyword",
+                "fields": {"search": {"type": "text", "analyzer": "korean_analyzer"}},
+            },
             "item_name": {"type": "text", "analyzer": "korean_analyzer"},
             "title": {"type": "text", "analyzer": "korean_analyzer"},
             "content": {"type": "text", "analyzer": "korean_analyzer"},
@@ -53,18 +69,26 @@ DEFAULT_INDEX_MAPPING = {
                 "type": "nested",
                 "properties": {
                     "question": {"type": "keyword"},
-                    "answer": {"type": "keyword", "fields": {"search": {"type": "text", "analyzer": "korean_analyzer"}}}
-                }
+                    "answer": {
+                        "type": "keyword",
+                        "fields": {"search": {"type": "text", "analyzer": "korean_analyzer"}},
+                    },
+                },
             },
-
             "rating": {"type": "integer"},
             "helpful_count": {"type": "integer"},
             "helpful_true_count": {"type": "integer"},
             "helpful_false_count": {"type": "integer"},
             "has_image": {"type": "boolean"},
-            "has_video": {"type": "boolean"}
+            "has_video": {"type": "boolean"},
+            "issue_category": {"type": "keyword"},
+            "aspect_keywords": {
+                "type": "keyword",
+                "fields": {"search": {"type": "text", "analyzer": "korean_analyzer"}},
+            },
+            "short_summary": {"type": "text", "analyzer": "korean_analyzer"},
         }
-    }
+    },
 }
 
 
@@ -76,13 +100,6 @@ class ElasticsearchConfig:
 
 
 def load_config(env_path: str | None = None) -> ElasticsearchConfig:
-    """Load Elasticsearch settings from .env or environment variables.
-
-    Expected variables:
-    - ELASTICSEARCH_URL
-    - ELASTICSEARCH_INDEX
-    - ELASTICSEARCH_VERIFY_CERTS
-    """
     if load_dotenv is not None:
         load_dotenv(env_path)
 
@@ -94,21 +111,16 @@ def load_config(env_path: str | None = None) -> ElasticsearchConfig:
 
 
 def get_client(config: ElasticsearchConfig | None = None) -> Elasticsearch:
-    """Create an Elasticsearch client from config."""
     if Elasticsearch is None:
         raise ImportError("Install elasticsearch first: pip install elasticsearch")
 
     config = config or load_config()
-    client_options = {
-        "hosts": [config.url],
-        "verify_certs": config.verify_certs,
-    }
+    return Elasticsearch(hosts=[config.url], verify_certs=config.verify_certs)
 
-    return Elasticsearch(**client_options)
 
 def preprocess_record(record: dict[str, Any]) -> dict[str, Any] | None:
-    import re
     import html
+    import re
     import unicodedata
 
     min_content_length = 10
@@ -116,8 +128,8 @@ def preprocess_record(record: dict[str, Any]) -> dict[str, Any] | None:
     def clean_text(text: Any) -> str:
         if text is None or str(text).lower() == "nan":
             return ""
-        
-        text = unicodedata.normalize('NFKC', html.unescape(str(text)))
+
+        text = unicodedata.normalize("NFKC", html.unescape(str(text)))
         text = re.sub(r"<[^>]+>", " ", text)
         text = re.sub(r"https?://\S+|www\.\S+", " ", text)
         text = re.sub(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+", " ", text)
@@ -148,37 +160,181 @@ def preprocess_record(record: dict[str, Any]) -> dict[str, Any] | None:
     if not has_enough_signal(content):
         return None
 
-    doc = {
+    return {
         "review_id": review_id,
         "review_at": record.get("reviewAt", 0),
-
         "product_name": product_name,
         "item_name": clean_text(record.get("itemName")),
         "title": title,
         "content": content,
-
         "review_survey_answers": [
             {
                 "question": str(s.get("question", "")),
-                "answer": clean_text(s.get("answer", ""))
+                "answer": clean_text(s.get("answer", "")),
             }
             for s in (record.get("reviewSurveyAnswers") or [])
             if s.get("question")
         ],
-
         "rating": int(safe_value(record.get("rating"), 0)),
         "helpful_count": int(safe_value(record.get("helpfulCount"), 0)),
         "helpful_true_count": int(safe_value(record.get("helpfulTrueCount"), 0)),
         "helpful_false_count": int(safe_value(record.get("helpfulFalseCount"), 0)),
         "has_image": len(record.get("attachments") or []) > 0,
-        "has_video": len(record.get("videoAttachments") or []) > 0
+        "has_video": len(record.get("videoAttachments") or []) > 0,
     }
 
-    return doc
+
+def _empty_llm_metadata() -> dict[str, Any]:
+    return {
+        "issue_category": "기타",
+        "aspect_keywords": [],
+        "short_summary": "",
+    }
 
 
-def build_documents(records: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Build preprocessed documents before calling index_documents."""
+def _build_enrichment_prompt(document: dict[str, Any]) -> str:
+    survey_answers = " / ".join(
+        f"{answer.get('question', '')}: {answer.get('answer', '')}"
+        for answer in document.get("review_survey_answers", [])
+        if answer.get("question") or answer.get("answer")
+    )
+
+    return f"""
+Extract structured metadata from this Korean smartphone e-commerce review.
+
+Allowed issue_category values:
+{", ".join(ISSUE_CATEGORIES)}
+
+Rules:
+- issue_category must be exactly one value from the allowed list.
+- aspect_keywords must contain exactly 5 short Korean keyword phrases.
+- short_summary must be one Korean sentence within 80 characters.
+- Use only information supported by the review.
+
+Input:
+product_name: {document.get("product_name", "")}
+rating: {document.get("rating", "")}
+title: {document.get("title", "")}
+content: {document.get("content", "")}
+survey_answers: {survey_answers}
+""".strip()
+
+
+def _normalize_llm_metadata(metadata: dict[str, Any]) -> dict[str, Any]:
+    issue_category = str(metadata.get("issue_category", "")).strip()
+    if issue_category not in ISSUE_CATEGORIES:
+        issue_category = "기타"
+
+    aspect_keywords = metadata.get("aspect_keywords", [])
+    if not isinstance(aspect_keywords, list):
+        aspect_keywords = []
+    aspect_keywords = [
+        str(keyword).strip()
+        for keyword in aspect_keywords
+        if str(keyword).strip()
+    ][:5]
+    while len(aspect_keywords) < 5:
+        aspect_keywords.append("기타")
+
+    short_summary = str(metadata.get("short_summary", "")).strip()
+    if len(short_summary) > 80:
+        short_summary = short_summary[:80].rstrip()
+
+    return {
+        "issue_category": issue_category,
+        "aspect_keywords": aspect_keywords,
+        "short_summary": short_summary,
+    }
+
+
+def create_openai_enricher(
+    model_name: str | None = None,
+):
+    """Create an OpenAI API based metadata enricher."""
+    if load_dotenv is not None:
+        load_dotenv()
+
+    try:
+        from openai import OpenAI
+    except ImportError as exc:
+        raise ImportError("Install openai to use OpenAI metadata enrichment.") from exc
+
+    model_name = model_name or os.getenv("OPENAI_METADATA_MODEL", "gpt-4.1-mini")
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    metadata_schema = {
+        "name": "review_metadata",
+        "strict": True,
+        "schema": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {
+                "issue_category": {
+                    "type": "string",
+                    "enum": ISSUE_CATEGORIES,
+                },
+                "aspect_keywords": {
+                    "type": "array",
+                    "minItems": 5,
+                    "maxItems": 5,
+                    "items": {"type": "string"},
+                },
+                "short_summary": {
+                    "type": "string",
+                    "maxLength": 80,
+                },
+            },
+            "required": [
+                "issue_category",
+                "aspect_keywords",
+                "short_summary",
+            ],
+        },
+    }
+
+    def enrich(document: dict[str, Any]) -> dict[str, Any]:
+        prompt = _build_enrichment_prompt(document)
+        response = client.chat.completions.create(
+            model=model_name,
+            temperature=0,
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "You extract metadata for Korean e-commerce reviews. "
+                        "Return only data that fits the provided JSON schema."
+                    ),
+                },
+                {"role": "user", "content": prompt},
+            ],
+            response_format={
+                "type": "json_schema",
+                "json_schema": metadata_schema,
+            },
+        )
+        content = response.choices[0].message.content or "{}"
+        metadata = json.loads(content)
+        return _normalize_llm_metadata(metadata)
+
+    return enrich
+
+
+def enrich_document_with_llm(
+    document: dict[str, Any],
+    llm_enricher,
+) -> dict[str, Any]:
+    enriched = dict(document)
+    try:
+        enriched.update(_normalize_llm_metadata(llm_enricher(document)))
+    except Exception:
+        enriched.update(_empty_llm_metadata())
+    return enriched
+
+
+def build_documents(
+    records: Iterable[dict[str, Any]],
+    enrich_with_llm: bool = False,
+    llm_enricher=None,
+) -> list[dict[str, Any]]:
     import re
 
     def content_fingerprint(content: str) -> str:
@@ -205,6 +361,13 @@ def build_documents(records: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
         seen_contents.add(content_key)
         documents.append(document)
 
+    if enrich_with_llm:
+        llm_enricher = llm_enricher or create_openai_enricher()
+        documents = [
+            enrich_document_with_llm(document, llm_enricher)
+            for document in documents
+        ]
+
     return documents
 
 
@@ -214,10 +377,6 @@ def create_index(
     mapping: dict[str, Any] | None = None,
     recreate: bool = False,
 ) -> None:
-    """Create an index with a supplied mapping.
-
-    Set recreate=True to delete and recreate the index.
-    """
     mapping = mapping or DEFAULT_INDEX_MAPPING
 
     if client.indices.exists(index=index_name):
@@ -235,7 +394,6 @@ def index_documents(
     mapping: dict[str, Any] | None = None,
     recreate: bool = False,
 ) -> tuple[int, list[Any]]:
-    """Bulk index documents that are already preprocessed."""
     if helpers is None:
         raise ImportError("Install elasticsearch first: pip install elasticsearch")
 
@@ -258,8 +416,6 @@ def index_documents(
 
 
 def build_search_body(query: str, size: int = 10) -> dict[str, Any]:
-    """Build an Elasticsearch query body from a user query."""
-    # TODO: Implement your retrieval strategy.
     raise NotImplementedError("build_search_body is not implemented yet.")
 
 
@@ -267,16 +423,10 @@ def postprocess_results(
     results: list[dict[str, Any]],
     query: str,
 ) -> SearchOutput:
-    """
-    Post-process search results before returning them.
-    (e.g. reranking, filtering, transforming)
-    """
-    # TODO: Rerank, filter, or transform search results.
     raise NotImplementedError("postprocess_results is not implemented yet.")
 
 
 def validate_search_output(output: Any) -> bool:
-    """Check whether search output follows the required schema."""
     if not isinstance(output, dict):
         return False
     if not isinstance(output.get("query"), str):
@@ -308,6 +458,4 @@ def search(
     index_name: str | None = None,
     size: int = 10,
 ) -> SearchOutput:
-    """Run the full retrieval pipeline and return validated search output."""
-    # TODO: Implement your retrieval pipeline.
     raise NotImplementedError("search is not implemented yet.")
