@@ -4,6 +4,13 @@ import json
 import os
 from dataclasses import dataclass
 from typing import Any, Iterable, TypedDict
+import html
+import re
+import unicodedata
+
+from sentence_transformers import SentenceTransformer
+EMBED_MODEL = SentenceTransformer('jhgan/ko-sroberta-multitask')
+VECTOR_DIMS = 768
 
 try:
     from dotenv import load_dotenv
@@ -65,6 +72,12 @@ DEFAULT_INDEX_MAPPING = {
             "item_name": {"type": "text", "analyzer": "korean_analyzer"},
             "title": {"type": "text", "analyzer": "korean_analyzer"},
             "content": {"type": "text", "analyzer": "korean_analyzer"},
+            "content_vector": {
+                "type": "dense_vector",
+                "dims": 768,            
+                "index": True,           
+                "similarity": "cosine"   
+            },
             "review_survey_answers": {
                 "type": "nested",
                 "properties": {
@@ -119,10 +132,7 @@ def get_client(config: ElasticsearchConfig | None = None) -> Elasticsearch:
 
 
 def preprocess_record(record: dict[str, Any]) -> dict[str, Any] | None:
-    import html
-    import re
-    import unicodedata
-
+    
     min_content_length = 10
 
     def clean_text(text: Any) -> str:
@@ -159,6 +169,12 @@ def preprocess_record(record: dict[str, Any]) -> dict[str, Any] | None:
         return None
     if not has_enough_signal(content):
         return None
+    
+    try:
+        content_vector = EMBED_MODEL.encode(content).tolist()
+    except Exception as e:
+        print(f"벡터 변환 에러 (review_id: {review_id}): {e}")
+        content_vector = [0.0] * VECTOR_DIMS
 
     return {
         "review_id": review_id,
@@ -167,6 +183,7 @@ def preprocess_record(record: dict[str, Any]) -> dict[str, Any] | None:
         "item_name": clean_text(record.get("itemName")),
         "title": title,
         "content": content,
+        "content_vector": content_vector,
         "review_survey_answers": [
             {
                 "question": str(s.get("question", "")),
