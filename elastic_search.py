@@ -73,10 +73,19 @@ DEFAULT_INDEX_MAPPING = {
             "title": {"type": "text", "analyzer": "korean_analyzer"},
             "content": {"type": "text", "analyzer": "korean_analyzer"},
             "content_vector": {
-                "type": "dense_vector",
-                "dims": 768,            
-                "index": True,           
-                "similarity": "cosine"   
+                "type": "dense_vector", "dims": 768, "index": True, "similarity": "cosine"   
+            },
+            "title_vector": {
+                "type": "dense_vector", "dims": 768, "index": True, "similarity": "cosine"
+            },
+            "summary_vector": {
+                "type": "dense_vector", "dims": 768, "index": True, "similarity": "cosine"
+            },
+            "aspect_vector": {
+                "type": "dense_vector", "dims": 768, "index": True, "similarity": "cosine"
+            },
+            "item_name_vector": {
+                "type": "dense_vector", "dims": 768, "index": True, "similarity": "cosine"
             },
             "review_survey_answers": {
                 "type": "nested",
@@ -131,6 +140,15 @@ def get_client(config: ElasticsearchConfig | None = None) -> Elasticsearch:
     return Elasticsearch(hosts=[config.url], verify_certs=config.verify_certs)
 
 
+def embed_text(text: str) -> list[float]:
+    if not text:
+        return [0.0] * VECTOR_DIMS
+    try:
+        return EMBED_MODEL.encode(text).tolist()
+    except Exception:
+        return [0.0] * VECTOR_DIMS
+
+
 def preprocess_record(record: dict[str, Any]) -> dict[str, Any] | None:
     
     min_content_length = 10
@@ -163,27 +181,38 @@ def preprocess_record(record: dict[str, Any]) -> dict[str, Any] | None:
     review_id = str(record.get("reviewId") or record.get("review_id") or "").strip()
     product_name = clean_text(record.get("product_name", ""))
     title = clean_text(record.get("title"))
+    item_name = clean_text(record.get("itemName") or record.get("item_name"))
     content = clean_text(record.get("content"))
+    summary = clean_text(record.get("summary") or record.get("short_summary", ""))
+    aspect_source = record.get("aspect") or record.get("aspect_keywords") or ""
+    if isinstance(aspect_source, list):
+        aspect = clean_text(" ".join(str(item) for item in aspect_source))
+    else:
+        aspect = clean_text(aspect_source)
 
     if not review_id or not product_name or not content:
         return None
     if not has_enough_signal(content):
         return None
     
-    try:
-        content_vector = EMBED_MODEL.encode(content).tolist()
-    except Exception as e:
-        print(f"벡터 변환 에러 (review_id: {review_id}): {e}")
-        content_vector = [0.0] * VECTOR_DIMS
+    content_vector = embed_text(content)
+    title_vector = embed_text(title)
+    item_name_vector = embed_text(item_name)
+    summary_vector = embed_text(summary)
+    aspect_vector = embed_text(aspect)
 
     return {
         "review_id": review_id,
         "review_at": record.get("reviewAt", 0),
         "product_name": product_name,
-        "item_name": clean_text(record.get("itemName")),
+        "item_name": item_name,
         "title": title,
         "content": content,
         "content_vector": content_vector,
+        "title_vector": title_vector,
+        "summary_vector": summary_vector,
+        "aspect_vector": aspect_vector,
+        "item_name_vector": item_name_vector,
         "review_survey_answers": [
             {
                 "question": str(s.get("question", "")),
@@ -344,6 +373,11 @@ def enrich_document_with_llm(
         enriched.update(_normalize_llm_metadata(llm_enricher(document)))
     except Exception:
         enriched.update(_empty_llm_metadata())
+
+    enriched["summary_vector"] = embed_text(enriched.get("short_summary", ""))
+    enriched["aspect_vector"] = embed_text(
+        " ".join(enriched.get("aspect_keywords", []))
+    )
     return enriched
 
 
