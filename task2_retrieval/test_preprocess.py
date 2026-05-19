@@ -22,6 +22,13 @@ def parse_args():
         action="store_true",
         help="Enable OpenAI API-based metadata enrichment.",
     )
+    # 추가
+    #parser.add_argument(
+    #    "--save",
+    #    type=str,
+    #    default=None,
+    #    help="Path to save the processed documents as a JSON file.",
+    #)
     return parser.parse_args()
 
 
@@ -37,6 +44,12 @@ def main():
     print(f"raw records: {len(records)}")
     print(f"documents: {len(docs)}")
     print(f"llm enrichment: {args.llm}")
+
+    # 추가
+    #if args.save:
+    #    with open(args.save, "w", encoding="utf-8") as f:
+    #        json.dump(docs, f, ensure_ascii=False, indent=2)
+    #    print(f"\n✅ 프로세싱 완료된 문서를 다음 경로에 저장했습니다: {args.save}")
 
     for i, doc in enumerate(docs):
         print(f"\n=== Document {i+1} ===")
