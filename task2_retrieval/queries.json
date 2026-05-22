@@ -1,0 +1,77 @@
+[
+  {
+    "query_id": "Q01",
+    "query": "제품 평가 자체는 좋은데 별점은 낮은 리뷰를 찾아줘",
+    "intent_type": "Sentiment_Contradiction"
+  },
+  {
+    "query_id": "Q02",
+    "query": "뽁뽁이 포장 상태에 만족한 리뷰",
+    "intent_type": "Packaging_Quality"
+  },
+  {
+    "query_id": "Q03",
+    "query": "화이트 색상에 대한 불만이 있는 리뷰",
+    "intent_type": "Color_Dissatisfaction"
+  },
+  {
+    "query_id": "Q04",
+    "query": "자식들한테 사줬다는 리뷰를 찾아줘",
+    "intent_type": "Purchase_Context"
+  },
+  {
+    "query_id": "Q05",
+    "query": "한 달 사용 후 배터리 광탈이나 발열 문제를 언급한 리뷰",
+    "intent_type": "Long_Term_Usage_Issues"
+  },
+  {
+    "query_id": "Q06",
+    "query": "가격 대비 성능이 아쉽다는 가성비 불만 리뷰",
+    "intent_type": "Price_Value_Dissatisfaction"
+  },
+  {
+    "query_id": "Q07",
+    "query": "전작 대비 혁신이 없다고 평가한 리뷰",
+    "intent_type": "Product_Comparison_Negative"
+  },
+  {
+    "query_id": "Q08",
+    "query": "쿠팡 고객센터 교환 및 반품 처리 불만이 포함된 리뷰",
+    "intent_type": "Customer_Service_Complaint"
+  },
+  {
+    "query_id": "Q09",
+    "query": "자녀 입학 선물용으로 구매한 후기 중 용량과 색상 고민이 드러난 리뷰",
+    "intent_type": "Purchase_Context_Detail"
+  },
+  {
+    "query_id": "Q10",
+    "query": "120Hz 프로모션 탑재로 화면 부드러움에 만족한 일반 모델 사용자 리뷰",
+    "intent_type": "Feature_Satisfaction"
+  },
+  {
+    "query_id": "Q11",
+    "query": "뽁뽁이 미포장으로 인한 배송 박스 파손 불만과 별점 저하가 동시에 나타난 리뷰",
+    "intent_type": "Packaging_Impact_On_Rating"
+  },
+  {
+    "query_id": "Q12",
+    "query": "프라이버시 디스플레이 기능 사용 경험과 공공장소 활용 만족도가 드러난 리뷰",
+    "intent_type": "Feature_Usage_Context"
+  },
+  {
+    "query_id": "Q13",
+    "query": "고용량 저장공간 선택 이유가 사진·영상 저장 때문인 리뷰",
+    "intent_type": "Storage_Usage_Context"
+  },
+  {
+    "query_id": "Q14",
+    "query": "자급제 구매로 통신사 약정 없이 자유롭게 요금제 선택한 후기",
+    "intent_type": "Purchase_Freedom"
+  },
+  {
+    "query_id": "Q15",
+    "query": "색상별 실제 실물 만족도와 지문 묻음, 관리 난이도를 상세히 언급한 리뷰",
+    "intent_type": "Color_And_Usage_Experience"
+  }
+]
