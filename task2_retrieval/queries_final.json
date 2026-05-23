@@ -11,67 +11,67 @@
   },
   {
     "query_id": "Q03",
-    "query": "가족이나 지인 선물용으로 구매한 리뷰",
+    "query": "자식들한테 사줬다는 리뷰를 찾아줘",
     "category": "1_Short_Keyword"
   },
   {
     "query_id": "Q04",
-    "query": "쿠팡 고객센터 교환 및 반품 불만 리뷰",
+    "query": "쿠팡 고객센터 교환이나 반품에 대한 불만 있는 리뷰를 찾아줘",
     "category": "1_Short_Keyword"
   },
   {
-    "query_id": "Q05",
-    "query": "자급제 구매로 통신사 제약 없이 요금제를 쓰는 리뷰",
+    "query_id": "Q05", 
+    "query": "가족이나 지인 선물용으로 구매한 리뷰",
     "category": "1_Short_Keyword"
   },
   {
-    "query_id": "Q06",
+    "query_id": "Q06", 
     "query": "장기간 사용 후 느낀 배터리나 발열 단점 리뷰",
     "category": "2_Medium_Context"
   },
   {
-    "query_id": "Q07",
+    "query_id": "Q07", 
     "query": "가격 대비 성능이 아쉽다는 가성비 불만 리뷰",
     "category": "2_Medium_Context"
   },
   {
     "query_id": "Q08",
-    "query": "전작 대비 크게 바뀐 점이나 혁신이 없다고 평가한 리뷰",
+    "query": "전작 대비 크게 바뀐 점이 없다고 평가한 리뷰 찾아줘",
     "category": "2_Medium_Context"
   },
   {
-    "query_id": "Q09",
+    "query_id": "Q09", 
     "query": "사진이나 영상 촬영 때문에 고용량 모델을 선택한 리뷰",
     "category": "2_Medium_Context"
   },
   {
     "query_id": "Q10",
-    "query": "디스플레이 주사율이나 화면의 부드러움에 크게 만족한 리뷰",
+    "query": "디스플레이 선명함이나 화면의 부드러움에 크게 만족한 리뷰",
     "category": "2_Medium_Context"
   },
   {
     "query_id": "Q11",
-    "query": "제품 평가 자체는 좋은데 별점은 낮게 준 리뷰",
+    "query": "제품 평가 자체는 좋은데 별점은 낮게 준 리뷰를 찾아줘",
     "category": "3_Long_Complex"
   },
   {
     "query_id": "Q12",
-    "query": "선물용으로 구매하면서 용량과 색상 중 고민했던 리뷰",
+    "query": "디자인은 예쁜데 무게가 무거워 아쉽다는 리뷰를 찾아줘",
     "category": "3_Long_Complex"
   },
   {
     "query_id": "Q13",
-    "query": "포장 불량으로 박스가 찌그러져서 별점을 낮게 준 리뷰",
+    "query": "제품은 좋은데 포장 불량으로 박스가 찌그러져서 별점을 낮게 준 리뷰",
     "category": "3_Long_Complex"
   },
   {
     "query_id": "Q14",
-    "query": "공공장소나 대중교통에서 화면 보호(프라이버시) 기능에 만족한 리뷰",
+    "query": "화면 보호(프라이버시) 기능에 만족한 리뷰",
     "category": "3_Long_Complex"
   },
   {
     "query_id": "Q15",
-    "query": "색상 실물 만족도와 지문 묻음(관리 난이도)을 동시에 언급한 리뷰",
+    "query": "카메라는 좋은데 망원이나 줌인 시에는 아쉽다는 리뷰를 찾아줘",
     "category": "3_Long_Complex"
   }
 ]
