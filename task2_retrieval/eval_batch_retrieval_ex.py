@@ -28,6 +28,11 @@ MODEL_NAMES = [
 ]
 if USE_GEMINI and "gemini" not in MODEL_NAMES:
     MODEL_NAMES.append("gemini")
+QUERY_IDS = [
+    query_id.strip()
+    for query_id in os.getenv("QUERY_IDS", "").split(",")
+    if query_id.strip()
+]
 
 QUERIES_PATH = Path("task2_retrieval/queries_final.json")
 REVIEWS_PATH = Path("si_dataset/review_for_analysis.json")
@@ -157,10 +162,10 @@ QUERY_INTENTS = {
         "target_sentiment": "mixed",
         "must_match": [
             "positive product evaluation such as product is good, works well, satisfied with product, or item itself is fine",
-            "low star rating, one/two/three stars, rating lowered, gave low score, or explicitly says the score is low for another reason"
+            "RATING is 1, 2, 3,or 4 stars, or CONTENT explicitly says the rating/star score was lowered for another reason"
         ],
         "exclude": [
-            "high rating",
+            "RATING is 5 unless CONTENT explicitly says the rating was lowered",
             "only negative product evaluation without product-positive/rating-low contrast"
         ],
     },
@@ -182,11 +187,12 @@ QUERY_INTENTS = {
         "must_match": [
             "product itself, phone, item, performance, or function is good/fine/satisfactory",
             "bad packaging, no cushioning, damaged/crushed/dented box, torn package, poor delivery packaging, or packaging defect",
-            "low star rating, rating lowered, gave fewer stars, or says stars were deducted because of packaging"
+            "RATING is 1, 2, 3, or 4 stars, or CONTENT says stars were deducted/lowered because of packaging"
         ],
         "exclude": [
             "bad product itself",
-            "packaging issue without rating lowered/product-good contrast"
+            "packaging issue without rating lowered/product-good contrast",
+            "RATING is 5 unless CONTENT explicitly says packaging caused a lower rating"
         ],
     },
     "Q14": {
@@ -220,10 +226,27 @@ def load_data():
     with REVIEWS_PATH.open("r", encoding="utf-8") as f:
         data = json.load(f)
     return {
-        str(r.get("reviewId")): r.get("content", "")
+        str(r.get("reviewId")): {
+            "content": r.get("content", ""),
+            "rating": r.get("rating"),
+        }
         for r in data
         if r.get("reviewId") and r.get("content")
     }
+
+
+def review_content(review_map, rid):
+    value = review_map.get(rid, {})
+    if isinstance(value, dict):
+        return value.get("content", "")
+    return value or ""
+
+
+def review_rating(review_map, rid):
+    value = review_map.get(rid, {})
+    if isinstance(value, dict):
+        return value.get("rating")
+    return None
 
 
 def load_checkpoint():
@@ -254,7 +277,7 @@ def save_json(path, data):
 
 def parse_llm_response(raw_text):
     if not raw_text:
-        return {}
+        return None
 
     fenced = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", raw_text, re.DOTALL)
     candidates = [fenced.group(1)] if fenced else []
@@ -266,10 +289,10 @@ def parse_llm_response(raw_text):
             continue
         try:
             parsed = json.loads(match.group(0))
-            return parsed if isinstance(parsed, dict) else {}
+            return parsed if isinstance(parsed, dict) else None
         except json.JSONDecodeError:
             continue
-    return {}
+    return None
 
 
 def infer_query_intent(query):
@@ -304,9 +327,10 @@ def normalize_model_results(parsed_data, id_map, query_id):
 
         if score < MIN_SCORE:
             continue
-        if not evidence or evidence not in id_map[rid]:
+        content = review_content(id_map, rid)
+        if not evidence or evidence not in content:
             continue
-        if not passes_query_specific_filter(query_id, id_map[rid], value):
+        if not passes_query_specific_filter(query_id, content, value):
             continue
 
         clean[rid] = {
@@ -356,7 +380,13 @@ def build_final_output(checkpoint, id_map):
                 reverse=True,
             )[:20]
             per_model_top10[model_name] = [
-                {"rank": i + 1, "reviewId": rid, **val, "content": id_map.get(rid, "")}
+                {
+                    "rank": i + 1,
+                    "reviewId": rid,
+                    **val,
+                    "rating": review_rating(id_map, rid),
+                    "content": review_content(id_map, rid),
+                }
                 for i, (rid, val) in enumerate(top_10)
             ]
 
@@ -398,11 +428,11 @@ async def call_api(session, url, headers, payload, api_type):
                     else:
                         return None
 
-                    parsed = parse_llm_response(text)
-                    if not parsed:
-                        print(f"      {api_type} returned no parseable JSON")
-                        return None
-                    return parsed
+                parsed = parse_llm_response(text)
+                if parsed is None:
+                    print(f"      {api_type} returned no parseable JSON")
+                    return None
+                return parsed
             except Exception as exc:
                 if attempt < MAX_API_RETRIES:
                     print(f"      {api_type} failed: {type(exc).__name__}; retrying in 10s")
@@ -415,7 +445,7 @@ async def call_api(session, url, headers, payload, api_type):
 
 def build_prompt(query, intent, chunk_ids, id_map):
     chunk_str = "\n\n".join(
-        f"ID: {rid}\nCONTENT: {id_map[rid]}"
+        f"ID: {rid}\nRATING: {review_rating(id_map, rid)}\nCONTENT: {review_content(id_map, rid)}"
         for rid in chunk_ids
     )
 
@@ -432,14 +462,15 @@ Select only reviews that directly satisfy the query intent. Some queries are abo
 
 Rules:
 1. Use only facts explicitly written in CONTENT.
-2. Do not invent missing evidence or reasons.
+2. You may also use RATING when the query asks about low/high star rating.
 3. evidence must be a short exact substring copied from CONTENT.
 4. If evidence is not literally present in CONTENT, do not output that review.
 5. Do not force 10 results. Output only strong matches.
 6. Include only reviews with score >= 60.
 7. The sentiment field must be one of: positive, negative, mixed, neutral.
 8. For mixed/contrast queries, the review must satisfy both sides of the contrast.
-9. Output only one JSON object. No markdown.
+9. For rating-contrast queries, low rating means RATING <= 4 unless CONTENT explicitly says the rating was lowered.
+10. Output only one JSON object. No markdown.
 
 Output format:
 {{
@@ -462,6 +493,9 @@ async def main():
     id_map = load_data()
     with QUERIES_PATH.open("r", encoding="utf-8") as f:
         queries = json.load(f)
+    if QUERY_IDS:
+        wanted = set(QUERY_IDS)
+        queries = [q for q in queries if q["query_id"] in wanted]
 
     # Test mode: run only Q01. Comment this line out to run all 15 queries.
     # queries = queries[:1]
