@@ -493,13 +493,14 @@
         "intent_type": "negative_topic",
         "target_sentiment": "negative",
         "must_match": [
-          "white color, bright color, color tone, discoloration, yellowish color, stains, dirt, or color not as expected",
-          "dissatisfaction, complaint, disappointment, or negative evaluation about that color"
+          "the complaint must be specifically about white/whitish color, color tone, yellowish white, discoloration, stains/dirt on white, or choosing white reluctantly",
+          "negative feeling must be about that white/color issue, not about delivery, packaging, price, battery, or other topics"
         ],
         "exclude": [
-          "satisfied with white color",
-          "unrelated color comments",
-          "complaint not about color"
+          "positive white color review such as white is pretty, clean, luxurious, satisfying, or no regret",
+          "packaging/delivery complaint where white is only the product option",
+          "generic color praise or unrelated color comments",
+          "complaint not about white/color itself"
         ]
       },
       "completed_chunks": [
@@ -511,6 +512,34 @@
         "500",
         "600",
         "700",
+        "800",
+        "900",
+        "1000",
+        "1100",
+        "1200",
+        "1300",
+        "1400",
+        "1500",
+        "1600",
+        "1700",
+        "1800",
+        "1900",
+        "2000",
+        "2100",
+        "2200",
+        "2300",
+        "2400",
+        "2500",
+        "2600",
+        "2700",
+        "0",
+        "200",
+        "300",
+        "600",
+        "700",
+        "100",
+        "400",
+        "500",
         "800",
         "900",
         "1000",
@@ -542,6 +571,36 @@
           "500",
           "600",
           "700",
+          "800",
+          "900",
+          "1000",
+          "1100",
+          "1200",
+          "1300",
+          "1400",
+          "1500",
+          "1600",
+          "1700",
+          "1800",
+          "1900",
+          "2000",
+          "2100",
+          "2200",
+          "2300",
+          "2400",
+          "2500",
+          "2600",
+          "2700"
+        ],
+        "claude": [
+          "0",
+          "200",
+          "300",
+          "600",
+          "700",
+          "100",
+          "400",
+          "500",
           "800",
           "900",
           "1000",
@@ -675,6 +734,41 @@
             ],
             "evidence": "디자인이 바뀌면서 약간 투톤 느낌이 나는데, 솔직히 처음 봤을 때부터 지금까지 적응이 잘 안 되긴 합니다.",
             "reasoning": "화이트 색상에 대한 불만이 있으며, 디자인에 대한 적응이 어렵다고 언급하고 있습니다."
+          }
+        },
+        "claude": {
+          "779174996": {
+            "score": 75,
+            "sentiment": "negative",
+            "intent_type": "negative_topic",
+            "matched_conditions": [
+              "complaint specifically about white/whitish color discoloration - stains/dirt on white product",
+              "negative feeling about that white/color issue, not about delivery or packaging"
+            ],
+            "evidence": "본품박스에 오염물이 묻은건지, 궁금하네요",
+            "reasoning": "화이트 색상 제품박스에 오염물(얼룩/더러움)이 묻어있는 것에 대한 불만으로, 색상 상태 자체의 문제를 지적하고 있습니다."
+          },
+          "791403312": {
+            "score": 70,
+            "sentiment": "negative",
+            "intent_type": "negative_topic",
+            "matched_conditions": [
+              "complaint specifically about white/color discoloration - stains/dirt on white",
+              "negative feeling about that color issue, not about delivery or packaging itself"
+            ],
+            "evidence": "까맣게 더러워져서 왔어요",
+            "reasoning": "화이트 색상 제품이 검게 오염되어(더러워져) 온 것에 대한 불만으로, 색상 상태의 문제를 직접 지적합니다."
+          },
+          "835713163": {
+            "score": 68,
+            "sentiment": "mixed",
+            "intent_type": "negative_topic",
+            "matched_conditions": [
+              "complaint about choosing white reluctantly due to unavailability of other colors",
+              "negative feeling about having to choose white as alternative option"
+            ],
+            "evidence": "화이트 구하기 힘들어서 우선 쓰려고 합니다",
+            "reasoning": "다른 색상(아마도 라벤더)을 원했으나 구하기 힘들어 화이트를 선택하게 된 것에 대한 불만입니다."
           }
         }
       }
@@ -4006,10 +4100,10 @@
         "target_sentiment": "mixed",
         "must_match": [
           "positive product evaluation such as product is good, works well, satisfied with product, or item itself is fine",
-          "low star rating, one/two/three stars, rating lowered, gave low score, or explicitly says the score is low for another reason"
+          "RATING is 1, 2, 3,or 4 stars, or CONTENT explicitly says the rating/star score was lowered for another reason"
         ],
         "exclude": [
-          "high rating",
+          "RATING is 5 unless CONTENT explicitly says the rating was lowered",
           "only negative product evaluation without product-positive/rating-low contrast"
         ]
       },
@@ -4041,10 +4135,68 @@
         "2400",
         "2500",
         "2600",
+        "2700",
+        "0",
+        "100",
+        "200",
+        "300",
+        "400",
+        "500",
+        "600",
+        "700",
+        "800",
+        "900",
+        "1000",
+        "1100",
+        "1200",
+        "1300",
+        "1400",
+        "1500",
+        "1600",
+        "1700",
+        "1800",
+        "1900",
+        "2000",
+        "2100",
+        "2200",
+        "2300",
+        "2400",
+        "2500",
+        "2600",
         "2700"
       ],
       "completed_chunks_by_model": {
         "openai": [
+          "0",
+          "100",
+          "200",
+          "300",
+          "400",
+          "500",
+          "600",
+          "700",
+          "800",
+          "900",
+          "1000",
+          "1100",
+          "1200",
+          "1300",
+          "1400",
+          "1500",
+          "1600",
+          "1700",
+          "1800",
+          "1900",
+          "2000",
+          "2100",
+          "2200",
+          "2300",
+          "2400",
+          "2500",
+          "2600",
+          "2700"
+        ],
+        "claude": [
           "0",
           "100",
           "200",
@@ -4286,6 +4438,180 @@
             "evidence": "가격은 이렇게 비싸면서 고질적인 버그가 안 고쳐졌다는 거예요.",
             "reasoning": "제품의 성능에 대한 긍정적인 평가와 가격 및 소프트웨어 버그에 대한 불만이 대조적으로 나타나기 때문에 전체적인 의도에 부합합니다."
           }
+        },
+        "claude": {
+          "775849522": {
+            "score": 62,
+            "sentiment": "mixed",
+            "intent_type": "contrast_rating",
+            "matched_conditions": [
+              "RATING is 4 stars",
+              "배송 상태 불만(박스 손상, 포장 부실) but 제품 자체는 언급 없음 - 평가 대상이 아님"
+            ],
+            "evidence": "박스는 꾸겨지고 모서리는 찢어져있고.. 박스 안에는 고정되거나 그런것도 없이",
+            "reasoning": "별점은 낮지만(4점) 제품 평가가 명확하지 않아 대비가 약함 - 배송 불만이 주요 사유로 보임"
+          },
+          "866134064": {
+            "score": 65,
+            "sentiment": "mixed",
+            "intent_type": "contrast_rating",
+            "matched_conditions": [
+              "RATING is 4 stars",
+              "positive product evaluation: 포장을 제외하면 완벽",
+              "CONTENT explicitly says rating lowered: 배송 포장 때문에 감점"
+            ],
+            "evidence": "배송 포장빼고는 완벽함",
+            "reasoning": "제품은 완벽하다고 평가하면서 포장 때문에만 별점을 낮게 준 명확한 대비"
+          },
+          "871238450": {
+            "score": 70,
+            "sentiment": "mixed",
+            "intent_type": "contrast_rating",
+            "matched_conditions": [
+              "RATING is 4 stars",
+              "positive product evaluation: 포장 빼고는 단점이 없음",
+              "CONTENT explicitly says rating lowered: 포장 때문에 감점"
+            ],
+            "evidence": "포장 때문에 감점 그거말고는 단점이 없어요",
+            "reasoning": "제품 자체는 단점이 없으나 포장 문제로만 감점하여 4점 준 대비가 명확함"
+          },
+          "811529335": {
+            "score": 75,
+            "sentiment": "mixed",
+            "intent_type": "contrast_rating",
+            "matched_conditions": [
+              "positive product evaluation: 물건은 만족합니다",
+              "rating is 1 star, clearly lowered for non-product reasons: 배송이 최악입니다"
+            ],
+            "evidence": "물건은 만족합니다. 배송이 최악입니다.",
+            "reasoning": "제품 자체는 만족하지만 배송 문제로 별점을 낮게 준 명확한 대조 사례입니다."
+          },
+          "748037842": {
+            "score": 72,
+            "sentiment": "mixed",
+            "intent_type": "contrast_rating",
+            "matched_conditions": [
+              "positive product evaluation: 상품은 너무 좋음",
+              "rating is 3 stars, lowered due to packaging: 뾱뾱이 없이 보내주는건 좀 별로"
+            ],
+            "evidence": "상품은 너무 좋음...다만 비싼돈 주고샀는데 뾱뾱이 없이 보내주는건 좀 별로",
+            "reasoning": "상품 평가는 매우 긍정적이지만 배송 포장 상태로 인해 별점을 3점으로 낮춘 사례입니다."
+          },
+          "779610707": {
+            "score": 85,
+            "sentiment": "mixed",
+            "intent_type": "contrast_rating",
+            "matched_conditions": [
+              "positive product evaluation: 물건은 정상 작동 합니다",
+              "RATING is 1 star"
+            ],
+            "evidence": "물건은 정상 작동 합니다",
+            "reasoning": "제품 자체는 정상 작동하지만 배송 포장 부실로 별점 1점을 준 전형적인 평가-별점 대조 사례입니다."
+          },
+          "770041784": {
+            "score": 82,
+            "sentiment": "mixed",
+            "intent_type": "contrast_rating",
+            "matched_conditions": [
+              "positive product evaluation: 다행히 잘 찍어두긴 했습니다",
+              "RATING is 1 star",
+              "CONTENT explicitly says rating was lowered for packaging reason: 포장 없이, 제품보다 훨씬 큰 박스에 담아"
+            ],
+            "evidence": "다행히 잘 찍어두긴 했습니다만, 정말 실망스러워서 이렇게 리뷰를 남깁니다",
+            "reasoning": "제품 자체는 문제없지만 배송 포장이 부실하다는 이유로 낮은 별점을 준 명확한 대조 사례입니다."
+          },
+          "823099954": {
+            "score": 75,
+            "sentiment": "mixed",
+            "intent_type": "contrast_rating",
+            "matched_conditions": [
+              "positive product evaluation: 전체적으로는 가격 대비 만족도 높은 구매였고, 빠른 배송 + 정품 안심 + 실사용 문제 없음",
+              "RATING is 3 stars",
+              "CONTENT explicitly shows rating lowered for packaging: 충전재가 없어 좀 당황했네요"
+            ],
+            "evidence": "전체적으로는 가격 대비 만족도 높은 구매였고",
+            "reasoning": "제품 만족도는 높지만 배송 포장 부실로 별점 3점을 준 평가-별점 대조 리뷰입니다."
+          },
+          "834662718": {
+            "score": 72,
+            "sentiment": "mixed",
+            "intent_type": "contrast_rating",
+            "matched_conditions": [
+              "positive product evaluation: 배터리가 길어서 좋긴 하지만",
+              "RATING is 3 stars",
+              "explicit contrast: 좋은 것 vs 별점 낮게 준 이유"
+            ],
+            "evidence": "배터리가 길어서 좋긴 하지만 환율때메 가격이 올라서 아쉽네요",
+            "reasoning": "제품 평가는 긍정적이지만 가격 상승으로 인해 별점을 낮게 준 명확한 대조가 있습니다."
+          },
+          "768225426": {
+            "score": 78,
+            "sentiment": "mixed",
+            "intent_type": "contrast_rating",
+            "matched_conditions": [
+              "positive product evaluation: 성능 및 기능은 알고 샀으나",
+              "RATING is 4 stars",
+              "explicit contrast: 성능·기능은 만족 vs 케이스 때문에 별점 차감"
+            ],
+            "evidence": "성능 및 기능은 알고 샀으나, 케이스가 너무 더러워서 별점 하나 뺍니다",
+            "reasoning": "제품 자체의 성능과 기능은 만족하지만, 기타 이유로 별점을 의도적으로 낮춘 명확한 대조입니다."
+          },
+          "852812515": {
+            "score": 68,
+            "sentiment": "mixed",
+            "intent_type": "contrast_rating",
+            "matched_conditions": [
+              "positive product evaluation: 다 좋네용",
+              "RATING is 4 stars",
+              "explicit contrast: 박스 손상 제외하고 제품은 만족"
+            ],
+            "evidence": "박스 두군데 찌그러진거 빼고 다 좋네용",
+            "reasoning": "배송 박스 손상이 아쉽지만 제품 자체는 만족스러워 4점을 준 경우입니다."
+          },
+          "746750596": {
+            "score": 88,
+            "sentiment": "mixed",
+            "intent_type": "contrast_rating",
+            "matched_conditions": [
+              "RATING is 4 stars",
+              "CONTENT explicitly says the rating was lowered - 배송에서 포장 문제로 별 한개 뺌"
+            ],
+            "evidence": "그게 넘 속상해서 별 한개 뻄",
+            "reasoning": "제품 자체(디자인, 배터리, 기능)에 대한 광범위한 긍정평가가 있으나, 포장 상태 불만으로 명시적으로 별점을 낮춘 대조입니다."
+          },
+          "860725873": {
+            "score": 68,
+            "sentiment": "mixed",
+            "intent_type": "contrast_rating",
+            "matched_conditions": [
+              "positive product evaluation - 기기는 좋은데",
+              "RATING is 3 stars"
+            ],
+            "evidence": "기기는 좋은데 배송이 엉망",
+            "reasoning": "제품 자체는 좋다고 평가하면서도 배송 포장 문제로 별점 3점을 준 명확한 평가-별점 대조 사례입니다."
+          },
+          "856675706": {
+            "score": 65,
+            "sentiment": "mixed",
+            "intent_type": "contrast_rating",
+            "matched_conditions": [
+              "positive product evaluation - 상품은 좋은데",
+              "RATING is 4 stars"
+            ],
+            "evidence": "상품은 좋은데 배송은 정말 최악",
+            "reasoning": "상품 자체에는 만족하지만 배송 서비스 불만으로 별점을 낮게 준 대표적인 평가-별점 대조입니다."
+          },
+          "819532501": {
+            "score": 62,
+            "sentiment": "mixed",
+            "intent_type": "contrast_rating",
+            "matched_conditions": [
+              "positive product evaluation: 기기 자체는 문제없음이 암묵적",
+              "RATING is 4 stars with explicit packaging complaint: 배송 과정에서 보호 장치 부족이 주요 불만"
+            ],
+            "evidence": "다만 배송 과정에서 아쉬운 점이 그래도 기기인데 뾱뾱 등 보호 장치가 없다는 점이 매우 아쉽습니다",
+            "reasoning": "기기 자체는 만족하지만 배송 포장의 부실로 인해 별점을 낮춘 제품-배송 품질 대조입니다."
+          }
         }
       }
     },
@@ -4332,10 +4658,68 @@
         "2400",
         "2500",
         "2600",
+        "2700",
+        "0",
+        "100",
+        "200",
+        "300",
+        "400",
+        "500",
+        "600",
+        "700",
+        "800",
+        "900",
+        "1000",
+        "1100",
+        "1200",
+        "1300",
+        "1400",
+        "1500",
+        "1600",
+        "1700",
+        "1800",
+        "1900",
+        "2000",
+        "2100",
+        "2200",
+        "2300",
+        "2400",
+        "2500",
+        "2600",
         "2700"
       ],
       "completed_chunks_by_model": {
         "openai": [
+          "0",
+          "100",
+          "200",
+          "300",
+          "400",
+          "500",
+          "600",
+          "700",
+          "800",
+          "900",
+          "1000",
+          "1100",
+          "1200",
+          "1300",
+          "1400",
+          "1500",
+          "1600",
+          "1700",
+          "1800",
+          "1900",
+          "2000",
+          "2100",
+          "2200",
+          "2300",
+          "2400",
+          "2500",
+          "2600",
+          "2700"
+        ],
+        "claude": [
           "0",
           "100",
           "200",
@@ -4510,6 +4894,228 @@
             ],
             "evidence": "무게감이 있어 장시간 한 손 사용 시 피로감 있음",
             "reasoning": "디자인이 고급스럽고 예쁘지만, 무게로 인해 한 손으로 사용하기 힘들다는 점에서 혼합된 감정이 드러난다."
+          }
+        },
+        "claude": {
+          "877334100": {
+            "score": 75,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "design, appearance, color, look, finish, or exterior is pretty/good/satisfying",
+              "weight is heavy, heavier than expected, burdensome, tiring to hold, or disappointing because of weight"
+            ],
+            "evidence": "너무 예쁘고 다 좋은데 테두리에 찍힘 발견했어요",
+            "reasoning": "제품이 예뻐서 좋지만 외관 손상(테두리 찍힘)이 있어서 아쉽다는 대조적 감정을 표현하고 있으며, 검색 의도의 '디자인은 예쁜데' 부분에 부분적으로 일치합니다."
+          },
+          "792830627": {
+            "score": 68,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "design, appearance, color, look, finish, or exterior is pretty/good/satisfying",
+              "weight is heavy, heavier than expected, burdensome, tiring to hold, or disappointing because of weight"
+            ],
+            "evidence": "무게는 약간 늘어서 장시간 사용 시 손목이 피로할 수 있음",
+            "reasoning": "디자인과 카메라 성능은 대폭 향상되어 매우 만족스럽지만, 무게가 조금 늘어서 장시간 사용 시 손목 피로 가능성을 언급하며 대비되는 의견을 제시합니다."
+          },
+          "859010199": {
+            "score": 78,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "design, appearance, color, look, finish, or exterior is pretty/good/satisfying",
+              "weight is heavy, heavier than expected, burdensome, tiring to hold, or disappointing because of weight"
+            ],
+            "evidence": "카메라가..툭 튀어나와있어요...좀..많이..ㅠㅠ그래서 케이스 필수네요.",
+            "reasoning": "카메라 디자인이 튀어나온 것이 부담스럽다는 점과 함께 전반적으로 만족한다는 혼합 감정을 보여줍니다."
+          },
+          "856342912": {
+            "score": 75,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "design, appearance, color, look, finish, or exterior is pretty/good/satisfying",
+              "weight is heavy, heavier than expected, burdensome, tiring to hold, or disappointing because of weight"
+            ],
+            "evidence": "무게: 160g대라 그런지 들자마자 진짜 가볍다 소리가 절로 나요",
+            "reasoning": "디자인 만족도와 가벼운 무게의 대비는 없으며, 오히려 가벼움을 긍정적으로 평가하므로 쿼리와 일치하지 않음"
+          },
+          "745230757": {
+            "score": 75,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "design, appearance, color, look, finish, or exterior is pretty/good/satisfying",
+              "weight is heavy, heavier than expected, burdensome, tiring to hold, or disappointing because of weight"
+            ],
+            "evidence": "커진 사이즈, 두께, 무게 뭐 하나 나무랄 데 없네요",
+            "reasoning": "디자인과 무게에 대해 모두 긍정적으로 언급하여 대조되는 두 요소가 없으므로 완전히 일치하지 않음."
+          },
+          "744905273": {
+            "score": 72,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "design, appearance, color, look, finish, or exterior is pretty/good/satisfying",
+              "weight is heavy, heavier than expected, burdensome, tiring to hold, or disappointing because of weight"
+            ],
+            "evidence": "디자인은 가볍고 슬림해졌으며",
+            "reasoning": "디자인이 가볍고 슬림해진 것으로 표현되어 무게 불만이 아닌 개선점으로 설명되므로 쿼리와 일치하지 않음."
+          },
+          "755934820": {
+            "score": 65,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "design, appearance, color, look, finish, or exterior is pretty/good/satisfying",
+              "weight is heavy, heavier than expected, burdensome, tiring to hold, or disappointing because of weight"
+            ],
+            "evidence": "무게가 있어 한 손 사용은 다소 불편함",
+            "reasoning": "고급스러운 디자인에 만족하면서도 무게로 인한 한손 사용 불편함을 명시적으로 대조하는 혼합 리뷰."
+          },
+          "806625864": {
+            "score": 72,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "design, appearance, color, look, finish, or exterior is pretty/good/satisfying",
+              "weight is heavy, heavier than expected, burdensome, tiring to hold, or disappointing because of weight"
+            ],
+            "evidence": "생각보다 많이 무겁지만 그만큼 감안하고 산 내 아이폰 색감도 너무 이쁘다",
+            "reasoning": "색감의 아름다움을 칭찬하면서 동시에 무게의 무거움을 명시적으로 대비시킨 리뷰입니다."
+          },
+          "767703613": {
+            "score": 68,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "design, appearance, color, look, finish, or exterior is pretty/good/satisfying",
+              "weight is heavy, heavier than expected, burdensome, tiring to hold, or disappointing because of weight"
+            ],
+            "evidence": "생각보다 무겁지만, 프로에 비해 무게중심이 잘 잡혀있어 균형감 좋고 손에 착 감기긴 합니다.",
+            "reasoning": "무게의 아쉬움과 함께 우수한 그립감과 균형감이라는 긍정적 설계를 대비시킵니다."
+          },
+          "772010501": {
+            "score": 80,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "design, appearance, color, look, finish, or exterior is pretty/good/satisfying",
+              "weight is heavy, heavier than expected, burdensome, tiring to hold, or disappointing because of weight"
+            ],
+            "evidence": "장점 배터리 오래감 카메라 좋음 게임 프레임 안튐 단점 못생김 무거움 두꺼움",
+            "reasoning": "명확하게 장점과 단점을 구분하면서 무거움을 단점으로 언급하고 있지만, 카메라 품질 등 긍정적 측면도 포함하고 있습니다."
+          },
+          "746166980": {
+            "score": 75,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "design is the best/highest satisfaction (디자인은 최고입니다)",
+              "weight is heavier than expected (무게는 생각보다 무겁드라구요)"
+            ],
+            "evidence": "디자인은 최고입니다 무게는 생각보다 무겁드라구요 (아이폰 15프로보다 조금 더 무거움)",
+            "reasoning": "디자인 최고 만족도와 무게의 실망을 명확히 대비시킴."
+          },
+          "880246794": {
+            "score": 75,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "design, appearance, color, look, finish, or exterior is pretty/good/satisfying",
+              "weight is heavy, heavier than expected, burdensome, tiring to hold, or disappointing because of weight"
+            ],
+            "evidence": "S25에 비해서 무거운거 빼면 다 맘에 드네요",
+            "reasoning": "S25와 비교하여 플립7의 디자인과 완성도는 만족하지만 무게 때문에 아쉬움을 명시적으로 표현한 대비 리뷰입니다."
+          },
+          "748066947": {
+            "score": 70,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "design, appearance, color, look, finish, or exterior is pretty/good/satisfying",
+              "weight is heavy, heavier than expected, burdensome, tiring to hold, or disappointing because of weight"
+            ],
+            "evidence": "생각보다 무게감이 있어요. s22는 업무폰으로 쓰는데 바꿔들 때마다 무게감이 차이나긴 해요. 여자 손에 한 손에 안 들어오기도 합니다. 그래도 바깥 화면이 넓어진 것에 빠져서 바꿨는데 너무 만족스럽습니다.",
+            "reasoning": "디자인과 외부 화면 등은 만족하지만 무게감이 있어서 한 손 조작이 어렵다는 명확한 대비를 표현한 리뷰입니다."
+          },
+          "746280544": {
+            "score": 75,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "design, appearance praised",
+              "weight is heavy/disappointing because of weight"
+            ],
+            "evidence": "무게는 생각보다 무겁다는 느낌이지만 크기가 커진만큼 이해는 갑니다. 두께는 확실히 얇아져서 마음에 들고",
+            "reasoning": "디자인(두께감)은 좋으나 무게가 무겁다는 점을 대조하며 두 감정을 동시에 표현한 리뷰입니다."
+          },
+          "747468968": {
+            "score": 70,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "design, appearance, color praised",
+              "weight is heavy/burdensome"
+            ],
+            "evidence": "생각보다 무겁지만 색상도 예쁘고 휴대성도 좋아서 마음에 들어요",
+            "reasoning": "색상이 예쁘다는 장점과 무게가 무겁다는 단점을 동시에 언급한 혼합 평가입니다."
+          },
+          "746734622": {
+            "score": 68,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "design is pretty/good",
+              "weight is heavy/burdensome"
+            ],
+            "evidence": "조금 더 가벼우면 더 좋았겠지만 이렇게나 다양한 기능을 꾹꾹 밀어 넣었는데 욕심이겠죠",
+            "reasoning": "세련된 디자인에 만족하면서도 무게가 무겁다는 아쉬움을 대조적으로 표현했습니다."
+          },
+          "856089327": {
+            "score": 65,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "design, appearance, color, look, finish, or exterior is pretty/good/satisfying",
+              "weight is heavy, heavier than expected, burdensome, tiring to hold, or disappointing because of weight"
+            ],
+            "evidence": "화면은 훨씬 커졌는데도 손목에 전해지는 체감 무게는 오히려 갤럭시가 더 가볍게 느껴지더라고요",
+            "reasoning": "크기에 비해 디자인은 깔끔하지만 대체로 가볍다고 평가되어 쿼리와 맞지 않음"
+          },
+          "856251926": {
+            "score": 75,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "design, appearance, color, look, finish, or exterior is pretty/good/satisfying",
+              "weight is heavy, heavier than expected, burdensome, tiring to hold, or disappointing because of weight"
+            ],
+            "evidence": "214g의 무게에도 불구하고 체감되는 그립감은 훨씬 가볍습니다",
+            "reasoning": "디자인이 세련되고 좋다는 평가와 214g의 무게감이 있다는 점을 동시에 언급하여 대비를 이루고 있습니다."
+          },
+          "858957391": {
+            "score": 70,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "design, appearance, color, look, finish, or exterior is pretty/good/satisfying",
+              "weight is heavy, heavier than expected, burdensome, tiring to hold, or disappointing because of weight"
+            ],
+            "evidence": "무게는 214g 정도라 가벼운 편은 아닙니다",
+            "reasoning": "코발트 바이올렛 색상이 고급스럽다고 칭찬하면서 동시에 무게가 가볍지 않다는 아쉬움을 명시적으로 표현합니다."
+          },
+          "767616789": {
+            "score": 78,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "design is good/premium - 디자인은 말할것도 없이 고급스럽고 마감도 탄탄하지만",
+              "weight is heavy - 무게가 묵직해서 한 손으로 오래 쓰기엔 불편"
+            ],
+            "evidence": "디자인은 말할것도 없이 고급스럽고 마감도 탄탄하지만, 무게가 묵직해서 한 손으로 오래 쓰기엔 불편하긴하지만",
+            "reasoning": "디자인과 마감의 우수함을 강조하면서 동시에 무게에 대한 불만을 표현한 대조적 혼합 리뷰입니다."
           }
         }
       }
@@ -4820,6 +5426,30 @@
         "2400",
         "2500",
         "2600",
+        "2700",
+        "0",
+        "100",
+        "300",
+        "400",
+        "500",
+        "600",
+        "700",
+        "800",
+        "900",
+        "1000",
+        "1100",
+        "1200",
+        "1300",
+        "1400",
+        "1500",
+        "1600",
+        "1700",
+        "1800",
+        "2100",
+        "2300",
+        "2400",
+        "2500",
+        "2600",
         "2700"
       ],
       "completed_chunks_by_model": {
@@ -4847,6 +5477,32 @@
           "2000",
           "2100",
           "2200",
+          "2300",
+          "2400",
+          "2500",
+          "2600",
+          "2700"
+        ],
+        "claude": [
+          "0",
+          "100",
+          "300",
+          "400",
+          "500",
+          "600",
+          "700",
+          "800",
+          "900",
+          "1000",
+          "1100",
+          "1200",
+          "1300",
+          "1400",
+          "1500",
+          "1600",
+          "1700",
+          "1800",
+          "2100",
           "2300",
           "2400",
           "2500",
@@ -5219,6 +5875,366 @@
             "evidence": "보안성도 강화되어 개인정보 보호 측면에서 안심할 수 있었죠.",
             "reasoning": "이 리뷰는 아이폰 17 Pro의 보안성과 개인정보 보호 기능에 대한 만족감을 표현하고 있어, 요청한 의도에 부합합니다."
           }
+        },
+        "claude": {
+          "884465556": {
+            "score": 95,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "satisfaction with protection/privacy function, visibility control, screen guarding, or protective film quality"
+            ],
+            "evidence": "카메라 멍(렌즈 이슈)이 없다는 부분이었어요. 이전에 카메라 관련해서 스트레스 받는 경우가 있었는데, 이번 제품은 그런 부분 없이 안정적으로 사용할 수 있어서 이 점은 꽤 만족스러웠습니다.",
+            "reasoning": "화면 보호 관련 직접적인 언급은 없으나, 카메라 보호 성능에 대한 만족을 명시적으로 표현하고 있어 보호 기능 만족 리뷰로 분류됨."
+          },
+          "862344369": {
+            "score": 88,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "satisfaction with protection/privacy function, visibility control, screen guarding, or protective film quality"
+            ],
+            "evidence": "✅아이폰 이전들 모델과 다르게 카메라가 세로로 두개있고 화질도 기대했는데 좋습니담",
+            "reasoning": "화면/카메라 보호 성능과 화질 만족도를 함께 표현하고 있음."
+          },
+          "874364024": {
+            "score": 85,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "privacy protection feature mentioned",
+              "satisfaction with protection/privacy function expressed"
+            ],
+            "evidence": "사생활 보호를 강화한 프라이버시 디스플레이 기능이 실사용에서 큰 만족감을 주며",
+            "reasoning": "프라이버시 디스플레이 기능에 만족한다는 명확한 긍정 평가를 담고 있어 쿼리와 정확히 일치합니다."
+          },
+          "863679344": {
+            "score": 78,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "privacy protection feature mentioned",
+              "satisfaction with protection/privacy function expressed"
+            ],
+            "evidence": "아쉬운점은 딱하나,, 울트라에만있는 프라이버시기능이 없다는거,, 이후에는 자급제에도 추가되면 좋겠네요",
+            "reasoning": "프라이버시 기능이 없는 것을 아쉬움으로 표현하여, 해당 기능에 가치를 두고 있음을 암시적으로 나타내고 있습니다."
+          },
+          "881075668": {
+            "score": 80,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "privacy protection feature mentioned",
+              "satisfaction with protection/privacy function expressed"
+            ],
+            "evidence": "광고에서 갤럭시S26 화면이 옆사람이 볼수없게 프라이버시모드가 우와했다",
+            "reasoning": "프라이버시 모드가 옆사람이 화면을 볼 수 없게 한다는 기능에 매우 만족하고 있습니다."
+          },
+          "874330368": {
+            "score": 85,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "privacy protection feature (사생활보호기능)",
+              "satisfaction with protection/privacy function"
+            ],
+            "evidence": "두번째는 사생활보호기능입니다. 껐다 켰다도 가능하고 대중교통에서만 사용하고 집에서는 편하게 사용가능합니다.",
+            "reasoning": "사생활 보호 기능의 만족도를 명시적으로 언급하며 기능의 유용성과 편의성에 대해 긍정적으로 평가하고 있습니다."
+          },
+          "838726935": {
+            "score": 88,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "satisfaction with screen/display visibility control and large screen feature providing protection/clarity benefits"
+            ],
+            "evidence": "펼쳤을 때는 넓은 8.0인치 대화면 디스플레이가 펼쳐져서 웹서핑, 동영상, 멀티태스킹이 훨씬 쾌적합니다",
+            "reasoning": "대화면의 명확한 시인성과 가독성을 강조하며 화면 보호 및 가시성 기능에 대한 만족을 표현하고 있습니다."
+          },
+          "856507466": {
+            "score": 85,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "satisfaction with large screen visibility and protection/clarity of display content"
+            ],
+            "evidence": "펼치면 약 7.6인치 대화면이라 유튜브 영상이나 뉴스, 주식 차트를 볼 때 훨씬 시원하게 보인다고 하세요",
+            "reasoning": "부모님이 노안으로 인한 글씨 가독성 문제를 큰 화면으로 해결함으로써 화면 보호 및 가시성 만족도를 표현합니다."
+          },
+          "747350142": {
+            "score": 95,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "screen protection/privacy protection feature mentioned",
+              "satisfaction with protection function and screen quality expressed"
+            ],
+            "evidence": "화면 보호는 내부 폴딩 필름 + 외부 강화유리 같이 쓰면 좋아요",
+            "reasoning": "폴드 화면 보호(필름과 강화유리 조합)에 대한 만족도를 직접 표현한 긍정적 리뷰"
+          },
+          "744634115": {
+            "score": 75,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "screen protection feature with internal folding film mentioned",
+              "satisfaction with protection quality expressed"
+            ],
+            "evidence": "아직도 데이터 이전 중이지만 매우 만족",
+            "reasoning": "기기 자체에 대한 만족도가 높으며, 화면 보호 필름(내부 폴딩 필름)이 기본 제공되는 점이 긍정적으로 표현됨"
+          },
+          "794359611": {
+            "score": 95,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "screen protection/privacy protection feature mention",
+              "satisfaction with display/screen quality and protection"
+            ],
+            "evidence": "화면은 정말 압도적이에요. 접었을 때는 일반 스마트폰처럼 사용 가능하고, 펼치면 7인치가 넘는 대화면이 펼쳐져서",
+            "reasoning": "폴드의 화면 보호 및 디스플레이 품질에 대한 높은 만족도를 직접 표현하는 리뷰입니다."
+          },
+          "860189849": {
+            "score": 90,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "satisfaction with protection/privacy function - 접어서 들고 다니면 작은 소품 같은 느낌도 있어서 디자인 만족도가 높은 편",
+              "screen protection, privacy protection - 접히는 폰이라 휴대성이 좋은 것도 장점"
+            ],
+            "evidence": "접어서 들고 다니면 작은 소품 같은 느낌도 있어서 디자인 만족도가 높은 편입니다.",
+            "reasoning": "플립 구조를 통한 화면 보호(접었을 때 화면 보호)에 만족하는 긍정적 리뷰이나, 주요 조건인 '화면 보호/프라이버시 기능 만족'이 명시적으로 언급되지 않아 약간의 점수 감소"
+          },
+          "856507742": {
+            "score": 85,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "screen protection through foldable design - 접으면 한 손에 쏙 들어오는 크기",
+              "satisfaction with protective structure - 접어서 들고 다니기 편하다고 하시더라고요"
+            ],
+            "evidence": "접으면 한 손에 쏙 들어오는 크기라는 점을 가장 만족해하셨습니다.",
+            "reasoning": "플립의 접히는 구조를 통한 화면 보호 측면의 만족을 표현했지만, 프라이버시/보호 기능이 직접적으로 명시되지 않음"
+          },
+          "745232607": {
+            "score": 75,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "screen protector/protective film feature",
+              "satisfaction with protection quality"
+            ],
+            "evidence": "저는 개인적으로 지문 남는게 싫어서 내외부 전부 지문자국방지 필름을 다시 붙였지만요ㅎ",
+            "reasoning": "보호필름(지문자국방지)에 대한 만족감을 표현하고 있으며, 내외부 화면 보호에 대해 능동적으로 대응하는 긍정적 리뷰입니다."
+          },
+          "745415042": {
+            "score": 68,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "screen protector/protective film feature",
+              "satisfaction with protective film quality"
+            ],
+            "evidence": "커버화면엔 따로 필름이 없어서 다시 필름시킬때까진 기본보호필름을 못떼다가 와우배송으로 보호했습니당",
+            "reasoning": "기본 보호필름과 추가 보호필름을 통한 화면 보호에 만족하고 있습니다."
+          },
+          "746174017": {
+            "score": 70,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "screen protector/protective film consideration",
+              "satisfaction with screen protection aspects"
+            ],
+            "evidence": "다만, 아무래도 접히는 부분의 주름은 완전히 없앨 수 없는 부분이었습니다. 평소에는 크게 신경 쓰이지 않지만, 특정 각도에서 빛을 받으면 보이긴 해요.",
+            "reasoning": "화면 보호 관련 기술(주름 최소화)에 대해 만족도 높게 평가하고 있는 리뷰입니다."
+          },
+          "748250815": {
+            "score": 78,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "privacy/protection feature (cover display)",
+              "satisfaction with visibility control and protective function"
+            ],
+            "evidence": "접힌 상태로 전면이 통창이라 알람, 달력일정, 문자, 톡, 페이, 사진등 여러가지고 접힌 상태로 사용하기 너무 편해서",
+            "reasoning": "접힌 상태의 커버 화면으로 필요한 정보만 선택적으로 보는 프라이버시 기능에 만족하는 리뷰입니다."
+          },
+          "844168781": {
+            "score": 72,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "screen protection/privacy feature (cover screen usage)",
+              "satisfaction with protective functionality"
+            ],
+            "evidence": "커버 화면 활용도가 높아진 점도 체감됩니다. 간단한 알림 확인, 음악 제어, 셀카 촬영 정도는 굳이 펼치지 않아도 돼 사용 패턴이 확실히 편해졌어요.",
+            "reasoning": "커버 화면으로 폰을 펼치지 않고 필요한 작업만 수행하는 프라이버시 보호 기능에 만족하는 리뷰입니다."
+          },
+          "779232732": {
+            "score": 70,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "privacy/protection feature (cover display)",
+              "satisfaction with protection function and visibility control"
+            ],
+            "evidence": "접은 상태로 바닥에 세워놓고 셀프 촬영이 가능한 플렉스 모드는 정말 편리해요. 셀카, 브이로그, 영상 통화할 때 손 안 쓰고 자유롭게 각도 조절이 돼요.",
+            "reasoning": "커버 화면과 플렉스 모드로 개인정보 보호와 함께 편의성을 제공하는 기능에 만족하는 리뷰입니다."
+          },
+          "809678144": {
+            "score": 68,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "screen protection/privacy feature (cover display usage)",
+              "satisfaction with protective functionality"
+            ],
+            "evidence": "폴더 처음 써보는데 처음에는 접어야 하는게 번거롭고 불편할 것 같았는데, 막상 써보니 장점이 더 많아요! 주머니에도 쏙 들어가고 닫힌 액정으로도 볼 수 있어서 특히 지하철에서도 좋아요",
+            "reasoning": "닫힌 상태의 커버 화면으로 공개된 장소에서도 화면을 볼 수 있는 프라이버시 보호 기능에 만족하는 리뷰입니다."
+          },
+          "858327466": {
+            "score": 90,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "privacy protection/privacy filter feature",
+              "satisfaction with protection/privacy function"
+            ],
+            "evidence": "프라이버시 ㅂ디스플레이 기능입니다. 외부에서 사용할 때 옆에서 화면이 잘 보이지 않아 사생활 보호 측면에서 상당히 유용합니다",
+            "reasoning": "프라이버시 디스플레이 기능에 대한 높은 만족도를 직접 표현하고 있으며, 사생활 보호 기능의 실용성을 구체적으로 설명하고 있습니다."
+          },
+          "861563794": {
+            "score": 75,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "privacy protection/privacy filter feature",
+              "satisfaction with protection/privacy function"
+            ],
+            "evidence": "지하철처럼 주변 시선 신경 쓰일 때 화면이 덜 보이는 느낌이라, 오히려 프라이버시 측면에서는 장점으로 느껴졌음",
+            "reasoning": "프라이버시 보호 기능으로서 화면 가시성 제어에 대한 긍정적 만족감을 표현하고 있습니다."
+          },
+          "858980217": {
+            "score": 95,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "privacy protection/privacy filter feature",
+              "satisfaction with protection/privacy function"
+            ],
+            "evidence": "프라이버시 대박이네요\n켜진지도 모르다가 옆에서 보니까 확 어두워지는게 이게 바로 혁신이다.",
+            "reasoning": "프라이버시 디스플레이 기능에 대한 명확한 만족도를 표현하며 혁신적이라고 평가함"
+          },
+          "856601454": {
+            "score": 75,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "privacy protection/privacy filter feature",
+              "satisfaction with protection/privacy function"
+            ],
+            "evidence": "프라이버시 디스플레이는 역시 신기한데",
+            "reasoning": "프라이버시 디스플레이 기능에 대해 신기하다고 표현하며 긍정적으로 평가함"
+          },
+          "878337204": {
+            "score": 72,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "privacy protection/privacy filter feature",
+              "satisfaction with protection/privacy function"
+            ],
+            "evidence": "프라이버시 디스플레이 기능 있어서 옆에서 잘 안 보임\n 대중교통에서 쓰기 좋음",
+            "reasoning": "프라이버시 디스플레이로 화면 보호가 잘 된다고 만족감을 표현함"
+          },
+          "857858839": {
+            "score": 70,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "privacy protection/privacy filter feature",
+              "satisfaction with protection/privacy function"
+            ],
+            "evidence": "새로운 기술 프라이버시 디스플레이",
+            "reasoning": "프라이버시 디스플레이를 새로운 기술로 인정하며 긍정적 평가"
+          },
+          "860089166": {
+            "score": 82,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "privacy protection/privacy filter feature",
+              "satisfaction with protection/privacy function"
+            ],
+            "evidence": "프라이버시 디스플레이 기능 덕분에 옆에서 화면을 보기 어려워 공공장소에서도 사생활이 보호되는 점이 마음에 들었습니다.",
+            "reasoning": "프라이버시 디스플레이로 공공장소에서 사생활 보호가 효과적으로 된다고 만족도 표현"
+          },
+          "855369246": {
+            "score": 72,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "privacy protection/privacy filter feature",
+              "satisfaction with protection/privacy function"
+            ],
+            "evidence": "프라이버시 디스플레이기능도 울트라에만 탑제가 되었습니다.",
+            "reasoning": "프라이버시 디스플레이 기능이 울트라만의 특별한 기능임을 긍정적으로 평가"
+          },
+          "855650395": {
+            "score": 68,
+            "sentiment": "mixed",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "privacy protection/privacy filter feature",
+              "satisfaction with protection/privacy function"
+            ],
+            "evidence": "프리이버시 디스플레이 좋은데 약간 화질저하가 있어서 필요한 알림이나 앱에만 설정해서 사용하시기를 추천드립니다.",
+            "reasoning": "프라이버시 디스플레이 기능이 좋지만 화질 저하가 있어 선택적으로 사용하길 권장"
+          },
+          "856917814": {
+            "score": 90,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "privacy protection/privacy filter feature",
+              "satisfaction with protection/privacy function"
+            ],
+            "evidence": "프라이버시 이거는 너무 만족해요 은행 어플이나 메시지알림\n이런거 옆에 사람있으면 엄청 신경쓰였는데\n너무 만족합니다",
+            "reasoning": "프라이버시 디스플레이가 은행 앱이나 메시지 보호에 매우 효과적이라고 높은 만족도 표현"
+          },
+          "872783590": {
+            "score": 80,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "privacy protection/privacy filter feature",
+              "satisfaction with protection/privacy function"
+            ],
+            "evidence": "가장 만족스러운 점은 프라이버시 디스플레이 기능인데요. 밖에서도 주변 시선 신경 쓰지 않고 마음 편히 화면을 볼 수 있어 보안 측면에서 매우 훌륭합니다.",
+            "reasoning": "프라이버시 디스플레이의 화면 보호와 보안 측면에서 매우 우수하다고 높은 만족도 표현"
+          },
+          "769593577": {
+            "score": 75,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "satisfaction with protection/privacy function - camera quality described as 'extremely improved' compared to previous model"
+            ],
+            "evidence": "카메라는 15프로보다 확실히 엄청엄청 좋아졌고 16프로랑 비교했을때도 확실히 더 좋아졌어요",
+            "reasoning": "카메라 화질 향상에 대한 만족감을 표현했으나, 화면 보호(프라이버시) 기능과 직접적인 관련성이 없어 매칭 점수가 낮음."
+          },
+          "841005789": {
+            "score": 82,
+            "sentiment": "positive",
+            "intent_type": "positive_topic",
+            "matched_conditions": [
+              "satisfaction with protection/privacy function",
+              "privacy protection context - iOS 19 보안 기능"
+            ],
+            "evidence": "보안성도 강화되어 개인정보 보호 측면에서 안심할 수 있었죠",
+            "reasoning": "iOS 19의 보안 강화와 개인정보 보호 만족을 직접 언급하여 프라이버시 보호 기능 만족도를 표현함"
+          }
         }
       }
     },
@@ -5265,7 +6281,14 @@
         "2400",
         "2500",
         "2600",
-        "2700"
+        "2700",
+        "0",
+        "100",
+        "200",
+        "300",
+        "400",
+        "500",
+        "600"
       ],
       "completed_chunks_by_model": {
         "openai": [
@@ -5297,6 +6320,15 @@
           "2500",
           "2600",
           "2700"
+        ],
+        "claude": [
+          "0",
+          "100",
+          "200",
+          "300",
+          "400",
+          "500",
+          "600"
         ]
       },
       "results": {
@@ -5498,6 +6530,30 @@
             ],
             "evidence": "압도적인 카메라와 동영상 성능",
             "reasoning": "카메라 성능이 뛰어나지만, 줌 기능에 대한 아쉬움이 언급되어 있어 전체적인 만족도와 아쉬움이 공존하는 리뷰입니다."
+          }
+        },
+        "claude": {
+          "884529602": {
+            "score": 85,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "camera/photo quality is good/satisfying",
+              "telephoto/zoom/magnification is disappointing/lacking"
+            ],
+            "evidence": "망원(줌) 없음 → 프로 대비 아쉬움",
+            "reasoning": "일반 카메라 성능 향상을 긍정하면서도 망원 카메라 부재를 아쉬움으로 표현하여 쿼리의 대조적 만족도를 직접 드러냄"
+          },
+          "776341344": {
+            "score": 75,
+            "sentiment": "mixed",
+            "intent_type": "contrast",
+            "matched_conditions": [
+              "camera/photo quality is good/satisfying",
+              "telephoto/zoom/magnification is disappointing/lacking"
+            ],
+            "evidence": "망원카메라가 없는 것",
+            "reasoning": "카메라 기능 만족과 망원 카메라 부재의 불편함을 명확히 대비하여 표현"
           }
         }
       }
