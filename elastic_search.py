@@ -8,9 +8,9 @@ import html
 import re
 import unicodedata
 
-from sentence_transformers import SentenceTransformer
-EMBED_MODEL = SentenceTransformer('jhgan/ko-sroberta-multitask')
 VECTOR_DIMS = 768
+EMBED_MODEL_NAME = "jhgan/ko-sroberta-multitask"
+EMBED_MODEL = None
 
 try:
     from dotenv import load_dotenv
@@ -72,19 +72,8 @@ DEFAULT_INDEX_MAPPING = {
             "item_name": {"type": "text", "analyzer": "korean_analyzer"},
             "title": {"type": "text", "analyzer": "korean_analyzer"},
             "content": {"type": "text", "analyzer": "korean_analyzer"},
-            "content_vector": {
-                "type": "dense_vector", "dims": 768, "index": True, "similarity": "cosine"   
-            },
-            "title_vector": {
-                "type": "dense_vector", "dims": 768, "index": True, "similarity": "cosine"
-            },
-            "summary_vector": {
-                "type": "dense_vector", "dims": 768, "index": True, "similarity": "cosine"
-            },
-            "aspect_vector": {
-                "type": "dense_vector", "dims": 768, "index": True, "similarity": "cosine"
-            },
-            "item_name_vector": {
+            "dense_text": {"type": "text", "analyzer": "korean_analyzer"},
+            "dense_vector": {
                 "type": "dense_vector", "dims": 768, "index": True, "similarity": "cosine"
             },
             "review_survey_answers": {
@@ -143,10 +132,50 @@ def get_client(config: ElasticsearchConfig | None = None) -> Elasticsearch:
 def embed_text(text: str) -> list[float]:
     if not text:
         return [0.0] * VECTOR_DIMS
+    global EMBED_MODEL
     try:
+        if EMBED_MODEL is None:
+            from sentence_transformers import SentenceTransformer
+
+            EMBED_MODEL = SentenceTransformer(EMBED_MODEL_NAME)
         return EMBED_MODEL.encode(text).tolist()
-    except Exception:
-        return [0.0] * VECTOR_DIMS
+    except Exception as exc:
+        raise RuntimeError(
+            "Failed to create dense embedding. Check the sentence-transformers/torch "
+            "installation before indexing documents."
+        ) from exc
+
+
+def build_dense_text(document: dict[str, Any]) -> str:
+    """Build labeled text used as a single dense-retrieval representation."""
+    fields = [
+        ("상품명", document.get("product_name")),
+        ("옵션명", document.get("item_name")),
+        ("제목", document.get("title")),
+        ("본문", document.get("content")),
+        ("요약", document.get("short_summary")),
+    ]
+
+    aspect_keywords = document.get("aspect_keywords")
+    if isinstance(aspect_keywords, list):
+        aspect_text = ", ".join(str(keyword) for keyword in aspect_keywords if keyword)
+    else:
+        aspect_text = aspect_keywords
+    fields.append(("관점 키워드", aspect_text))
+
+    survey_answers = document.get("review_survey_answers") or []
+    survey_text = " / ".join(
+        f"{answer.get('question', '')}: {answer.get('answer', '')}".strip(": ")
+        for answer in survey_answers
+        if answer.get("question") or answer.get("answer")
+    )
+    fields.append(("설문 응답", survey_text))
+
+    return "\n".join(
+        f"{label}: {str(value).strip()}"
+        for label, value in fields
+        if value is not None and str(value).strip()
+    )
 
 
 def preprocess_record(record: dict[str, Any]) -> dict[str, Any] | None:
@@ -194,25 +223,14 @@ def preprocess_record(record: dict[str, Any]) -> dict[str, Any] | None:
         return None
     if not has_enough_signal(content):
         return None
-    
-    content_vector = embed_text(content)
-    title_vector = embed_text(title)
-    item_name_vector = embed_text(item_name)
-    summary_vector = embed_text(summary)
-    aspect_vector = embed_text(aspect)
 
-    return {
+    document = {
         "review_id": review_id,
         "review_at": record.get("reviewAt", 0),
         "product_name": product_name,
         "item_name": item_name,
         "title": title,
         "content": content,
-        "content_vector": content_vector,
-        "title_vector": title_vector,
-        "summary_vector": summary_vector,
-        "aspect_vector": aspect_vector,
-        "item_name_vector": item_name_vector,
         "review_survey_answers": [
             {
                 "question": str(s.get("question", "")),
@@ -228,6 +246,14 @@ def preprocess_record(record: dict[str, Any]) -> dict[str, Any] | None:
         "has_image": len(record.get("attachments") or []) > 0,
         "has_video": len(record.get("videoAttachments") or []) > 0,
     }
+    if summary:
+        document["short_summary"] = summary
+    if aspect:
+        document["aspect_keywords"] = [aspect]
+
+    document["dense_text"] = build_dense_text(document)
+    document["dense_vector"] = embed_text(document["dense_text"])
+    return document
 
 
 def _empty_llm_metadata() -> dict[str, Any]:
@@ -374,10 +400,8 @@ def enrich_document_with_llm(
     except Exception:
         enriched.update(_empty_llm_metadata())
 
-    enriched["summary_vector"] = embed_text(enriched.get("short_summary", ""))
-    enriched["aspect_vector"] = embed_text(
-        " ".join(enriched.get("aspect_keywords", []))
-    )
+    enriched["dense_text"] = build_dense_text(enriched)
+    enriched["dense_vector"] = embed_text(enriched["dense_text"])
     return enriched
 
 
