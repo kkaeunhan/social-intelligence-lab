@@ -1,0 +1,51 @@
+{
+  "model_name": "snunlp/KR-ELECTRA-discriminator",
+  "task_type": "regression",
+  "loss": "mse",
+  "num_labels": 1,
+  "label_mapping": {
+    "0": "negative",
+    "1": "weak_negative",
+    "2": "weak_positive",
+    "3": "positive"
+  },
+  "max_length": 256,
+  "thresholds": [
+    0.595,
+    1.62,
+    2.615
+  ],
+  "preprocess": "sentiment.preprocess_content",
+  "training": {
+    "data_path": "si_dataset/train_review_data.json",
+    "augmented_data_path": "output/task1_sentiment/llm/train_review_data_aug_checked_l1_180_l0_120_l2_80.json",
+    "original_records": 1298,
+    "augmented_records": 380,
+    "total_records": 1678,
+    "original_label_distribution": {
+      "0": 141,
+      "1": 83,
+      "2": 197,
+      "3": 877
+    },
+    "augmented_label_distribution": {
+      "0": 120,
+      "1": 180,
+      "2": 80,
+      "3": 0
+    },
+    "final_label_distribution": {
+      "0": 261,
+      "1": 263,
+      "2": 277,
+      "3": 877
+    },
+    "epochs": 5,
+    "batch_size": 16,
+    "learning_rate": 2e-05,
+    "warmup_ratio": 0.1,
+    "weight_decay": 0.01,
+    "seed": 42,
+    "device": "cuda"
+  }
+}
