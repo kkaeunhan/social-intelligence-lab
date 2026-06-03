@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import html
+import os
 import re
 from pathlib import Path
 from typing import Callable, Any
@@ -11,6 +12,10 @@ from utils import (
     write_json,
     write_timestamped_json,
 )
+
+
+DEFAULT_MODEL_DIR = "artifacts/task1_sentiment/final_model"
+_SENTIMENT_MODEL_CACHE: dict[str, Any] = {}
 
 
 def preprocess_content(content: str) -> str:
@@ -41,8 +46,71 @@ def predict_sentiment(content: str) -> int:
 
     Labels: 0=negative, 1=weak_negative, 2=weak_positive, 3=positive
     """
-    # TODO: Implement your sentiment classification logic.
-    raise NotImplementedError("predict_sentiment is not implemented yet.")
+    model_dir = os.environ.get("TASK1_SENTIMENT_MODEL_DIR", DEFAULT_MODEL_DIR)
+    model, tokenizer, torch, device, max_length = load_sentiment_model(model_dir)
+    text = preprocess_content(content)
+    encoded = tokenizer(
+        text,
+        truncation=True,
+        padding="max_length",
+        max_length=max_length,
+        return_tensors="pt",
+    )
+    encoded = {key: value.to(device) for key, value in encoded.items()}
+    model.eval()
+    with torch.no_grad():
+        logits = model(**encoded).logits
+    return int(logits.argmax(dim=-1).detach().cpu().item())
+
+
+def load_sentiment_model(model_dir: str | Path = DEFAULT_MODEL_DIR) -> tuple[Any, ...]:
+    """Load the saved transformer sentiment model once per process."""
+    model_path = Path(model_dir)
+    cache_key = str(model_path.resolve())
+    if cache_key in _SENTIMENT_MODEL_CACHE:
+        cached = _SENTIMENT_MODEL_CACHE[cache_key]
+        return (
+            cached["model"],
+            cached["tokenizer"],
+            cached["torch"],
+            cached["device"],
+            cached["max_length"],
+        )
+
+    if not model_path.exists():
+        raise FileNotFoundError(
+            f"Sentiment model artifact not found: {model_path}. "
+            "Train it with task1_sentiment/train_sentiment.py first, or set "
+            "TASK1_SENTIMENT_MODEL_DIR to another saved model directory."
+        )
+
+    try:
+        import torch
+        from transformers import AutoModelForSequenceClassification, AutoTokenizer
+    except ImportError as exc:
+        raise ImportError(
+            "Install torch and transformers to use predict_sentiment()."
+        ) from exc
+
+    tokenizer = AutoTokenizer.from_pretrained(model_path)
+    model = AutoModelForSequenceClassification.from_pretrained(model_path)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model.to(device)
+
+    max_length = 256
+    config_path = model_path / "training_config.json"
+    if config_path.exists():
+        config = read_json(config_path)
+        max_length = int(config.get("max_length", max_length))
+
+    _SENTIMENT_MODEL_CACHE[cache_key] = {
+        "model": model,
+        "tokenizer": tokenizer,
+        "torch": torch,
+        "device": device,
+        "max_length": max_length,
+    }
+    return model, tokenizer, torch, device, max_length
 
 
 def make_prediction(

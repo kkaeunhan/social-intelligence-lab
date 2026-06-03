@@ -19,7 +19,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from sentiment import load_review_data, preprocess_content
-from utils import quadratic_weighted_kappa, write_json
+from utils import quadratic_weighted_kappa, read_json, write_json
 
 try:
     from sklearn.feature_extraction.text import TfidfVectorizer
@@ -38,6 +38,7 @@ DEFAULT_DATA_PATH = "si_dataset/train_review_data.json"
 DEFAULT_OUTPUT_DIR = "output/task1_sentiment"
 TRANSFORMER_MODEL_CANDIDATES = {
     "klue_roberta": "klue/roberta-base",
+    "kr_electra": "snunlp/KR-ELECTRA-discriminator",
     "koelectra_base": "monologg/koelectra-base-v3-discriminator",
     "koelectra_small_nsmc": "daekeun-ml/koelectra-small-v3-nsmc",
     "koelectra_sentiment": "cringepnh/koelectra-korean-sentiment",
@@ -83,12 +84,22 @@ def parse_args() -> argparse.Namespace:
         help="Save preprocessed records for inspection and debugging.",
     )
     parser.add_argument(
+        "--augmentation-paths",
+        nargs="*",
+        default=[],
+        help=(
+            "Optional generated review JSON files. These are appended only to "
+            "each fold's training split; validation remains original-only."
+        ),
+    )
+    parser.add_argument(
         "--models",
         nargs="+",
         default=["tfidf_logreg"],
         choices=[
             "tfidf_logreg",
             "klue_roberta",
+            "kr_electra",
             "koelectra_base",
             "koelectra_small_nsmc",
             "koelectra_sentiment",
@@ -222,6 +233,66 @@ def prepare_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return prepared
 
 
+def load_augmented_records(paths: list[str]) -> list[dict[str, Any]]:
+    augmented_records = []
+    seen_contents = set()
+
+    for path in paths:
+        payload = read_json(path)
+        items = payload.get("items", payload) if isinstance(payload, dict) else payload
+        if not isinstance(items, list):
+            raise ValueError(f"Augmentation file must contain a list or items: {path}")
+
+        for index, record in enumerate(items):
+            content = str(record.get("content", "")).strip()
+            if not content:
+                continue
+            if content in seen_contents:
+                continue
+            seen_contents.add(content)
+            label = int(record["label"])
+            augmented_records.append(
+                {
+                    "review_id": record.get(
+                        "review_id",
+                        f"aug_label{label}_{len(augmented_records) + 1:06d}",
+                    ),
+                    "product_name": record.get("product_name"),
+                    "content": content,
+                    "clean_content": preprocess_content(content),
+                    "label": label,
+                    "label_string": record.get("label_string"),
+                    "source": record.get("source", "llm_augmented"),
+                    "is_augmented": True,
+                    "augmentation_file": str(path),
+                    "augmentation_index": index,
+                }
+            )
+
+    return augmented_records
+
+
+def append_augmented_train_records(
+    folds: list[dict[str, Any]],
+    augmented_records: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    if not augmented_records:
+        return folds
+
+    augmented_ids = {record["review_id"] for record in augmented_records}
+    if len(augmented_ids) != len(augmented_records):
+        raise ValueError("Augmented review_ids must be unique after normalization.")
+
+    updated_folds = []
+    for fold in folds:
+        updated_fold = dict(fold)
+        updated_fold["train_records"] = fold["train_records"] + augmented_records
+        updated_fold["validation_records"] = fold["validation_records"]
+        updated_fold["num_augmented_train_records"] = len(augmented_records)
+        updated_folds.append(updated_fold)
+    return updated_folds
+
+
 def stratified_train_validation_split(
     records: list[dict[str, Any]],
     validation_size: float,
@@ -333,6 +404,9 @@ def build_kfold_metadata(
                 "fold": fold["fold"],
                 "num_train": len(fold["train_records"]),
                 "num_validation": len(fold["validation_records"]),
+                "num_augmented_train_records": int(
+                    fold.get("num_augmented_train_records", 0)
+                ),
                 "train_label_distribution": label_distribution(fold["train_records"]),
                 "validation_label_distribution": label_distribution(
                     fold["validation_records"]
@@ -362,11 +436,17 @@ def save_prepared_outputs(
         n_splits=args.cv_folds,
         seed=args.seed,
     )
-    split_path = output_dir / f"stratified_kfold_seed{args.seed}_k{args.cv_folds}.json"
+    split_stem = f"stratified_kfold_seed{args.seed}_k{args.cv_folds}"
+    if args.experiment_name:
+        split_stem = f"{split_stem}_{args.experiment_name}"
+    split_path = output_dir / f"{split_stem}.json"
     write_json(split_metadata, split_path)
 
     if args.save_preprocessed:
-        preprocessed_path = output_dir / f"preprocessed_train_seed{args.seed}.json"
+        preprocessed_stem = f"preprocessed_train_seed{args.seed}"
+        if args.experiment_name:
+            preprocessed_stem = f"{preprocessed_stem}_{args.experiment_name}"
+        preprocessed_path = output_dir / f"{preprocessed_stem}.json"
         write_json(prepared_records, preprocessed_path)
 
     print("Saved split metadata:", split_path)
@@ -1262,11 +1342,16 @@ def main() -> None:
         n_splits=args.cv_folds,
         seed=args.seed,
     )
+    augmented_records = load_augmented_records(args.augmentation_paths)
+    folds = append_augmented_train_records(folds, augmented_records)
     save_prepared_outputs(
         prepared_records=prepared_records,
         folds=folds,
         args=args,
     )
+    if augmented_records:
+        print("Augmented records added to each training fold:", len(augmented_records))
+        print("Augmented label distribution:", label_distribution(augmented_records))
     if args.ensemble_only:
         run_saved_prediction_ensemble(args)
     elif not args.prepare_only:
