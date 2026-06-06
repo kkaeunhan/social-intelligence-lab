@@ -1,0 +1,45 @@
+{
+  "database": "neo4j",
+  "input_file": "/Users/kaeunhan/Documents/GitHub/social-intelligence-lab/task2.2_network/data/context_labels.jsonl",
+  "batch_size": 200,
+  "input_context_label_count": 52,
+  "schema_statements_executed": 23,
+  "reset_context": true,
+  "loaded_context_labels": 52,
+  "loaded_context_keyword_links": 52,
+  "loaded_business_actions": 52,
+  "verification": {
+    "counts": {
+      "BusinessAction": 64,
+      "ContextLabel": 52,
+      "EXPLAINS_PAIR": 180,
+      "HAS_CONTEXT": 52,
+      "IN_SENTIMENT": 52,
+      "MAPS_TO": 64,
+      "SUPPORTED_BY": 185
+    },
+    "issue_types": [
+      {
+        "issue_type": "product_feature",
+        "count": 23
+      },
+      {
+        "issue_type": "purchase_delivery_experience",
+        "count": 16
+      },
+      {
+        "issue_type": "price_promotion",
+        "count": 8
+      },
+      {
+        "issue_type": "cs_aftercare",
+        "count": 3
+      },
+      {
+        "issue_type": "mixed_or_other",
+        "count": 2
+      }
+    ]
+  },
+  "elapsed_seconds": 0.64
+}

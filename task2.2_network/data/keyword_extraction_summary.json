@@ -1,0 +1,326 @@
+{
+  "input_path": "/Users/kaeunhan/Documents/GitHub/social-intelligence-lab/task2.2_network/data/cleaned_reviews.jsonl",
+  "output_keywords": "/Users/kaeunhan/Documents/GitHub/social-intelligence-lab/task2.2_network/data/keywords.jsonl",
+  "output_review_keywords": "/Users/kaeunhan/Documents/GitHub/social-intelligence-lab/task2.2_network/data/review_keywords.jsonl",
+  "output_edges": "/Users/kaeunhan/Documents/GitHub/social-intelligence-lab/task2.2_network/data/review_keyword_edges.jsonl",
+  "review_count": 2748,
+  "keyword_count": 3871,
+  "edge_count": 79775,
+  "min_df": 2,
+  "max_keywords_per_review": 40,
+  "analyzer": "kiwi",
+  "empty_review_count": 3,
+  "keywords_per_review": {
+    "min": 0,
+    "max": 40,
+    "avg": 29.03
+  },
+  "pos_group_counts": {
+    "adjective": 164,
+    "noun": 3120,
+    "phrase": 26,
+    "verb": 561
+  },
+  "top_keywords": [
+    {
+      "keyword": "가성비 좋다",
+      "pos_group": "phrase",
+      "df": 2095,
+      "tf": 2214
+    },
+    {
+      "keyword": "디자인 만족",
+      "pos_group": "phrase",
+      "df": 2074,
+      "tf": 2096
+    },
+    {
+      "keyword": "카메라 만족",
+      "pos_group": "phrase",
+      "df": 1931,
+      "tf": 1967
+    },
+    {
+      "keyword": "만족",
+      "pos_group": "noun",
+      "df": 1439,
+      "tf": 2981
+    },
+    {
+      "keyword": "배터리 오래감",
+      "pos_group": "phrase",
+      "df": 1425,
+      "tf": 1855
+    },
+    {
+      "keyword": "카메라",
+      "pos_group": "noun",
+      "df": 1298,
+      "tf": 2860
+    },
+    {
+      "keyword": "무게 가볍다",
+      "pos_group": "phrase",
+      "df": 1227,
+      "tf": 1303
+    },
+    {
+      "keyword": "구매",
+      "pos_group": "noun",
+      "df": 1195,
+      "tf": 2436
+    },
+    {
+      "keyword": "화면",
+      "pos_group": "noun",
+      "df": 1147,
+      "tf": 2373
+    },
+    {
+      "keyword": "성능",
+      "pos_group": "noun",
+      "df": 1138,
+      "tf": 2527
+    },
+    {
+      "keyword": "사진",
+      "pos_group": "noun",
+      "df": 1110,
+      "tf": 2505
+    },
+    {
+      "keyword": "디자인",
+      "pos_group": "noun",
+      "df": 1051,
+      "tf": 1848
+    },
+    {
+      "keyword": "배터리",
+      "pos_group": "noun",
+      "df": 1015,
+      "tf": 1953
+    },
+    {
+      "keyword": "빠르다",
+      "pos_group": "adjective",
+      "df": 918,
+      "tf": 1373
+    },
+    {
+      "keyword": "배송",
+      "pos_group": "noun",
+      "df": 825,
+      "tf": 1411
+    },
+    {
+      "keyword": "영상",
+      "pos_group": "noun",
+      "df": 800,
+      "tf": 1574
+    },
+    {
+      "keyword": "찍다",
+      "pos_group": "verb",
+      "df": 742,
+      "tf": 1385
+    },
+    {
+      "keyword": "고민",
+      "pos_group": "noun",
+      "df": 725,
+      "tf": 1049
+    },
+    {
+      "keyword": "하루",
+      "pos_group": "noun",
+      "df": 721,
+      "tf": 871
+    },
+    {
+      "keyword": "기능",
+      "pos_group": "noun",
+      "df": 680,
+      "tf": 1294
+    },
+    {
+      "keyword": "고급",
+      "pos_group": "noun",
+      "df": 676,
+      "tf": 852
+    },
+    {
+      "keyword": "선택",
+      "pos_group": "noun",
+      "df": 660,
+      "tf": 1063
+    },
+    {
+      "keyword": "가격",
+      "pos_group": "noun",
+      "df": 656,
+      "tf": 946
+    },
+    {
+      "keyword": "색상",
+      "pos_group": "noun",
+      "df": 645,
+      "tf": 1089
+    },
+    {
+      "keyword": "선명",
+      "pos_group": "noun",
+      "df": 641,
+      "tf": 844
+    },
+    {
+      "keyword": "편하다",
+      "pos_group": "adjective",
+      "df": 616,
+      "tf": 883
+    },
+    {
+      "keyword": "자급제",
+      "pos_group": "noun",
+      "df": 561,
+      "tf": 1164
+    },
+    {
+      "keyword": "케이스",
+      "pos_group": "noun",
+      "df": 554,
+      "tf": 813
+    },
+    {
+      "keyword": "체감",
+      "pos_group": "noun",
+      "df": 550,
+      "tf": 824
+    },
+    {
+      "keyword": "촬영",
+      "pos_group": "noun",
+      "df": 545,
+      "tf": 916
+    },
+    {
+      "keyword": "용량",
+      "pos_group": "noun",
+      "df": 544,
+      "tf": 956
+    },
+    {
+      "keyword": "색감",
+      "pos_group": "noun",
+      "df": 537,
+      "tf": 765
+    },
+    {
+      "keyword": "무게",
+      "pos_group": "noun",
+      "df": 536,
+      "tf": 696
+    },
+    {
+      "keyword": "추천",
+      "pos_group": "noun",
+      "df": 525,
+      "tf": 634
+    },
+    {
+      "keyword": "부담",
+      "pos_group": "noun",
+      "df": 520,
+      "tf": 665
+    },
+    {
+      "keyword": "디스플레이",
+      "pos_group": "noun",
+      "df": 518,
+      "tf": 803
+    },
+    {
+      "keyword": "예쁘다",
+      "pos_group": "adjective",
+      "df": 516,
+      "tf": 810
+    },
+    {
+      "keyword": "게임",
+      "pos_group": "noun",
+      "df": 498,
+      "tf": 645
+    },
+    {
+      "keyword": "충전",
+      "pos_group": "noun",
+      "df": 489,
+      "tf": 815
+    },
+    {
+      "keyword": "많다",
+      "pos_group": "adjective",
+      "df": 468,
+      "tf": 636
+    },
+    {
+      "keyword": "장점",
+      "pos_group": "noun",
+      "df": 462,
+      "tf": 611
+    },
+    {
+      "keyword": "가성비 나쁘다",
+      "pos_group": "phrase",
+      "df": 456,
+      "tf": 461
+    },
+    {
+      "keyword": "발열",
+      "pos_group": "noun",
+      "df": 452,
+      "tf": 614
+    },
+    {
+      "keyword": "걱정",
+      "pos_group": "noun",
+      "df": 450,
+      "tf": 579
+    },
+    {
+      "keyword": "gb",
+      "pos_group": "noun",
+      "df": 444,
+      "tf": 959
+    },
+    {
+      "keyword": "스마트폰",
+      "pos_group": "noun",
+      "df": 439,
+      "tf": 805
+    },
+    {
+      "keyword": "예약",
+      "pos_group": "noun",
+      "df": 426,
+      "tf": 688
+    },
+    {
+      "keyword": "사전",
+      "pos_group": "noun",
+      "df": 423,
+      "tf": 694
+    },
+    {
+      "keyword": "자연",
+      "pos_group": "noun",
+      "df": 419,
+      "tf": 535
+    },
+    {
+      "keyword": "화질",
+      "pos_group": "noun",
+      "df": 411,
+      "tf": 531
+    }
+  ]
+}

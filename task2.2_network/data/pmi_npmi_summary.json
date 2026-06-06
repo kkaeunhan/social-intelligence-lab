@@ -1,0 +1,2254 @@
+{
+  "input_path": "/Users/kaeunhan/Documents/GitHub/social-intelligence-lab/task2.2_network/data/review_keywords.jsonl",
+  "output_network_reviews": "/Users/kaeunhan/Documents/GitHub/social-intelligence-lab/task2.2_network/data/network_review_keywords.jsonl",
+  "output_edges": "/Users/kaeunhan/Documents/GitHub/social-intelligence-lab/task2.2_network/data/co_occurrence_edges.jsonl",
+  "review_count": 2748,
+  "top_n": 20,
+  "min_doc_freq": 5,
+  "max_doc_ratio": 0.4,
+  "min_pair_count": 3,
+  "min_npmi": 0.0,
+  "filter_summary": {
+    "raw_keyword_count": 3298,
+    "allowed_keyword_count": 1462,
+    "removed_low_doc_freq_keyword_count": 1831,
+    "removed_high_doc_ratio_keyword_count": 5,
+    "max_doc_freq": 1099,
+    "keyword_mentions_before_top_n": 68743,
+    "keyword_mentions_after_top_n": 45472,
+    "empty_review_count": 8
+  },
+  "keywords_per_review_after_filter": {
+    "min": 0,
+    "max": 20,
+    "avg": 16.55
+  },
+  "co_occurrence_edge_count": 88111,
+  "positive_npmi_edge_count": 88106,
+  "edge_counts_by_scope": {
+    "global": {
+      "edge_count": 21989
+    },
+    "product": {
+      "edge_count": 23361
+    },
+    "product_sentiment": {
+      "edge_count": 21910
+    },
+    "sentiment": {
+      "edge_count": 20851
+    }
+  },
+  "top_pairs_by_scope": {
+    "global": [
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 145,
+        "pmi": 4.127519,
+        "npmi": 0.972495,
+        "lift": 17.478616
+      },
+      {
+        "keyword_a": "ceramic",
+        "keyword_b": "shield",
+        "co_count": 4,
+        "pmi": 8.839204,
+        "npmi": 0.93793,
+        "lift": 458.0
+      },
+      {
+        "keyword_a": "다이나믹",
+        "keyword_b": "아일랜드",
+        "co_count": 4,
+        "pmi": 8.839204,
+        "npmi": 0.93793,
+        "lift": 458.0
+      },
+      {
+        "keyword_a": "구멍",
+        "keyword_b": "뚫리다",
+        "co_count": 3,
+        "pmi": 8.839204,
+        "npmi": 0.898366,
+        "lift": 458.0
+      },
+      {
+        "keyword_a": "불량",
+        "keyword_b": "불량 의심",
+        "co_count": 41,
+        "pmi": 5.401798,
+        "npmi": 0.890414,
+        "lift": 42.276923
+      },
+      {
+        "keyword_a": "사전",
+        "keyword_b": "예약",
+        "co_count": 250,
+        "pmi": 2.994885,
+        "npmi": 0.865979,
+        "lift": 7.971687
+      },
+      {
+        "keyword_a": "스마트",
+        "keyword_b": "스위치",
+        "co_count": 7,
+        "pmi": 7.450161,
+        "npmi": 0.864608,
+        "lift": 174.872727
+      },
+      {
+        "keyword_a": "고속",
+        "keyword_b": "고속 충전",
+        "co_count": 19,
+        "pmi": 6.109851,
+        "npmi": 0.8514,
+        "lift": 69.063492
+      },
+      {
+        "keyword_a": "cpu",
+        "keyword_b": "gpu",
+        "co_count": 3,
+        "pmi": 8.365273,
+        "npmi": 0.850198,
+        "lift": 329.76
+      },
+      {
+        "keyword_a": "바이올렛",
+        "keyword_b": "코발트",
+        "co_count": 20,
+        "pmi": 5.869577,
+        "npmi": 0.826441,
+        "lift": 58.468085
+      }
+    ],
+    "product:galaxy_s26": [
+      {
+        "keyword_a": "불량",
+        "keyword_b": "불량 의심",
+        "co_count": 5,
+        "pmi": 5.981092,
+        "npmi": 0.957875,
+        "lift": 63.166667
+      },
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 12,
+        "pmi": 4.758699,
+        "npmi": 0.955353,
+        "lift": 27.071429
+      },
+      {
+        "keyword_a": "amoled",
+        "keyword_b": "hz",
+        "co_count": 4,
+        "pmi": 5.922198,
+        "npmi": 0.901942,
+        "lift": 60.64
+      },
+      {
+        "keyword_a": "무리",
+        "keyword_b": "손목",
+        "co_count": 10,
+        "pmi": 4.495665,
+        "npmi": 0.857276,
+        "lift": 22.559524
+      },
+      {
+        "keyword_a": "사전",
+        "keyword_b": "예약",
+        "co_count": 60,
+        "pmi": 2.266846,
+        "npmi": 0.852466,
+        "lift": 4.812698
+      },
+      {
+        "keyword_a": "녹음",
+        "keyword_b": "통화",
+        "co_count": 6,
+        "pmi": 5.021734,
+        "npmi": 0.839602,
+        "lift": 32.485714
+      },
+      {
+        "keyword_a": "버벅",
+        "keyword_b": "성능 아쉽다",
+        "co_count": 14,
+        "pmi": 3.865614,
+        "npmi": 0.812326,
+        "lift": 14.576923
+      },
+      {
+        "keyword_a": "보호",
+        "keyword_b": "사생활",
+        "co_count": 8,
+        "pmi": 4.478591,
+        "npmi": 0.804626,
+        "lift": 22.294118
+      },
+      {
+        "keyword_a": "닳다",
+        "keyword_b": "배터리 짧음",
+        "co_count": 5,
+        "pmi": 4.981092,
+        "npmi": 0.797724,
+        "lift": 31.583333
+      },
+      {
+        "keyword_a": "스냅드래곤",
+        "keyword_b": "엑시노스",
+        "co_count": 3,
+        "pmi": 5.244126,
+        "npmi": 0.75119,
+        "lift": 37.9
+      }
+    ],
+    "product:galaxy_s26_ultra": [
+      {
+        "keyword_a": "스마트",
+        "keyword_b": "스위치",
+        "co_count": 3,
+        "pmi": 7.062496,
+        "npmi": 1.0,
+        "lift": 133.666667
+      },
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 17,
+        "pmi": 4.32553,
+        "npmi": 0.948582,
+        "lift": 20.05
+      },
+      {
+        "keyword_a": "서비스",
+        "keyword_b": "센터",
+        "co_count": 7,
+        "pmi": 5.477533,
+        "npmi": 0.937917,
+        "lift": 44.555556
+      },
+      {
+        "keyword_a": "불량",
+        "keyword_b": "불량 의심",
+        "co_count": 9,
+        "pmi": 4.947019,
+        "npmi": 0.903147,
+        "lift": 30.846154
+      },
+      {
+        "keyword_a": "이자",
+        "keyword_b": "할부",
+        "co_count": 4,
+        "pmi": 6.003602,
+        "npmi": 0.903143,
+        "lift": 64.16
+      },
+      {
+        "keyword_a": "더블",
+        "keyword_b": "스토리",
+        "co_count": 6,
+        "pmi": 5.425066,
+        "npmi": 0.894857,
+        "lift": 42.964286
+      },
+      {
+        "keyword_a": "인식",
+        "keyword_b": "지문",
+        "co_count": 6,
+        "pmi": 5.062496,
+        "npmi": 0.835051,
+        "lift": 33.416667
+      },
+      {
+        "keyword_a": "고속",
+        "keyword_b": "고속 충전",
+        "co_count": 7,
+        "pmi": 4.840104,
+        "npmi": 0.82877,
+        "lift": 28.642857
+      },
+      {
+        "keyword_a": "사전",
+        "keyword_b": "예약",
+        "co_count": 64,
+        "pmi": 2.146617,
+        "npmi": 0.810822,
+        "lift": 4.427881
+      },
+      {
+        "keyword_a": "블루",
+        "keyword_b": "스카",
+        "co_count": 3,
+        "pmi": 5.647458,
+        "npmi": 0.799641,
+        "lift": 50.125
+      }
+    ],
+    "product:galaxy_z_flip7": [
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 19,
+        "pmi": 4.377781,
+        "npmi": 1.0,
+        "lift": 20.789474
+      },
+      {
+        "keyword_a": "고속",
+        "keyword_b": "고속 충전",
+        "co_count": 6,
+        "pmi": 5.595961,
+        "npmi": 0.926369,
+        "lift": 48.367347
+      },
+      {
+        "keyword_a": "불량",
+        "keyword_b": "불량 의심",
+        "co_count": 4,
+        "pmi": 6.040746,
+        "npmi": 0.911713,
+        "lift": 65.833333
+      },
+      {
+        "keyword_a": "사전",
+        "keyword_b": "예약",
+        "co_count": 50,
+        "pmi": 2.638388,
+        "npmi": 0.884815,
+        "lift": 6.226356
+      },
+      {
+        "keyword_a": "amoled",
+        "keyword_b": "mp",
+        "co_count": 3,
+        "pmi": 5.818354,
+        "npmi": 0.826383,
+        "lift": 56.428571
+      },
+      {
+        "keyword_a": "hz",
+        "keyword_b": "mp",
+        "co_count": 4,
+        "pmi": 5.233391,
+        "npmi": 0.789861,
+        "lift": 37.619048
+      },
+      {
+        "keyword_a": "블루",
+        "keyword_b": "쉐도우",
+        "co_count": 9,
+        "pmi": 4.166277,
+        "npmi": 0.763644,
+        "lift": 17.954545
+      },
+      {
+        "keyword_a": "공간",
+        "keyword_b": "저장",
+        "co_count": 7,
+        "pmi": 4.273192,
+        "npmi": 0.734433,
+        "lift": 19.335664
+      },
+      {
+        "keyword_a": "안심",
+        "keyword_b": "케어",
+        "co_count": 4,
+        "pmi": 4.818354,
+        "npmi": 0.727221,
+        "lift": 28.214286
+      },
+      {
+        "keyword_a": "빠릿",
+        "keyword_b": "성능 좋다",
+        "co_count": 3,
+        "pmi": 5.040746,
+        "npmi": 0.715939,
+        "lift": 32.916667
+      }
+    ],
+    "product:galaxy_z_fold7": [
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 6,
+        "pmi": 5.716207,
+        "npmi": 0.962551,
+        "lift": 52.571429
+      },
+      {
+        "keyword_a": "불량",
+        "keyword_b": "불량 의심",
+        "co_count": 5,
+        "pmi": 5.938599,
+        "npmi": 0.957586,
+        "lift": 61.333333
+      },
+      {
+        "keyword_a": "내구성 약하다",
+        "keyword_b": "찌그러지다",
+        "co_count": 3,
+        "pmi": 6.523562,
+        "npmi": 0.940184,
+        "lift": 92.0
+      },
+      {
+        "keyword_a": "라이브",
+        "keyword_b": "방송",
+        "co_count": 3,
+        "pmi": 6.523562,
+        "npmi": 0.940184,
+        "lift": 92.0
+      },
+      {
+        "keyword_a": "사전",
+        "keyword_b": "예약",
+        "co_count": 40,
+        "pmi": 2.959794,
+        "npmi": 0.924464,
+        "lift": 7.780127
+      },
+      {
+        "keyword_a": "보내다",
+        "keyword_b": "보상",
+        "co_count": 3,
+        "pmi": 5.786596,
+        "npmi": 0.833972,
+        "lift": 55.2
+      },
+      {
+        "keyword_a": "서비스",
+        "keyword_b": "센터",
+        "co_count": 4,
+        "pmi": 5.394279,
+        "npmi": 0.826892,
+        "lift": 42.057143
+      },
+      {
+        "keyword_a": "바지",
+        "keyword_b": "주머니",
+        "co_count": 3,
+        "pmi": 5.523562,
+        "npmi": 0.796063,
+        "lift": 46.0
+      },
+      {
+        "keyword_a": "hz",
+        "keyword_b": "인치",
+        "co_count": 3,
+        "pmi": 5.108524,
+        "npmi": 0.736247,
+        "lift": 34.5
+      },
+      {
+        "keyword_a": "공간",
+        "keyword_b": "저장",
+        "co_count": 7,
+        "pmi": 4.171046,
+        "npmi": 0.729688,
+        "lift": 18.013986
+      }
+    ],
+    "product:iphone_17": [
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 46,
+        "pmi": 3.190245,
+        "npmi": 0.990368,
+        "lift": 9.12766
+      },
+      {
+        "keyword_a": "이자",
+        "keyword_b": "할부",
+        "co_count": 5,
+        "pmi": 6.159871,
+        "npmi": 0.959047,
+        "lift": 71.5
+      },
+      {
+        "keyword_a": "미스트",
+        "keyword_b": "블루",
+        "co_count": 11,
+        "pmi": 4.937479,
+        "npmi": 0.934173,
+        "lift": 30.642857
+      },
+      {
+        "keyword_a": "불량",
+        "keyword_b": "불량 의심",
+        "co_count": 10,
+        "pmi": 4.937479,
+        "npmi": 0.910486,
+        "lift": 30.642857
+      },
+      {
+        "keyword_a": "center",
+        "keyword_b": "ceramic",
+        "co_count": 3,
+        "pmi": 6.422906,
+        "npmi": 0.89707,
+        "lift": 85.8
+      },
+      {
+        "keyword_a": "다이나믹",
+        "keyword_b": "아일랜드",
+        "co_count": 3,
+        "pmi": 6.422906,
+        "npmi": 0.89707,
+        "lift": 85.8
+      },
+      {
+        "keyword_a": "블루투스",
+        "keyword_b": "연결",
+        "co_count": 3,
+        "pmi": 6.422906,
+        "npmi": 0.89707,
+        "lift": 85.8
+      },
+      {
+        "keyword_a": "사전",
+        "keyword_b": "예약",
+        "co_count": 12,
+        "pmi": 4.422906,
+        "npmi": 0.857174,
+        "lift": 21.45
+      },
+      {
+        "keyword_a": "스티커",
+        "keyword_b": "취급",
+        "co_count": 3,
+        "pmi": 6.007868,
+        "npmi": 0.839103,
+        "lift": 64.35
+      },
+      {
+        "keyword_a": "버전",
+        "keyword_b": "업데이트",
+        "co_count": 4,
+        "pmi": 5.615551,
+        "npmi": 0.832571,
+        "lift": 49.028571
+      }
+    ],
+    "product:iphone_17_pro": [
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 30,
+        "pmi": 3.859585,
+        "npmi": 0.976073,
+        "lift": 14.516129
+      },
+      {
+        "keyword_a": "카드",
+        "keyword_b": "혜택",
+        "co_count": 3,
+        "pmi": 6.446049,
+        "npmi": 0.885918,
+        "lift": 87.1875
+      },
+      {
+        "keyword_a": "스티커",
+        "keyword_b": "취급",
+        "co_count": 4,
+        "pmi": 5.954196,
+        "npmi": 0.867821,
+        "lift": 62.0
+      },
+      {
+        "keyword_a": "사전",
+        "keyword_b": "예약",
+        "co_count": 11,
+        "pmi": 4.606273,
+        "npmi": 0.852752,
+        "lift": 24.357143
+      },
+      {
+        "keyword_a": "구르다",
+        "keyword_b": "던지다",
+        "co_count": 3,
+        "pmi": 6.124121,
+        "npmi": 0.841674,
+        "lift": 69.75
+      },
+      {
+        "keyword_a": "버벅",
+        "keyword_b": "성능 아쉽다",
+        "co_count": 20,
+        "pmi": 3.773624,
+        "npmi": 0.831349,
+        "lift": 13.676471
+      },
+      {
+        "keyword_a": "셀룰러",
+        "keyword_b": "이슈",
+        "co_count": 3,
+        "pmi": 5.861087,
+        "npmi": 0.805523,
+        "lift": 58.125
+      },
+      {
+        "keyword_a": "업무",
+        "keyword_b": "직장인",
+        "co_count": 3,
+        "pmi": 5.861087,
+        "npmi": 0.805523,
+        "lift": 58.125
+      },
+      {
+        "keyword_a": "보상",
+        "keyword_b": "판매",
+        "co_count": 3,
+        "pmi": 5.802193,
+        "npmi": 0.797429,
+        "lift": 55.8
+      },
+      {
+        "keyword_a": "가입",
+        "keyword_b": "케어",
+        "co_count": 3,
+        "pmi": 5.638694,
+        "npmi": 0.774959,
+        "lift": 49.821429
+      }
+    ],
+    "product:iphone_17_pro_max": [
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 15,
+        "pmi": 4.100199,
+        "npmi": 0.937428,
+        "lift": 17.150735
+      },
+      {
+        "keyword_a": "버벅",
+        "keyword_b": "성능 아쉽다",
+        "co_count": 5,
+        "pmi": 5.280771,
+        "npmi": 0.886207,
+        "lift": 38.875
+      },
+      {
+        "keyword_a": "고객",
+        "keyword_b": "센터",
+        "co_count": 3,
+        "pmi": 5.695808,
+        "npmi": 0.850653,
+        "lift": 51.833333
+      },
+      {
+        "keyword_a": "자유",
+        "keyword_b": "통신사",
+        "co_count": 3,
+        "pmi": 5.543805,
+        "npmi": 0.827952,
+        "lift": 46.65
+      },
+      {
+        "keyword_a": "hz",
+        "keyword_b": "promotion",
+        "co_count": 3,
+        "pmi": 5.473416,
+        "npmi": 0.817439,
+        "lift": 44.428571
+      },
+      {
+        "keyword_a": "사전",
+        "keyword_b": "예약",
+        "co_count": 13,
+        "pmi": 3.57182,
+        "npmi": 0.779817,
+        "lift": 11.891176
+      },
+      {
+        "keyword_a": "종일",
+        "keyword_b": "하루",
+        "co_count": 4,
+        "pmi": 4.695808,
+        "npmi": 0.747648,
+        "lift": 25.916667
+      },
+      {
+        "keyword_a": "용량",
+        "keyword_b": "저장",
+        "co_count": 9,
+        "pmi": 3.80684,
+        "npmi": 0.744855,
+        "lift": 13.995
+      },
+      {
+        "keyword_a": "빠릿",
+        "keyword_b": "성능 좋다",
+        "co_count": 3,
+        "pmi": 4.821339,
+        "npmi": 0.720053,
+        "lift": 28.272727
+      },
+      {
+        "keyword_a": "결제",
+        "keyword_b": "핸드폰",
+        "co_count": 3,
+        "pmi": 4.695808,
+        "npmi": 0.701306,
+        "lift": 25.916667
+      }
+    ],
+    "product_sentiment:galaxy_s26:negative": [
+      {
+        "keyword_a": "보내다",
+        "keyword_b": "완충",
+        "co_count": 3,
+        "pmi": 1.0,
+        "npmi": 0.706695,
+        "lift": 2.0
+      },
+      {
+        "keyword_a": "보내다",
+        "keyword_b": "포장",
+        "co_count": 3,
+        "pmi": 1.0,
+        "npmi": 0.706695,
+        "lift": 2.0
+      },
+      {
+        "keyword_a": "박스",
+        "keyword_b": "배송",
+        "co_count": 4,
+        "pmi": 0.678072,
+        "npmi": 0.678072,
+        "lift": 1.6
+      },
+      {
+        "keyword_a": "배송",
+        "keyword_b": "휴대폰",
+        "co_count": 3,
+        "pmi": 0.678072,
+        "npmi": 0.47919,
+        "lift": 1.6
+      },
+      {
+        "keyword_a": "박스",
+        "keyword_b": "포장",
+        "co_count": 3,
+        "pmi": 0.584963,
+        "npmi": 0.41339,
+        "lift": 1.5
+      },
+      {
+        "keyword_a": "완충",
+        "keyword_b": "포장",
+        "co_count": 3,
+        "pmi": 0.584963,
+        "npmi": 0.41339,
+        "lift": 1.5
+      },
+      {
+        "keyword_a": "배송",
+        "keyword_b": "완충",
+        "co_count": 3,
+        "pmi": 0.263034,
+        "npmi": 0.185885,
+        "lift": 1.2
+      },
+      {
+        "keyword_a": "배송",
+        "keyword_b": "포장",
+        "co_count": 3,
+        "pmi": 0.263034,
+        "npmi": 0.185885,
+        "lift": 1.2
+      }
+    ],
+    "product_sentiment:galaxy_s26:positive": [
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 9,
+        "pmi": 5.048363,
+        "npmi": 0.945764,
+        "lift": 33.090909
+      },
+      {
+        "keyword_a": "amoled",
+        "keyword_b": "hz",
+        "co_count": 4,
+        "pmi": 5.863938,
+        "npmi": 0.901064,
+        "lift": 58.24
+      },
+      {
+        "keyword_a": "무리",
+        "keyword_b": "손목",
+        "co_count": 10,
+        "pmi": 4.437405,
+        "npmi": 0.855673,
+        "lift": 21.666667
+      },
+      {
+        "keyword_a": "사전",
+        "keyword_b": "예약",
+        "co_count": 58,
+        "pmi": 2.265113,
+        "npmi": 0.85482,
+        "lift": 4.806922
+      },
+      {
+        "keyword_a": "녹음",
+        "keyword_b": "통화",
+        "co_count": 6,
+        "pmi": 4.963474,
+        "npmi": 0.838024,
+        "lift": 31.2
+      },
+      {
+        "keyword_a": "버벅",
+        "keyword_b": "성능 아쉽다",
+        "co_count": 14,
+        "pmi": 3.807355,
+        "npmi": 0.81,
+        "lift": 14.0
+      },
+      {
+        "keyword_a": "보호",
+        "keyword_b": "사생활",
+        "co_count": 8,
+        "pmi": 4.420332,
+        "npmi": 0.802559,
+        "lift": 21.411765
+      },
+      {
+        "keyword_a": "닳다",
+        "keyword_b": "배터리 짧음",
+        "co_count": 5,
+        "pmi": 4.922832,
+        "npmi": 0.795819,
+        "lift": 30.333333
+      },
+      {
+        "keyword_a": "가성비",
+        "keyword_b": "납득",
+        "co_count": 3,
+        "pmi": 5.185867,
+        "npmi": 0.749096,
+        "lift": 36.4
+      },
+      {
+        "keyword_a": "스냅드래곤",
+        "keyword_b": "엑시노스",
+        "co_count": 3,
+        "pmi": 5.185867,
+        "npmi": 0.749096,
+        "lift": 36.4
+      }
+    ],
+    "product_sentiment:galaxy_s26_ultra:negative": [
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 5,
+        "pmi": 2.0,
+        "npmi": 1.0,
+        "lift": 4.0
+      },
+      {
+        "keyword_a": "서비스",
+        "keyword_b": "센터",
+        "co_count": 6,
+        "pmi": 1.514573,
+        "npmi": 0.871965,
+        "lift": 2.857143
+      },
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "포장",
+        "co_count": 4,
+        "pmi": 2.0,
+        "npmi": 0.861353,
+        "lift": 4.0
+      },
+      {
+        "keyword_a": "완충 포장",
+        "keyword_b": "포장",
+        "co_count": 4,
+        "pmi": 2.0,
+        "npmi": 0.861353,
+        "lift": 4.0
+      },
+      {
+        "keyword_a": "ai",
+        "keyword_b": "구독",
+        "co_count": 3,
+        "pmi": 2.321928,
+        "npmi": 0.848359,
+        "lift": 5.0
+      },
+      {
+        "keyword_a": "넘다",
+        "keyword_b": "박스",
+        "co_count": 3,
+        "pmi": 2.321928,
+        "npmi": 0.848359,
+        "lift": 5.0
+      },
+      {
+        "keyword_a": "넘다",
+        "keyword_b": "포장",
+        "co_count": 3,
+        "pmi": 2.321928,
+        "npmi": 0.848359,
+        "lift": 5.0
+      },
+      {
+        "keyword_a": "가성비 나쁘다",
+        "keyword_b": "배터리 짧음",
+        "co_count": 3,
+        "pmi": 2.0,
+        "npmi": 0.730736,
+        "lift": 4.0
+      },
+      {
+        "keyword_a": "넘다",
+        "keyword_b": "뽁뽁이",
+        "co_count": 3,
+        "pmi": 2.0,
+        "npmi": 0.730736,
+        "lift": 4.0
+      },
+      {
+        "keyword_a": "넘다",
+        "keyword_b": "완충 포장",
+        "co_count": 3,
+        "pmi": 2.0,
+        "npmi": 0.730736,
+        "lift": 4.0
+      }
+    ],
+    "product_sentiment:galaxy_s26_ultra:positive": [
+      {
+        "keyword_a": "스마트",
+        "keyword_b": "스위치",
+        "co_count": 3,
+        "pmi": 6.961932,
+        "npmi": 1.0,
+        "lift": 124.666667
+      },
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 11,
+        "pmi": 4.73954,
+        "npmi": 0.931612,
+        "lift": 26.714286
+      },
+      {
+        "keyword_a": "불량",
+        "keyword_b": "불량 의심",
+        "co_count": 6,
+        "pmi": 5.546894,
+        "npmi": 0.930385,
+        "lift": 46.75
+      },
+      {
+        "keyword_a": "이자",
+        "keyword_b": "할부",
+        "co_count": 4,
+        "pmi": 5.903038,
+        "npmi": 0.901655,
+        "lift": 59.84
+      },
+      {
+        "keyword_a": "더블",
+        "keyword_b": "스토리",
+        "co_count": 6,
+        "pmi": 5.324502,
+        "npmi": 0.893083,
+        "lift": 40.071429
+      },
+      {
+        "keyword_a": "고속",
+        "keyword_b": "고속 충전",
+        "co_count": 7,
+        "pmi": 4.73954,
+        "npmi": 0.82577,
+        "lift": 26.714286
+      },
+      {
+        "keyword_a": "사전",
+        "keyword_b": "예약",
+        "co_count": 62,
+        "pmi": 2.131221,
+        "npmi": 0.822009,
+        "lift": 4.38088
+      },
+      {
+        "keyword_a": "공간",
+        "keyword_b": "저장",
+        "co_count": 13,
+        "pmi": 3.907484,
+        "npmi": 0.806256,
+        "lift": 15.006173
+      },
+      {
+        "keyword_a": "블루",
+        "keyword_b": "스카",
+        "co_count": 3,
+        "pmi": 5.546894,
+        "npmi": 0.796746,
+        "lift": 46.75
+      },
+      {
+        "keyword_a": "바이올렛",
+        "keyword_b": "코발트",
+        "co_count": 8,
+        "pmi": 4.376969,
+        "npmi": 0.789085,
+        "lift": 20.777778
+      }
+    ],
+    "product_sentiment:galaxy_z_flip7:negative": [
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 4,
+        "pmi": 2.087463,
+        "npmi": 1.0,
+        "lift": 4.25
+      },
+      {
+        "keyword_a": "개봉",
+        "keyword_b": "배송",
+        "co_count": 3,
+        "pmi": 1.280108,
+        "npmi": 0.511532,
+        "lift": 2.428571
+      },
+      {
+        "keyword_a": "넣다",
+        "keyword_b": "배송",
+        "co_count": 3,
+        "pmi": 1.280108,
+        "npmi": 0.511532,
+        "lift": 2.428571
+      },
+      {
+        "keyword_a": "배송",
+        "keyword_b": "포장",
+        "co_count": 5,
+        "pmi": 0.794681,
+        "npmi": 0.450108,
+        "lift": 1.734694
+      },
+      {
+        "keyword_a": "박스",
+        "keyword_b": "배송",
+        "co_count": 3,
+        "pmi": 0.86507,
+        "npmi": 0.345682,
+        "lift": 1.821429
+      },
+      {
+        "keyword_a": "배송",
+        "keyword_b": "뽁뽁이",
+        "co_count": 3,
+        "pmi": 0.86507,
+        "npmi": 0.345682,
+        "lift": 1.821429
+      },
+      {
+        "keyword_a": "배송",
+        "keyword_b": "완충 포장",
+        "co_count": 3,
+        "pmi": 0.86507,
+        "npmi": 0.345682,
+        "lift": 1.821429
+      },
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "포장",
+        "co_count": 3,
+        "pmi": 0.86507,
+        "npmi": 0.345682,
+        "lift": 1.821429
+      },
+      {
+        "keyword_a": "완충 포장",
+        "keyword_b": "포장",
+        "co_count": 3,
+        "pmi": 0.86507,
+        "npmi": 0.345682,
+        "lift": 1.821429
+      }
+    ],
+    "product_sentiment:galaxy_z_flip7:neutral": [
+      {
+        "keyword_a": "무게 무겁다",
+        "keyword_b": "화면",
+        "co_count": 3,
+        "pmi": 1.70044,
+        "npmi": 0.803809,
+        "lift": 3.25
+      },
+      {
+        "keyword_a": "배송",
+        "keyword_b": "포장",
+        "co_count": 4,
+        "pmi": 0.793549,
+        "npmi": 0.466673,
+        "lift": 1.733333
+      },
+      {
+        "keyword_a": "카메라 만족",
+        "keyword_b": "포장",
+        "co_count": 3,
+        "pmi": 0.963474,
+        "npmi": 0.455441,
+        "lift": 1.95
+      },
+      {
+        "keyword_a": "가성비 나쁘다",
+        "keyword_b": "배송",
+        "co_count": 3,
+        "pmi": 0.115477,
+        "npmi": 0.054587,
+        "lift": 1.083333
+      }
+    ],
+    "product_sentiment:galaxy_z_flip7:positive": [
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 13,
+        "pmi": 4.811313,
+        "npmi": 1.0,
+        "lift": 28.076923
+      },
+      {
+        "keyword_a": "고속",
+        "keyword_b": "고속 충전",
+        "co_count": 6,
+        "pmi": 5.482005,
+        "npmi": 0.924954,
+        "lift": 44.693878
+      },
+      {
+        "keyword_a": "불량",
+        "keyword_b": "불량 의심",
+        "co_count": 3,
+        "pmi": 6.189825,
+        "npmi": 0.893606,
+        "lift": 73.0
+      },
+      {
+        "keyword_a": "사전",
+        "keyword_b": "예약",
+        "co_count": 50,
+        "pmi": 2.524432,
+        "npmi": 0.880238,
+        "lift": 5.753468
+      },
+      {
+        "keyword_a": "amoled",
+        "keyword_b": "mp",
+        "co_count": 3,
+        "pmi": 5.704398,
+        "npmi": 0.823527,
+        "lift": 52.142857
+      },
+      {
+        "keyword_a": "박스",
+        "keyword_b": "포장",
+        "co_count": 10,
+        "pmi": 4.133241,
+        "npmi": 0.796412,
+        "lift": 17.548077
+      },
+      {
+        "keyword_a": "hz",
+        "keyword_b": "mp",
+        "co_count": 4,
+        "pmi": 5.119435,
+        "npmi": 0.786184,
+        "lift": 34.761905
+      },
+      {
+        "keyword_a": "안심",
+        "keyword_b": "케어",
+        "co_count": 4,
+        "pmi": 5.119435,
+        "npmi": 0.786184,
+        "lift": 34.761905
+      },
+      {
+        "keyword_a": "블루",
+        "keyword_b": "쉐도우",
+        "co_count": 9,
+        "pmi": 4.052321,
+        "npmi": 0.758602,
+        "lift": 16.590909
+      },
+      {
+        "keyword_a": "공간",
+        "keyword_b": "저장",
+        "co_count": 7,
+        "pmi": 4.274713,
+        "npmi": 0.749372,
+        "lift": 19.356061
+      }
+    ],
+    "product_sentiment:galaxy_z_fold7:negative": [
+      {
+        "keyword_a": "서비스",
+        "keyword_b": "센터",
+        "co_count": 3,
+        "pmi": 1.906891,
+        "npmi": 0.821253,
+        "lift": 3.75
+      },
+      {
+        "keyword_a": "배송",
+        "keyword_b": "포장",
+        "co_count": 6,
+        "pmi": 0.906891,
+        "npmi": 0.686036,
+        "lift": 1.875
+      },
+      {
+        "keyword_a": "무게 가볍다",
+        "keyword_b": "불량 의심",
+        "co_count": 3,
+        "pmi": 1.584963,
+        "npmi": 0.682606,
+        "lift": 3.0
+      },
+      {
+        "keyword_a": "무게 가볍다",
+        "keyword_b": "카메라 만족",
+        "co_count": 3,
+        "pmi": 1.584963,
+        "npmi": 0.682606,
+        "lift": 3.0
+      },
+      {
+        "keyword_a": "박스",
+        "keyword_b": "배송",
+        "co_count": 4,
+        "pmi": 0.584963,
+        "npmi": 0.306762,
+        "lift": 1.5
+      },
+      {
+        "keyword_a": "박스",
+        "keyword_b": "포장",
+        "co_count": 3,
+        "pmi": 0.584963,
+        "npmi": 0.25193,
+        "lift": 1.5
+      }
+    ],
+    "product_sentiment:galaxy_z_fold7:neutral": [
+      {
+        "keyword_a": "무게 가볍다",
+        "keyword_b": "배송",
+        "co_count": 5,
+        "pmi": 0.192645,
+        "npmi": 0.284107,
+        "lift": 1.142857
+      },
+      {
+        "keyword_a": "무게 가볍다",
+        "keyword_b": "카메라 만족",
+        "co_count": 3,
+        "pmi": 0.192645,
+        "npmi": 0.136141,
+        "lift": 1.142857
+      }
+    ],
+    "product_sentiment:galaxy_z_fold7:positive": [
+      {
+        "keyword_a": "불량",
+        "keyword_b": "불량 의심",
+        "co_count": 3,
+        "pmi": 6.84549,
+        "npmi": 1.0,
+        "lift": 115.0
+      },
+      {
+        "keyword_a": "라이브",
+        "keyword_b": "방송",
+        "co_count": 3,
+        "pmi": 6.430453,
+        "npmi": 0.939371,
+        "lift": 86.25
+      },
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 3,
+        "pmi": 6.430453,
+        "npmi": 0.939371,
+        "lift": 86.25
+      },
+      {
+        "keyword_a": "사전",
+        "keyword_b": "예약",
+        "co_count": 39,
+        "pmi": 2.897273,
+        "npmi": 0.921217,
+        "lift": 7.450166
+      },
+      {
+        "keyword_a": "바지",
+        "keyword_b": "주머니",
+        "co_count": 3,
+        "pmi": 5.430453,
+        "npmi": 0.793289,
+        "lift": 43.125
+      },
+      {
+        "keyword_a": "넣다",
+        "keyword_b": "주머니",
+        "co_count": 5,
+        "pmi": 4.582456,
+        "npmi": 0.750174,
+        "lift": 23.958333
+      },
+      {
+        "keyword_a": "hz",
+        "keyword_b": "인치",
+        "co_count": 3,
+        "pmi": 5.015415,
+        "npmi": 0.73266,
+        "lift": 32.34375
+      },
+      {
+        "keyword_a": "완충",
+        "keyword_b": "포장",
+        "co_count": 3,
+        "pmi": 5.015415,
+        "npmi": 0.73266,
+        "lift": 32.34375
+      },
+      {
+        "keyword_a": "공간",
+        "keyword_b": "저장",
+        "co_count": 7,
+        "pmi": 4.077936,
+        "npmi": 0.725212,
+        "lift": 16.888112
+      },
+      {
+        "keyword_a": "블루",
+        "keyword_b": "쉐도우",
+        "co_count": 14,
+        "pmi": 3.272023,
+        "npmi": 0.707756,
+        "lift": 9.66
+      }
+    ],
+    "product_sentiment:iphone_17:negative": [
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 16,
+        "pmi": 1.672425,
+        "npmi": 1.0,
+        "lift": 3.1875
+      },
+      {
+        "keyword_a": "불량",
+        "keyword_b": "불량 의심",
+        "co_count": 3,
+        "pmi": 3.672425,
+        "npmi": 0.898461,
+        "lift": 12.75
+      },
+      {
+        "keyword_a": "디자인 불만",
+        "keyword_b": "배터리 짧음",
+        "co_count": 5,
+        "pmi": 2.86507,
+        "npmi": 0.855118,
+        "lift": 7.285714
+      },
+      {
+        "keyword_a": "가성비 나쁘다",
+        "keyword_b": "배터리 짧음",
+        "co_count": 7,
+        "pmi": 2.212994,
+        "npmi": 0.772405,
+        "lift": 4.636364
+      },
+      {
+        "keyword_a": "디자인 불만",
+        "keyword_b": "무게 무겁다",
+        "co_count": 5,
+        "pmi": 2.5025,
+        "npmi": 0.746904,
+        "lift": 5.666667
+      },
+      {
+        "keyword_a": "무게 무겁다",
+        "keyword_b": "카메라 불만",
+        "co_count": 5,
+        "pmi": 2.5025,
+        "npmi": 0.746904,
+        "lift": 5.666667
+      },
+      {
+        "keyword_a": "가성비 나쁘다",
+        "keyword_b": "디자인 불만",
+        "co_count": 5,
+        "pmi": 2.212994,
+        "npmi": 0.660497,
+        "lift": 4.636364
+      },
+      {
+        "keyword_a": "문제",
+        "keyword_b": "상태",
+        "co_count": 3,
+        "pmi": 2.672425,
+        "npmi": 0.65381,
+        "lift": 6.375
+      },
+      {
+        "keyword_a": "가성비 나쁘다",
+        "keyword_b": "무게 무겁다",
+        "co_count": 7,
+        "pmi": 1.850424,
+        "npmi": 0.645856,
+        "lift": 3.606061
+      },
+      {
+        "keyword_a": "디자인 불만",
+        "keyword_b": "카메라 불만",
+        "co_count": 3,
+        "pmi": 2.613532,
+        "npmi": 0.639402,
+        "lift": 6.12
+      }
+    ],
+    "product_sentiment:iphone_17:neutral": [
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 8,
+        "pmi": 1.087463,
+        "npmi": 1.0,
+        "lift": 2.125
+      },
+      {
+        "keyword_a": "이상",
+        "keyword_b": "포장",
+        "co_count": 4,
+        "pmi": 1.443607,
+        "npmi": 0.69156,
+        "lift": 2.72
+      },
+      {
+        "keyword_a": "배송",
+        "keyword_b": "뽁뽁이",
+        "co_count": 6,
+        "pmi": 0.86507,
+        "npmi": 0.575754,
+        "lift": 1.821429
+      },
+      {
+        "keyword_a": "배송",
+        "keyword_b": "완충 포장",
+        "co_count": 6,
+        "pmi": 0.86507,
+        "npmi": 0.575754,
+        "lift": 1.821429
+      },
+      {
+        "keyword_a": "카메라 만족",
+        "keyword_b": "포장",
+        "co_count": 3,
+        "pmi": 1.350497,
+        "npmi": 0.539659,
+        "lift": 2.55
+      },
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "카메라 만족",
+        "co_count": 4,
+        "pmi": 1.087463,
+        "npmi": 0.52095,
+        "lift": 2.125
+      },
+      {
+        "keyword_a": "완충 포장",
+        "keyword_b": "카메라 만족",
+        "co_count": 4,
+        "pmi": 1.087463,
+        "npmi": 0.52095,
+        "lift": 2.125
+      },
+      {
+        "keyword_a": "박스",
+        "keyword_b": "배송",
+        "co_count": 6,
+        "pmi": 0.695145,
+        "npmi": 0.462659,
+        "lift": 1.619048
+      },
+      {
+        "keyword_a": "이상",
+        "keyword_b": "핸드폰",
+        "co_count": 3,
+        "pmi": 1.028569,
+        "npmi": 0.411017,
+        "lift": 2.04
+      },
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "포장",
+        "co_count": 4,
+        "pmi": 0.765535,
+        "npmi": 0.36673,
+        "lift": 1.7
+      }
+    ],
+    "product_sentiment:iphone_17:positive": [
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 22,
+        "pmi": 3.972293,
+        "npmi": 0.984112,
+        "lift": 15.695652
+      },
+      {
+        "keyword_a": "이자",
+        "keyword_b": "할부",
+        "co_count": 5,
+        "pmi": 5.910893,
+        "npmi": 0.957396,
+        "lift": 60.166667
+      },
+      {
+        "keyword_a": "미스트",
+        "keyword_b": "블루",
+        "co_count": 11,
+        "pmi": 4.6885,
+        "npmi": 0.930919,
+        "lift": 25.785714
+      },
+      {
+        "keyword_a": "불량",
+        "keyword_b": "불량 의심",
+        "co_count": 6,
+        "pmi": 5.32593,
+        "npmi": 0.901037,
+        "lift": 40.111111
+      },
+      {
+        "keyword_a": "center",
+        "keyword_b": "ceramic",
+        "co_count": 3,
+        "pmi": 6.173927,
+        "npmi": 0.893362,
+        "lift": 72.2
+      },
+      {
+        "keyword_a": "다이나믹",
+        "keyword_b": "아일랜드",
+        "co_count": 3,
+        "pmi": 6.173927,
+        "npmi": 0.893362,
+        "lift": 72.2
+      },
+      {
+        "keyword_a": "사전",
+        "keyword_b": "예약",
+        "co_count": 11,
+        "pmi": 4.347956,
+        "npmi": 0.863302,
+        "lift": 20.364103
+      },
+      {
+        "keyword_a": "마이그레이션",
+        "keyword_b": "버전",
+        "co_count": 3,
+        "pmi": 5.758889,
+        "npmi": 0.833306,
+        "lift": 54.15
+      },
+      {
+        "keyword_a": "버전",
+        "keyword_b": "업데이트",
+        "co_count": 4,
+        "pmi": 5.366572,
+        "npmi": 0.826153,
+        "lift": 41.257143
+      },
+      {
+        "keyword_a": "보상",
+        "keyword_b": "판매",
+        "co_count": 4,
+        "pmi": 5.103538,
+        "npmi": 0.785661,
+        "lift": 34.380952
+      }
+    ],
+    "product_sentiment:iphone_17_pro:negative": [
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 20,
+        "pmi": 1.655352,
+        "npmi": 1.0,
+        "lift": 3.15
+      },
+      {
+        "keyword_a": "스티커",
+        "keyword_b": "취급",
+        "co_count": 4,
+        "pmi": 3.655352,
+        "npmi": 0.919058,
+        "lift": 12.6
+      },
+      {
+        "keyword_a": "구르다",
+        "keyword_b": "던지다",
+        "co_count": 3,
+        "pmi": 3.240314,
+        "npmi": 0.737723,
+        "lift": 9.45
+      },
+      {
+        "keyword_a": "디자인 불만",
+        "keyword_b": "카메라 불만",
+        "co_count": 3,
+        "pmi": 2.97728,
+        "npmi": 0.677838,
+        "lift": 7.875
+      },
+      {
+        "keyword_a": "무게 무겁다",
+        "keyword_b": "어쩌다",
+        "co_count": 3,
+        "pmi": 2.807355,
+        "npmi": 0.639151,
+        "lift": 7.0
+      },
+      {
+        "keyword_a": "반품",
+        "keyword_b": "주다",
+        "co_count": 3,
+        "pmi": 2.655352,
+        "npmi": 0.604545,
+        "lift": 6.3
+      },
+      {
+        "keyword_a": "상태",
+        "keyword_b": "최악",
+        "co_count": 3,
+        "pmi": 2.655352,
+        "npmi": 0.604545,
+        "lift": 6.3
+      },
+      {
+        "keyword_a": "문제",
+        "keyword_b": "찍다",
+        "co_count": 3,
+        "pmi": 2.517848,
+        "npmi": 0.573239,
+        "lift": 5.727273
+      },
+      {
+        "keyword_a": "디자인 불만",
+        "keyword_b": "무게 무겁다",
+        "co_count": 4,
+        "pmi": 2.222392,
+        "npmi": 0.558772,
+        "lift": 4.666667
+      },
+      {
+        "keyword_a": "가성비 나쁘다",
+        "keyword_b": "무게 무겁다",
+        "co_count": 8,
+        "pmi": 1.63743,
+        "npmi": 0.549975,
+        "lift": 3.111111
+      }
+    ],
+    "product_sentiment:iphone_17_pro:neutral": [
+      {
+        "keyword_a": "박스",
+        "keyword_b": "완충 포장",
+        "co_count": 3,
+        "pmi": 1.584963,
+        "npmi": 0.528321,
+        "lift": 3.0
+      },
+      {
+        "keyword_a": "박스",
+        "keyword_b": "배송",
+        "co_count": 6,
+        "pmi": 1.0,
+        "npmi": 0.5,
+        "lift": 2.0
+      },
+      {
+        "keyword_a": "박스",
+        "keyword_b": "포장",
+        "co_count": 4,
+        "pmi": 1.263034,
+        "npmi": 0.488608,
+        "lift": 2.4
+      },
+      {
+        "keyword_a": "배송",
+        "keyword_b": "완충 포장",
+        "co_count": 3,
+        "pmi": 1.415037,
+        "npmi": 0.471679,
+        "lift": 2.666667
+      },
+      {
+        "keyword_a": "가성비 나쁘다",
+        "keyword_b": "무게 무겁다",
+        "co_count": 4,
+        "pmi": 1.192645,
+        "npmi": 0.461378,
+        "lift": 2.285714
+      },
+      {
+        "keyword_a": "박스",
+        "keyword_b": "상태",
+        "co_count": 3,
+        "pmi": 1.169925,
+        "npmi": 0.389975,
+        "lift": 2.25
+      },
+      {
+        "keyword_a": "무게 무겁다",
+        "keyword_b": "박스",
+        "co_count": 4,
+        "pmi": 1.0,
+        "npmi": 0.386853,
+        "lift": 2.0
+      },
+      {
+        "keyword_a": "모르다",
+        "keyword_b": "배송",
+        "co_count": 3,
+        "pmi": 1.0,
+        "npmi": 0.333333,
+        "lift": 2.0
+      },
+      {
+        "keyword_a": "배송",
+        "keyword_b": "상태",
+        "co_count": 3,
+        "pmi": 1.0,
+        "npmi": 0.333333,
+        "lift": 2.0
+      },
+      {
+        "keyword_a": "상태",
+        "keyword_b": "카메라 만족",
+        "co_count": 3,
+        "pmi": 1.0,
+        "npmi": 0.333333,
+        "lift": 2.0
+      }
+    ],
+    "product_sentiment:iphone_17_pro:positive": [
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 8,
+        "pmi": 5.392317,
+        "npmi": 0.96945,
+        "lift": 42.0
+      },
+      {
+        "keyword_a": "버벅",
+        "keyword_b": "성능 아쉽다",
+        "co_count": 18,
+        "pmi": 3.655352,
+        "npmi": 0.832215,
+        "lift": 12.6
+      },
+      {
+        "keyword_a": "사전",
+        "keyword_b": "예약",
+        "co_count": 9,
+        "pmi": 4.446765,
+        "npmi": 0.824648,
+        "lift": 21.807692
+      },
+      {
+        "keyword_a": "업무",
+        "keyword_b": "직장인",
+        "co_count": 3,
+        "pmi": 5.562242,
+        "npmi": 0.797194,
+        "lift": 47.25
+      },
+      {
+        "keyword_a": "불량",
+        "keyword_b": "불량 의심",
+        "co_count": 4,
+        "pmi": 4.97728,
+        "npmi": 0.758472,
+        "lift": 31.5
+      },
+      {
+        "keyword_a": "오렌지",
+        "keyword_b": "코스믹",
+        "co_count": 12,
+        "pmi": 3.655352,
+        "npmi": 0.734408,
+        "lift": 12.6
+      },
+      {
+        "keyword_a": "렌즈",
+        "keyword_b": "렌즈 전환",
+        "co_count": 4,
+        "pmi": 4.780883,
+        "npmi": 0.728544,
+        "lift": 27.490909
+      },
+      {
+        "keyword_a": "알뜰",
+        "keyword_b": "요금",
+        "co_count": 4,
+        "pmi": 4.754888,
+        "npmi": 0.724583,
+        "lift": 27.0
+      },
+      {
+        "keyword_a": "과하다",
+        "keyword_b": "균형",
+        "co_count": 3,
+        "pmi": 4.97728,
+        "npmi": 0.713355,
+        "lift": 31.5
+      },
+      {
+        "keyword_a": "깔끔",
+        "keyword_b": "정품",
+        "co_count": 3,
+        "pmi": 4.97728,
+        "npmi": 0.713355,
+        "lift": 31.5
+      }
+    ],
+    "product_sentiment:iphone_17_pro_max:negative": [
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 8,
+        "pmi": 1.353637,
+        "npmi": 0.888469,
+        "lift": 2.555556
+      },
+      {
+        "keyword_a": "가성비 나쁘다",
+        "keyword_b": "무게 무겁다",
+        "co_count": 3,
+        "pmi": 2.523562,
+        "npmi": 0.858764,
+        "lift": 5.75
+      },
+      {
+        "keyword_a": "고객",
+        "keyword_b": "교환",
+        "co_count": 3,
+        "pmi": 2.523562,
+        "npmi": 0.858764,
+        "lift": 5.75
+      },
+      {
+        "keyword_a": "무게 무겁다",
+        "keyword_b": "카메라 불만",
+        "co_count": 3,
+        "pmi": 2.523562,
+        "npmi": 0.858764,
+        "lift": 5.75
+      },
+      {
+        "keyword_a": "넘다",
+        "keyword_b": "뽁뽁이",
+        "co_count": 5,
+        "pmi": 1.260528,
+        "npmi": 0.572542,
+        "lift": 2.395833
+      },
+      {
+        "keyword_a": "모르다",
+        "keyword_b": "뽁뽁이",
+        "co_count": 3,
+        "pmi": 1.523562,
+        "npmi": 0.518465,
+        "lift": 2.875
+      },
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "상자",
+        "co_count": 3,
+        "pmi": 1.523562,
+        "npmi": 0.518465,
+        "lift": 2.875
+      },
+      {
+        "keyword_a": "넘다",
+        "keyword_b": "완충 포장",
+        "co_count": 5,
+        "pmi": 1.090603,
+        "npmi": 0.495361,
+        "lift": 2.12963
+      },
+      {
+        "keyword_a": "모르다",
+        "keyword_b": "완충 포장",
+        "co_count": 3,
+        "pmi": 1.353637,
+        "npmi": 0.46064,
+        "lift": 2.555556
+      },
+      {
+        "keyword_a": "상자",
+        "keyword_b": "완충 포장",
+        "co_count": 3,
+        "pmi": 1.353637,
+        "npmi": 0.46064,
+        "lift": 2.555556
+      }
+    ],
+    "product_sentiment:iphone_17_pro_max:positive": [
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 5,
+        "pmi": 5.316766,
+        "npmi": 0.916337,
+        "lift": 39.857143
+      },
+      {
+        "keyword_a": "버벅",
+        "keyword_b": "성능 아쉽다",
+        "co_count": 5,
+        "pmi": 5.124121,
+        "npmi": 0.883135,
+        "lift": 34.875
+      },
+      {
+        "keyword_a": "자유",
+        "keyword_b": "통신사",
+        "co_count": 3,
+        "pmi": 5.387156,
+        "npmi": 0.82383,
+        "lift": 41.85
+      },
+      {
+        "keyword_a": "hz",
+        "keyword_b": "promotion",
+        "co_count": 3,
+        "pmi": 5.316766,
+        "npmi": 0.813066,
+        "lift": 39.857143
+      },
+      {
+        "keyword_a": "사전",
+        "keyword_b": "예약",
+        "co_count": 11,
+        "pmi": 3.589199,
+        "npmi": 0.76944,
+        "lift": 12.035294
+      },
+      {
+        "keyword_a": "선물",
+        "keyword_b": "주다",
+        "co_count": 6,
+        "pmi": 4.201289,
+        "npmi": 0.758471,
+        "lift": 18.395604
+      },
+      {
+        "keyword_a": "종일",
+        "keyword_b": "하루",
+        "co_count": 4,
+        "pmi": 4.539159,
+        "npmi": 0.741193,
+        "lift": 23.25
+      },
+      {
+        "keyword_a": "용량",
+        "keyword_b": "저장",
+        "co_count": 9,
+        "pmi": 3.65019,
+        "npmi": 0.736788,
+        "lift": 12.555
+      },
+      {
+        "keyword_a": "상태",
+        "keyword_b": "포장",
+        "co_count": 8,
+        "pmi": 3.706269,
+        "npmi": 0.723298,
+        "lift": 13.052632
+      },
+      {
+        "keyword_a": "빠릿",
+        "keyword_b": "성능 좋다",
+        "co_count": 3,
+        "pmi": 4.66469,
+        "npmi": 0.713347,
+        "lift": 25.363636
+      }
+    ],
+    "sentiment:negative": [
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 55,
+        "pmi": 1.814697,
+        "npmi": 0.985877,
+        "lift": 3.517857
+      },
+      {
+        "keyword_a": "ai",
+        "keyword_b": "구독",
+        "co_count": 3,
+        "pmi": 5.622052,
+        "npmi": 0.931252,
+        "lift": 49.25
+      },
+      {
+        "keyword_a": "불량",
+        "keyword_b": "불량 의심",
+        "co_count": 11,
+        "pmi": 3.534589,
+        "npmi": 0.849126,
+        "lift": 11.588235
+      },
+      {
+        "keyword_a": "사전",
+        "keyword_b": "예약",
+        "co_count": 6,
+        "pmi": 4.16262,
+        "npmi": 0.826394,
+        "lift": 17.909091
+      },
+      {
+        "keyword_a": "스티커",
+        "keyword_b": "취급",
+        "co_count": 6,
+        "pmi": 4.037089,
+        "npmi": 0.801473,
+        "lift": 16.416667
+      },
+      {
+        "keyword_a": "시간",
+        "keyword_b": "의미",
+        "co_count": 3,
+        "pmi": 4.814697,
+        "npmi": 0.79752,
+        "lift": 28.142857
+      },
+      {
+        "keyword_a": "붙이다",
+        "keyword_b": "스티커",
+        "co_count": 4,
+        "pmi": 4.452127,
+        "npmi": 0.791904,
+        "lift": 21.888889
+      },
+      {
+        "keyword_a": "서비스",
+        "keyword_b": "센터",
+        "co_count": 10,
+        "pmi": 3.33665,
+        "npmi": 0.775943,
+        "lift": 10.102564
+      },
+      {
+        "keyword_a": "기분",
+        "keyword_b": "나쁘다",
+        "co_count": 3,
+        "pmi": 4.622052,
+        "npmi": 0.765609,
+        "lift": 24.625
+      },
+      {
+        "keyword_a": "자체",
+        "keyword_b": "처리",
+        "co_count": 3,
+        "pmi": 4.563158,
+        "npmi": 0.755854,
+        "lift": 23.64
+      }
+    ],
+    "sentiment:neutral": [
+      {
+        "keyword_a": "불량",
+        "keyword_b": "불량 의심",
+        "co_count": 4,
+        "pmi": 4.409391,
+        "npmi": 1.0,
+        "lift": 21.25
+      },
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 19,
+        "pmi": 2.087463,
+        "npmi": 0.965764,
+        "lift": 4.25
+      },
+      {
+        "keyword_a": "사전",
+        "keyword_b": "예약",
+        "co_count": 4,
+        "pmi": 4.087463,
+        "npmi": 0.92699,
+        "lift": 17.0
+      },
+      {
+        "keyword_a": "다행",
+        "keyword_b": "택배",
+        "co_count": 3,
+        "pmi": 3.994353,
+        "npmi": 0.827943,
+        "lift": 15.9375
+      },
+      {
+        "keyword_a": "가격",
+        "keyword_b": "배터리 짧음",
+        "co_count": 4,
+        "pmi": 3.087463,
+        "npmi": 0.700202,
+        "lift": 8.5
+      },
+      {
+        "keyword_a": "디자인",
+        "keyword_b": "성능",
+        "co_count": 3,
+        "pmi": 3.186999,
+        "npmi": 0.660596,
+        "lift": 9.107143
+      },
+      {
+        "keyword_a": "카메라 불만",
+        "keyword_b": "화면",
+        "co_count": 3,
+        "pmi": 3.186999,
+        "npmi": 0.660596,
+        "lift": 9.107143
+      },
+      {
+        "keyword_a": "가격",
+        "keyword_b": "올라가다",
+        "co_count": 3,
+        "pmi": 3.087463,
+        "npmi": 0.639964,
+        "lift": 8.5
+      },
+      {
+        "keyword_a": "기기",
+        "keyword_b": "설정",
+        "co_count": 3,
+        "pmi": 2.949959,
+        "npmi": 0.611463,
+        "lift": 7.727273
+      },
+      {
+        "keyword_a": "기대",
+        "keyword_b": "성능",
+        "co_count": 3,
+        "pmi": 2.86507,
+        "npmi": 0.593867,
+        "lift": 7.285714
+      }
+    ],
+    "sentiment:positive": [
+      {
+        "keyword_a": "뽁뽁이",
+        "keyword_b": "완충 포장",
+        "co_count": 71,
+        "pmi": 4.922099,
+        "npmi": 0.961684,
+        "lift": 30.317922
+      },
+      {
+        "keyword_a": "ceramic",
+        "keyword_b": "shield",
+        "co_count": 4,
+        "pmi": 8.682995,
+        "npmi": 0.936883,
+        "lift": 411.0
+      },
+      {
+        "keyword_a": "다이나믹",
+        "keyword_b": "아일랜드",
+        "co_count": 4,
+        "pmi": 8.682995,
+        "npmi": 0.936883,
+        "lift": 411.0
+      },
+      {
+        "keyword_a": "불량",
+        "keyword_b": "불량 의심",
+        "co_count": 26,
+        "pmi": 5.808525,
+        "npmi": 0.884432,
+        "lift": 56.045455
+      },
+      {
+        "keyword_a": "사전",
+        "keyword_b": "예약",
+        "co_count": 240,
+        "pmi": 2.909581,
+        "npmi": 0.865672,
+        "lift": 7.513997
+      },
+      {
+        "keyword_a": "스마트",
+        "keyword_b": "스위치",
+        "co_count": 7,
+        "pmi": 7.293952,
+        "npmi": 0.862108,
+        "lift": 156.927273
+      },
+      {
+        "keyword_a": "고속",
+        "keyword_b": "고속 충전",
+        "co_count": 19,
+        "pmi": 5.953642,
+        "npmi": 0.848094,
+        "lift": 61.97619
+      },
+      {
+        "keyword_a": "cpu",
+        "keyword_b": "gpu",
+        "co_count": 3,
+        "pmi": 8.209063,
+        "npmi": 0.847781,
+        "lift": 295.92
+      },
+      {
+        "keyword_a": "바이올렛",
+        "keyword_b": "코발트",
+        "co_count": 20,
+        "pmi": 5.713368,
+        "npmi": 0.822537,
+        "lift": 52.468085
+      },
+      {
+        "keyword_a": "이자",
+        "keyword_b": "할부",
+        "co_count": 16,
+        "pmi": 5.928107,
+        "npmi": 0.81565,
+        "lift": 60.888889
+      }
+    ]
+  }
+}

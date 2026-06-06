@@ -1,0 +1,135 @@
+{
+  "database": "neo4j",
+  "batch_size": 1000,
+  "limit": null,
+  "input_files": {
+    "cleaned_reviews": "/Users/kaeunhan/Documents/GitHub/social-intelligence-lab/task2.2_network/data/cleaned_reviews.jsonl",
+    "keywords": "/Users/kaeunhan/Documents/GitHub/social-intelligence-lab/task2.2_network/data/keywords.jsonl",
+    "review_keyword_edges": "/Users/kaeunhan/Documents/GitHub/social-intelligence-lab/task2.2_network/data/review_keyword_edges.jsonl",
+    "co_occurrence_edges": "/Users/kaeunhan/Documents/GitHub/social-intelligence-lab/task2.2_network/data/co_occurrence_edges.jsonl",
+    "schema": "/Users/kaeunhan/Documents/GitHub/social-intelligence-lab/task2.2_network/cypher/schema.cypher"
+  },
+  "schema_statements_executed": 17,
+  "reset": true,
+  "loaded_products": 7,
+  "loaded_sentiments": 3,
+  "loaded_reviews": 2748,
+  "loaded_keywords": 3871,
+  "loaded_mentions": 79775,
+  "loaded_co_occurrences": 88111,
+  "verification": {
+    "counts": {
+      "CO_OCCURS_WITH": 88111,
+      "HAS_REVIEW": 2748,
+      "HAS_SENTIMENT": 2748,
+      "Keyword": 3871,
+      "MENTIONS": 79775,
+      "Product": 7,
+      "Review": 2748,
+      "Sentiment": 3
+    },
+    "product_review_counts": [
+      {
+        "product_name": "galaxy_s26",
+        "review_count": 379
+      },
+      {
+        "product_name": "galaxy_s26_ultra",
+        "review_count": 401
+      },
+      {
+        "product_name": "galaxy_z_flip7",
+        "review_count": 395
+      },
+      {
+        "product_name": "galaxy_z_fold7",
+        "review_count": 368
+      },
+      {
+        "product_name": "iphone_17",
+        "review_count": 429
+      },
+      {
+        "product_name": "iphone_17_pro",
+        "review_count": 465
+      },
+      {
+        "product_name": "iphone_17_pro_max",
+        "review_count": 311
+      }
+    ],
+    "top_global_pairs": [
+      {
+        "keyword_1": "뽁뽁이",
+        "keyword_2": "완충 포장",
+        "count": 145,
+        "pmi": 4.127519,
+        "npmi": 0.972495
+      },
+      {
+        "keyword_1": "다이나믹",
+        "keyword_2": "아일랜드",
+        "count": 4,
+        "pmi": 8.839204,
+        "npmi": 0.93793
+      },
+      {
+        "keyword_1": "ceramic",
+        "keyword_2": "shield",
+        "count": 4,
+        "pmi": 8.839204,
+        "npmi": 0.93793
+      },
+      {
+        "keyword_1": "구멍",
+        "keyword_2": "뚫리다",
+        "count": 3,
+        "pmi": 8.839204,
+        "npmi": 0.898366
+      },
+      {
+        "keyword_1": "불량",
+        "keyword_2": "불량 의심",
+        "count": 41,
+        "pmi": 5.401798,
+        "npmi": 0.890414
+      },
+      {
+        "keyword_1": "사전",
+        "keyword_2": "예약",
+        "count": 250,
+        "pmi": 2.994885,
+        "npmi": 0.865979
+      },
+      {
+        "keyword_1": "스마트",
+        "keyword_2": "스위치",
+        "count": 7,
+        "pmi": 7.450161,
+        "npmi": 0.864608
+      },
+      {
+        "keyword_1": "고속",
+        "keyword_2": "고속 충전",
+        "count": 19,
+        "pmi": 6.109851,
+        "npmi": 0.8514
+      },
+      {
+        "keyword_1": "cpu",
+        "keyword_2": "gpu",
+        "count": 3,
+        "pmi": 8.365273,
+        "npmi": 0.850198
+      },
+      {
+        "keyword_1": "바이올렛",
+        "keyword_2": "코발트",
+        "count": 20,
+        "pmi": 5.869577,
+        "npmi": 0.826441
+      }
+    ]
+  },
+  "elapsed_seconds": 17.59
+}

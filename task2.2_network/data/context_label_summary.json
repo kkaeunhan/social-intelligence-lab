@@ -1,0 +1,30 @@
+{
+  "model": "gpt-4.1-mini",
+  "context_label_count": 52,
+  "issue_type_counts": {
+    "cs_aftercare": 3,
+    "mixed_or_other": 2,
+    "price_promotion": 8,
+    "product_feature": 23,
+    "purchase_delivery_experience": 16
+  },
+  "product_counts": {
+    "galaxy_s26": 6,
+    "galaxy_s26_ultra": 8,
+    "galaxy_z_flip7": 6,
+    "galaxy_z_fold7": 7,
+    "iphone_17": 11,
+    "iphone_17_pro": 8,
+    "iphone_17_pro_max": 6
+  },
+  "sentiment_counts": {
+    "negative": 12,
+    "neutral": 3,
+    "positive": 37
+  },
+  "confidence_counts": {
+    "high": 26,
+    "medium": 26
+  },
+  "elapsed_seconds": 225.31
+}

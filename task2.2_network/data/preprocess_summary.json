@@ -1,0 +1,43 @@
+{
+  "input_path": "/Users/kaeunhan/Documents/GitHub/social-intelligence-lab/si_dataset/review_for_analysis.json",
+  "output_jsonl": "/Users/kaeunhan/Documents/GitHub/social-intelligence-lab/task2.2_network/data/cleaned_reviews.jsonl",
+  "sample_path": "/Users/kaeunhan/Documents/GitHub/social-intelligence-lab/task2.2_network/data/cleaned_reviews_sample.json",
+  "raw_records": 2757,
+  "normalized_before_dedup": 2750,
+  "cleaned_records": 2748,
+  "min_chars": 10,
+  "raw_skip_reasons": {
+    "kept": 2750,
+    "short_analysis_text": 3,
+    "missing_analysis_text": 4
+  },
+  "dedup_skip_reasons": {
+    "duplicate_analysis_text": 2
+  },
+  "product_counts": {
+    "galaxy_s26": 379,
+    "galaxy_s26_ultra": 401,
+    "galaxy_z_flip7": 395,
+    "galaxy_z_fold7": 368,
+    "iphone_17": 429,
+    "iphone_17_pro": 465,
+    "iphone_17_pro_max": 311
+  },
+  "sentiment_counts": {
+    "negative": 197,
+    "neutral": 85,
+    "positive": 2466
+  },
+  "rating_counts": {
+    "1": 165,
+    "2": 32,
+    "3": 85,
+    "4": 215,
+    "5": 2251
+  },
+  "analysis_char_len": {
+    "min": 14,
+    "max": 5252,
+    "avg": 593.77
+  }
+}

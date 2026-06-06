@@ -1,0 +1,476 @@
+{
+  "candidate_count": 224,
+  "llm_ready_candidate_count": 224,
+  "filters": {
+    "min_count": 5,
+    "min_npmi": 0.2,
+    "top_per_group": 12,
+    "top_product_sentiment": 8,
+    "sample_reviews": 3
+  },
+  "candidate_counts_by_scope": {
+    "global": 12,
+    "product": 84,
+    "product_sentiment": 92,
+    "sentiment": 36
+  },
+  "candidate_counts_by_product": {
+    "all_products": 48,
+    "galaxy_s26": 20,
+    "galaxy_s26_ultra": 22,
+    "galaxy_z_flip7": 21,
+    "galaxy_z_fold7": 22,
+    "iphone_17": 34,
+    "iphone_17_pro": 30,
+    "iphone_17_pro_max": 27
+  },
+  "candidate_counts_by_sentiment": {
+    "all_sentiments": 96,
+    "negative": 39,
+    "neutral": 21,
+    "positive": 68
+  },
+  "candidate_counts_by_theme": {
+    "배송/포장 리스크": 67,
+    "기타 제품 인식": 54,
+    "카메라/화질": 31,
+    "가격/가성비": 23,
+    "불량/교환/환불": 15,
+    "성능/속도": 12,
+    "디자인/색상/마감": 9,
+    "배터리/충전": 8,
+    "무게/휴대성/그립": 4,
+    "데이터 이전/설정": 1
+  },
+  "top_candidates": [
+    {
+      "scope": "global",
+      "product_name": null,
+      "sentiment_id": null,
+      "keyword_1": "뽁뽁이",
+      "keyword_2": "완충 포장",
+      "theme_hint": "배송/포장 리스크",
+      "count": 145,
+      "npmi": 0.972495,
+      "significance_score": 3.69211
+    },
+    {
+      "scope": "global",
+      "product_name": null,
+      "sentiment_id": null,
+      "keyword_1": "사전",
+      "keyword_2": "예약",
+      "theme_hint": "가격/가성비",
+      "count": 250,
+      "npmi": 0.865979,
+      "significance_score": 3.557253
+    },
+    {
+      "scope": "sentiment",
+      "product_name": null,
+      "sentiment_id": "positive",
+      "keyword_1": "사전",
+      "keyword_2": "예약",
+      "theme_hint": "가격/가성비",
+      "count": 240,
+      "npmi": 0.865672,
+      "significance_score": 3.519351
+    },
+    {
+      "scope": "sentiment",
+      "product_name": null,
+      "sentiment_id": "positive",
+      "keyword_1": "뽁뽁이",
+      "keyword_2": "완충 포장",
+      "theme_hint": "배송/포장 리스크",
+      "count": 71,
+      "npmi": 0.961684,
+      "significance_score": 3.235746
+    },
+    {
+      "scope": "sentiment",
+      "product_name": null,
+      "sentiment_id": "negative",
+      "keyword_1": "뽁뽁이",
+      "keyword_2": "완충 포장",
+      "theme_hint": "배송/포장 리스크",
+      "count": 55,
+      "npmi": 0.985877,
+      "significance_score": 2.825748
+    },
+    {
+      "scope": "product",
+      "product_name": "iphone_17",
+      "sentiment_id": null,
+      "keyword_1": "뽁뽁이",
+      "keyword_2": "완충 포장",
+      "theme_hint": "배송/포장 리스크",
+      "count": 46,
+      "npmi": 0.990368,
+      "significance_score": 2.804758
+    },
+    {
+      "scope": "global",
+      "product_name": null,
+      "sentiment_id": null,
+      "keyword_1": "불량",
+      "keyword_2": "불량 의심",
+      "theme_hint": "불량/교환/환불",
+      "count": 41,
+      "npmi": 0.890414,
+      "significance_score": 2.714047
+    },
+    {
+      "scope": "product",
+      "product_name": "galaxy_s26",
+      "sentiment_id": null,
+      "keyword_1": "사전",
+      "keyword_2": "예약",
+      "theme_hint": "가격/가성비",
+      "count": 60,
+      "npmi": 0.852466,
+      "significance_score": 2.550239
+    },
+    {
+      "scope": "product",
+      "product_name": "galaxy_z_flip7",
+      "sentiment_id": null,
+      "keyword_1": "사전",
+      "keyword_2": "예약",
+      "theme_hint": "가격/가성비",
+      "count": 50,
+      "npmi": 0.884815,
+      "significance_score": 2.54896
+    },
+    {
+      "scope": "product_sentiment",
+      "product_name": "galaxy_s26",
+      "sentiment_id": "positive",
+      "keyword_1": "사전",
+      "keyword_2": "예약",
+      "theme_hint": "가격/가성비",
+      "count": 58,
+      "npmi": 0.85482,
+      "significance_score": 2.535721
+    },
+    {
+      "scope": "product_sentiment",
+      "product_name": "galaxy_z_flip7",
+      "sentiment_id": "positive",
+      "keyword_1": "사전",
+      "keyword_2": "예약",
+      "theme_hint": "가격/가성비",
+      "count": 50,
+      "npmi": 0.880238,
+      "significance_score": 2.528506
+    },
+    {
+      "scope": "product",
+      "product_name": "galaxy_z_fold7",
+      "sentiment_id": null,
+      "keyword_1": "사전",
+      "keyword_2": "예약",
+      "theme_hint": "가격/가성비",
+      "count": 40,
+      "npmi": 0.924464,
+      "significance_score": 2.528064
+    },
+    {
+      "scope": "product",
+      "product_name": "iphone_17_pro",
+      "sentiment_id": null,
+      "keyword_1": "뽁뽁이",
+      "keyword_2": "완충 포장",
+      "theme_hint": "배송/포장 리스크",
+      "count": 30,
+      "npmi": 0.976073,
+      "significance_score": 2.527164
+    },
+    {
+      "scope": "global",
+      "product_name": null,
+      "sentiment_id": null,
+      "keyword_1": "버벅",
+      "keyword_2": "성능 아쉽다",
+      "theme_hint": "성능/속도",
+      "count": 64,
+      "npmi": 0.753139,
+      "significance_score": 2.507075
+    },
+    {
+      "scope": "product_sentiment",
+      "product_name": "galaxy_z_fold7",
+      "sentiment_id": "positive",
+      "keyword_1": "사전",
+      "keyword_2": "예약",
+      "theme_hint": "가격/가성비",
+      "count": 39,
+      "npmi": 0.921217,
+      "significance_score": 2.498454
+    },
+    {
+      "scope": "product_sentiment",
+      "product_name": "galaxy_s26_ultra",
+      "sentiment_id": "positive",
+      "keyword_1": "사전",
+      "keyword_2": "예약",
+      "theme_hint": "가격/가성비",
+      "count": 62,
+      "npmi": 0.822009,
+      "significance_score": 2.478598
+    },
+    {
+      "scope": "product",
+      "product_name": "galaxy_s26_ultra",
+      "sentiment_id": null,
+      "keyword_1": "사전",
+      "keyword_2": "예약",
+      "theme_hint": "가격/가성비",
+      "count": 64,
+      "npmi": 0.810822,
+      "significance_score": 2.467647
+    },
+    {
+      "scope": "sentiment",
+      "product_name": null,
+      "sentiment_id": "positive",
+      "keyword_1": "버벅",
+      "keyword_2": "성능 아쉽다",
+      "theme_hint": "성능/속도",
+      "count": 62,
+      "npmi": 0.746132,
+      "significance_score": 2.455581
+    },
+    {
+      "scope": "sentiment",
+      "product_name": null,
+      "sentiment_id": "positive",
+      "keyword_1": "불량",
+      "keyword_2": "불량 의심",
+      "theme_hint": "불량/교환/환불",
+      "count": 26,
+      "npmi": 0.884432,
+      "significance_score": 2.421888
+    },
+    {
+      "scope": "product_sentiment",
+      "product_name": "iphone_17",
+      "sentiment_id": "positive",
+      "keyword_1": "뽁뽁이",
+      "keyword_2": "완충 포장",
+      "theme_hint": "배송/포장 리스크",
+      "count": 22,
+      "npmi": 0.984112,
+      "significance_score": 2.332958
+    }
+  ],
+  "cluster_count": 52,
+  "llm_ready_cluster_count": 52,
+  "cluster_counts_by_product": {
+    "galaxy_s26": 6,
+    "galaxy_s26_ultra": 8,
+    "galaxy_z_flip7": 6,
+    "galaxy_z_fold7": 7,
+    "iphone_17": 11,
+    "iphone_17_pro": 8,
+    "iphone_17_pro_max": 6
+  },
+  "cluster_counts_by_sentiment": {
+    "negative": 12,
+    "neutral": 3,
+    "positive": 37
+  },
+  "cluster_counts_by_theme": {
+    "배송/포장 리스크": 16,
+    "가격/가성비": 9,
+    "기타 제품 인식": 7,
+    "성능/속도": 5,
+    "카메라/화질": 5,
+    "디자인/색상/마감": 3,
+    "불량/교환/환불": 3,
+    "무게/휴대성/그립": 2,
+    "배터리/충전": 2
+  },
+  "top_clusters": [
+    {
+      "product_name": "galaxy_s26",
+      "sentiment_id": "positive",
+      "theme_hint": "가격/가성비",
+      "candidate_count": 1,
+      "total_pair_count": 58,
+      "max_npmi": 0.85482,
+      "max_significance_score": 2.535721
+    },
+    {
+      "product_name": "galaxy_z_flip7",
+      "sentiment_id": "positive",
+      "theme_hint": "가격/가성비",
+      "candidate_count": 1,
+      "total_pair_count": 50,
+      "max_npmi": 0.880238,
+      "max_significance_score": 2.528506
+    },
+    {
+      "product_name": "galaxy_z_fold7",
+      "sentiment_id": "positive",
+      "theme_hint": "가격/가성비",
+      "candidate_count": 1,
+      "total_pair_count": 39,
+      "max_npmi": 0.921217,
+      "max_significance_score": 2.498454
+    },
+    {
+      "product_name": "galaxy_s26_ultra",
+      "sentiment_id": "positive",
+      "theme_hint": "가격/가성비",
+      "candidate_count": 1,
+      "total_pair_count": 62,
+      "max_npmi": 0.822009,
+      "max_significance_score": 2.478598
+    },
+    {
+      "product_name": "iphone_17",
+      "sentiment_id": "positive",
+      "theme_hint": "배송/포장 리스크",
+      "candidate_count": 1,
+      "total_pair_count": 22,
+      "max_npmi": 0.984112,
+      "max_significance_score": 2.332958
+    },
+    {
+      "product_name": "iphone_17_pro",
+      "sentiment_id": "negative",
+      "theme_hint": "배송/포장 리스크",
+      "candidate_count": 7,
+      "total_pair_count": 70,
+      "max_npmi": 1.0,
+      "max_significance_score": 2.161625
+    },
+    {
+      "product_name": "galaxy_z_flip7",
+      "sentiment_id": "positive",
+      "theme_hint": "배송/포장 리스크",
+      "candidate_count": 2,
+      "total_pair_count": 23,
+      "max_npmi": 1.0,
+      "max_significance_score": 2.052036
+    },
+    {
+      "product_name": "iphone_17",
+      "sentiment_id": "negative",
+      "theme_hint": "배송/포장 리스크",
+      "candidate_count": 1,
+      "total_pair_count": 16,
+      "max_npmi": 1.0,
+      "max_significance_score": 2.011917
+    },
+    {
+      "product_name": "iphone_17_pro",
+      "sentiment_id": "positive",
+      "theme_hint": "성능/속도",
+      "candidate_count": 1,
+      "total_pair_count": 18,
+      "max_npmi": 0.832215,
+      "max_significance_score": 1.88071
+    },
+    {
+      "product_name": "galaxy_s26_ultra",
+      "sentiment_id": "positive",
+      "theme_hint": "배송/포장 리스크",
+      "candidate_count": 1,
+      "total_pair_count": 11,
+      "max_npmi": 0.931612,
+      "max_significance_score": 1.819676
+    },
+    {
+      "product_name": "iphone_17",
+      "sentiment_id": "positive",
+      "theme_hint": "기타 제품 인식",
+      "candidate_count": 3,
+      "total_pair_count": 26,
+      "max_npmi": 0.957396,
+      "max_significance_score": 1.814894
+    },
+    {
+      "product_name": "galaxy_s26_ultra",
+      "sentiment_id": "positive",
+      "theme_hint": "기타 제품 인식",
+      "candidate_count": 3,
+      "total_pair_count": 41,
+      "max_npmi": 0.893083,
+      "max_significance_score": 1.747964
+    },
+    {
+      "product_name": "galaxy_s26",
+      "sentiment_id": "positive",
+      "theme_hint": "배송/포장 리스크",
+      "candidate_count": 1,
+      "total_pair_count": 9,
+      "max_npmi": 0.945764,
+      "max_significance_score": 1.727624
+    },
+    {
+      "product_name": "galaxy_s26",
+      "sentiment_id": "positive",
+      "theme_hint": "기타 제품 인식",
+      "candidate_count": 3,
+      "total_pair_count": 88,
+      "max_npmi": 0.802559,
+      "max_significance_score": 1.711153
+    },
+    {
+      "product_name": "iphone_17_pro",
+      "sentiment_id": "positive",
+      "theme_hint": "배송/포장 리스크",
+      "candidate_count": 1,
+      "total_pair_count": 8,
+      "max_npmi": 0.96945,
+      "max_significance_score": 1.703862
+    },
+    {
+      "product_name": "galaxy_s26",
+      "sentiment_id": "positive",
+      "theme_hint": "성능/속도",
+      "candidate_count": 1,
+      "total_pair_count": 14,
+      "max_npmi": 0.81,
+      "max_significance_score": 1.702658
+    },
+    {
+      "product_name": "iphone_17",
+      "sentiment_id": "positive",
+      "theme_hint": "가격/가성비",
+      "candidate_count": 1,
+      "total_pair_count": 11,
+      "max_npmi": 0.863302,
+      "max_significance_score": 1.684249
+    },
+    {
+      "product_name": "galaxy_s26",
+      "sentiment_id": "positive",
+      "theme_hint": "무게/휴대성/그립",
+      "candidate_count": 1,
+      "total_pair_count": 10,
+      "max_npmi": 0.855673,
+      "max_significance_score": 1.619912
+    },
+    {
+      "product_name": "iphone_17",
+      "sentiment_id": "neutral",
+      "theme_hint": "배송/포장 리스크",
+      "candidate_count": 6,
+      "total_pair_count": 38,
+      "max_npmi": 1.0,
+      "max_significance_score": 1.558759
+    },
+    {
+      "product_name": "galaxy_s26_ultra",
+      "sentiment_id": "positive",
+      "theme_hint": "성능/속도",
+      "candidate_count": 1,
+      "total_pair_count": 12,
+      "max_npmi": 0.76422,
+      "max_significance_score": 1.537029
+    }
+  ]
+}
