@@ -367,23 +367,31 @@ def derive_stakeholder_insights(labels: list[dict[str, Any]]) -> dict[str, list[
     ]
     product_feature_contexts = [row for row in labels if row["issue_type"] == "product_feature"]
     price_contexts = [row for row in labels if row["issue_type"] == "price_promotion"]
+    consumer_feature_contexts = [
+        row
+        for row in product_feature_contexts
+        if row["theme_hint"] in {"카메라/화질", "성능/속도", "무게/휴대성/그립", "디자인/색상/마감", "배터리/충전"}
+    ]
+    camera_contexts = [
+        row for row in consumer_feature_contexts if row["theme_hint"] == "카메라/화질"
+    ]
     best_feature = best_context_detail(product_feature_contexts)
     best_delivery = best_context_detail(delivery_contexts)
     best_price = best_context_detail(price_contexts)
-    best_overall = best_context_detail(labels)
+    best_consumer_feature = best_context_detail(camera_contexts or consumer_feature_contexts)
 
     enterprise = [
         {
             "title": "리뷰 속 강점을 광고 메시지로 전환",
             "metric": f"{marketing_count} marketing actions",
-            "signal": f"기능 만족 context {len(product_feature_contexts)}개",
+            "signal": f"제품 기능 context {len(product_feature_contexts)}개",
             "value": "반복 언급된 제품 강점을 캠페인 문구로 바로 활용할 수 있음",
             "example": best_feature["example"],
             "detail": best_feature["detail"],
         },
         {
             "title": "포장/배송 불만을 CS 개선 과제로 분리",
-            "metric": f"{detail_count + cs_count + improvement_count} risk actions",
+            "metric": f"{detail_count + cs_count + improvement_count} CX actions",
             "signal": f"배송·구매 경험 context {len(delivery_contexts)}개",
             "value": "제품 성능과 별개인 구매 경험 리스크를 운영 개선 항목으로 관리",
             "example": best_delivery["example"],
@@ -397,13 +405,13 @@ def derive_stakeholder_insights(labels: list[dict[str, Any]]) -> dict[str, list[
             "metric": f"{len(labels)} context labels",
             "signal": "카메라·성능·무게·디자인 기준 비교",
             "value": "별점보다 구체적인 사용 맥락으로 제품 선택 기준을 확인",
-            "example": best_overall["example"],
-            "detail": best_overall["detail"],
+            "example": best_consumer_feature["example"],
+            "detail": best_consumer_feature["detail"],
         },
         {
             "title": "혜택 만족과 배송 리스크를 함께 확인",
             "metric": f"{len(price_contexts)} benefit contexts",
-            "signal": f"배송 리스크 context {len(delivery_contexts)}개와 비교",
+            "signal": f"배송·구매 경험 context {len(delivery_contexts)}개와 비교",
             "value": "사전예약·할인 혜택의 체감 가치와 구매 전 주의점을 동시에 판단",
             "example": best_price["example"],
             "detail": best_price["detail"],
