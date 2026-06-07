@@ -374,16 +374,18 @@ def derive_stakeholder_insights(labels: list[dict[str, Any]]) -> dict[str, list[
 
     enterprise = [
         {
-            "title": "강점 메시지를 제품별 캠페인 소재로 전환",
-            "signal": f"marketing action {marketing_count}개 / product_feature context {len(product_feature_contexts)}개",
-            "value": "리뷰에서 반복되는 기능 만족을 제품별 메시지로 바꿀 수 있다. 별점 평균이 아니라 NPMI pair와 근거 리뷰가 붙어 있어 광고 문구의 근거로 쓰기 쉽다.",
+            "title": "리뷰 속 강점을 광고 메시지로 전환",
+            "metric": f"{marketing_count} marketing actions",
+            "signal": f"기능 만족 context {len(product_feature_contexts)}개",
+            "value": "반복 언급된 제품 강점을 캠페인 문구로 바로 활용할 수 있음",
             "example": best_feature["example"],
             "detail": best_feature["detail"],
         },
         {
-            "title": "구매 경험 리스크를 운영/CS 개선 항목으로 분리",
-            "signal": f"detail_page action {detail_count}개 / cs·improvement action {cs_count + improvement_count}개",
-            "value": "제품 기능 문제가 아닌 배송, 포장, 교환, CS 이슈를 별도 관리 대상으로 분리한다. 고가 전자제품에서 구매 후 불만을 줄이는 운영 개선 근거가 된다.",
+            "title": "포장/배송 불만을 CS 개선 과제로 분리",
+            "metric": f"{detail_count + cs_count + improvement_count} risk actions",
+            "signal": f"배송·구매 경험 context {len(delivery_contexts)}개",
+            "value": "제품 성능과 별개인 구매 경험 리스크를 운영 개선 항목으로 관리",
             "example": best_delivery["example"],
             "detail": best_delivery["detail"],
         },
@@ -391,16 +393,18 @@ def derive_stakeholder_insights(labels: list[dict[str, Any]]) -> dict[str, list[
 
     consumer = [
         {
-            "title": "내 구매 기준과 맞는 강점 확인",
-            "signal": f"제품별 context label {len(labels)}개 / 평균 NPMI 기반 pair 연결",
-            "value": "소비자는 카메라, 성능, 무게, 디자인처럼 자신에게 중요한 기준이 실제 리뷰에서 어떤 제품과 함께 반복되는지 확인할 수 있다.",
+            "title": "내가 중요하게 보는 기준과 제품 강점 매칭",
+            "metric": f"{len(labels)} context labels",
+            "signal": "카메라·성능·무게·디자인 기준 비교",
+            "value": "별점보다 구체적인 사용 맥락으로 제품 선택 기준을 확인",
             "example": best_overall["example"],
             "detail": best_overall["detail"],
         },
         {
-            "title": "혜택과 구매 리스크를 함께 판단",
-            "signal": f"price/promotion context {len(price_contexts)}개 / 배송·구매 경험 context {len(delivery_contexts)}개",
-            "value": "사전예약, 라이브 방송, 할인 혜택이 실제 만족 요인인지 보면서 동시에 배송/포장 리스크도 확인해 구매 타이밍을 결정할 수 있다.",
+            "title": "혜택 만족과 배송 리스크를 함께 확인",
+            "metric": f"{len(price_contexts)} benefit contexts",
+            "signal": f"배송 리스크 context {len(delivery_contexts)}개와 비교",
+            "value": "사전예약·할인 혜택의 체감 가치와 구매 전 주의점을 동시에 판단",
             "example": best_price["example"],
             "detail": best_price["detail"],
         },
@@ -523,7 +527,7 @@ def render_html(payload: dict[str, Any]) -> str:
     h2 {{ margin: 0 0 14px; font-size: 18px; }}
     h3 {{ margin: 0 0 8px; font-size: 15px; }}
     p {{ margin: 0; color: var(--muted); }}
-    header p {{ color: #c8d3e2; max-width: 980px; }}
+    header p {{ color: #c8d3e2; max-width: 820px; font-size: 15px; }}
     main {{ padding: 22px 32px 42px; }}
     .grid {{ display: grid; gap: 14px; }}
     .metrics {{ grid-template-columns: repeat(6, minmax(130px, 1fr)); margin-bottom: 18px; }}
@@ -564,35 +568,78 @@ def render_html(payload: dict[str, Any]) -> str:
     .positive {{ background: #dcfce7; color: #166534; }}
     .negative {{ background: #fee2e2; color: #991b1b; }}
     .neutral {{ background: #fef3c7; color: #92400e; }}
-    .context-list {{ display: grid; gap: 10px; max-height: 680px; overflow: auto; padding-right: 2px; }}
-    .context-card {{ border: 1px solid var(--line); border-radius: 8px; padding: 12px; background: #fff; }}
+    .context-list {{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; max-height: 620px; overflow: auto; padding-right: 2px; }}
+    .context-card {{ border: 1px solid var(--line); border-radius: 8px; padding: 14px; background: #fff; }}
     .context-meta {{ display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }}
-    .context-title {{ font-weight: 700; margin-bottom: 4px; }}
+    .context-title {{ font-weight: 800; font-size: 15px; margin-bottom: 5px; }}
     .context-summary {{ color: #334155; font-size: 13px; margin-bottom: 8px; }}
-    .evidence {{ color: var(--muted); font-size: 12px; }}
-    .action-board {{ display: grid; gap: 10px; max-height: 720px; overflow: auto; padding-right: 2px; }}
-    .action-card {{ border: 1px solid var(--line); border-radius: 8px; padding: 12px; background: #fff; }}
-    .action-head {{ display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }}
-    .action-title {{ font-weight: 700; margin-bottom: 4px; }}
-    .action-desc {{ color: #334155; font-size: 13px; margin-bottom: 8px; }}
+    .evidence {{ color: var(--muted); font-size: 12px; line-height: 1.45; }}
+    .action-board {{ display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; max-height: 660px; overflow: auto; padding-right: 2px; }}
+    .action-card {{ border: 1px solid var(--line); border-radius: 8px; padding: 14px; background: #fff; }}
+    .action-head {{ display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 9px; }}
+    .action-title {{ font-weight: 800; font-size: 15px; margin-bottom: 5px; }}
+    .action-desc {{ color: #334155; font-size: 13px; line-height: 1.42; margin-bottom: 8px; }}
+    .section-subtitle {{ color: var(--muted); font-size: 13px; margin: -6px 0 12px; }}
+    .field-label {{ color: #475569; font-weight: 700; }}
     .playbook-cell {{ min-width: 180px; }}
     .small {{ color: var(--muted); font-size: 12px; }}
-    .stakeholder-grid {{ grid-template-columns: repeat(4, minmax(0, 1fr)); }}
-    .stakeholder-card {{ min-height: 190px; }}
+    .stakeholder-grid {{ grid-template-columns: repeat(2, minmax(0, 1fr)); }}
+    .stakeholder-card {{
+      min-height: 168px;
+      padding: 18px;
+      display: grid;
+      gap: 8px;
+    }}
     .stakeholder-card.enterprise {{ border-top: 4px solid var(--blue); }}
     .stakeholder-card.consumer {{ border-top: 4px solid var(--green); }}
-    .stakeholder-label {{ color: var(--muted); font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }}
-    .stakeholder-title {{ font-weight: 700; margin-bottom: 7px; }}
-    .stakeholder-signal {{ color: var(--blue); font-size: 13px; font-weight: 700; margin-bottom: 8px; }}
+    .stakeholder-top {{ display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }}
+    .stakeholder-label {{ color: var(--muted); font-size: 11px; font-weight: 700; text-transform: uppercase; }}
+    .stakeholder-title {{
+      font-weight: 800;
+      font-size: 20px;
+      line-height: 1.25;
+      max-width: 70%;
+      overflow-wrap: anywhere;
+    }}
+    .stakeholder-metric {{
+      color: var(--blue);
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.1;
+      text-align: right;
+      white-space: nowrap;
+    }}
+    .stakeholder-card.consumer .stakeholder-metric {{ color: var(--green); }}
+    .stakeholder-signal {{
+      display: inline-block;
+      width: fit-content;
+      max-width: 100%;
+      color: #1f2937;
+      background: #f1f5f9;
+      border-radius: 6px;
+      padding: 5px 8px;
+      font-size: 13px;
+      font-weight: 700;
+    }}
+    .stakeholder-card p {{ color: #334155; font-size: 14px; font-weight: 600; }}
+    .stakeholder-proof {{
+      border-top: 1px solid var(--line);
+      padding-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }}
     .legend {{ display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; color: var(--muted); font-size: 12px; }}
     .swatch {{ width: 10px; height: 10px; border-radius: 2px; display: inline-block; margin-right: 4px; }}
     @media (max-width: 1050px) {{
       .metrics, .three, .insights, .stakeholder-grid {{ grid-template-columns: repeat(2, minmax(0, 1fr)); }}
       .two {{ grid-template-columns: 1fr; }}
+      .action-board, .context-list {{ grid-template-columns: 1fr; }}
     }}
     @media (max-width: 640px) {{
       header, main {{ padding-left: 16px; padding-right: 16px; }}
       .metrics, .three, .insights, .stakeholder-grid {{ grid-template-columns: 1fr; }}
+      .action-board, .context-list {{ grid-template-columns: 1fr; }}
       .bar-row {{ grid-template-columns: 118px 1fr 42px; }}
       canvas {{ height: 360px; }}
     }}
@@ -601,11 +648,9 @@ def render_html(payload: dict[str, Any]) -> str:
 <body>
   <header>
     <h1>스마트폰 리뷰 연관어 네트워크 대시보드</h1>
-    <p>Task 2.2 산출물(JSON/JSONL)을 기반으로 리뷰 정제, 키워드 추출, PMI/NPMI 네트워크, LLM context labeling, BI action 연결 결과를 한 화면에서 확인합니다.</p>
+    <p>리뷰 속 연관어와 근거 문장을 연결해 제품 강점, 구매 리스크, 실행 액션을 빠르게 확인하는 분석 결과 화면</p>
   </header>
   <main>
-    <div id="metrics" class="grid metrics"></div>
-    <div id="insights" class="grid insights"></div>
     <section style="margin-bottom:14px;">
       <h2>전략적 시사점</h2>
       <div id="enterpriseInsights" class="grid stakeholder-grid"></div>
@@ -614,19 +659,10 @@ def render_html(payload: dict[str, Any]) -> str:
       <h2>구매 의사결정 신호</h2>
       <div id="consumerInsights" class="grid stakeholder-grid"></div>
     </section>
-    <div class="grid two">
-      <section>
-        <h2>리뷰/감성 개요</h2>
-        <div class="grid two">
-          <div><h3>상품별 리뷰 수</h3><div id="productBars"></div></div>
-          <div><h3>평점 기반 감성 분포</h3><div id="sentimentBars"></div></div>
-        </div>
-      </section>
-      <section>
-        <h2>Context Label 분포</h2>
-        <div id="issueBars"></div>
-      </section>
-    </div>
+    <section>
+      <h2>Context Label 분포</h2>
+      <div id="issueBars"></div>
+    </section>
     <div class="grid two" style="margin-top:14px;">
       <section>
         <h2>Global PMI/NPMI 키워드 네트워크</h2>
@@ -645,14 +681,12 @@ def render_html(payload: dict[str, Any]) -> str:
     </div>
     <section style="margin-top:14px;">
       <h2>Action Board</h2>
+      <p class="section-subtitle">LLM이 생성한 BusinessAction 중 우선순위가 높은 실행 항목을 context와 근거 pair와 함께 정리했습니다.</p>
       <div id="actionBoard" class="action-board"></div>
     </section>
     <section style="margin-top:14px;">
-      <h2>제품별 전략 Playbook</h2>
-      <table id="playbookTable"></table>
-    </section>
-    <section style="margin-top:14px;">
       <h2>Evidence Drill-down</h2>
+      <p class="section-subtitle">ContextLabel별 요약, 연관어 pair, 대표 리뷰를 확인하는 근거 확인 영역입니다.</p>
       <div id="contexts" class="context-list"></div>
     </section>
   </main>
@@ -707,14 +741,17 @@ def render_html(payload: dict[str, Any]) -> str:
       const render = (items, cls, label) => items.map(item => `
         <div class="card stakeholder-card ${{cls}}">
           <div class="stakeholder-label">${{label}}</div>
-          <div class="stakeholder-title">${{item.title}}</div>
+          <div class="stakeholder-top">
+            <div class="stakeholder-title">${{item.title}}</div>
+            <div class="stakeholder-metric">${{item.metric}}</div>
+          </div>
           <div class="stakeholder-signal">${{item.signal}}</div>
           <p>${{item.value}}</p>
-          <div class="insight-text">${{item.example}}<br>${{item.detail}}</div>
+          <div class="stakeholder-proof">${{item.example}}<br>${{item.detail}}</div>
         </div>
       `).join("");
-      document.getElementById("enterpriseInsights").innerHTML = render(data.stakeholder_insights.enterprise, "enterprise", "strategy signal");
-      document.getElementById("consumerInsights").innerHTML = render(data.stakeholder_insights.consumer, "consumer", "decision signal");
+      document.getElementById("enterpriseInsights").innerHTML = render(data.stakeholder_insights.enterprise, "enterprise", "strategy");
+      document.getElementById("consumerInsights").innerHTML = render(data.stakeholder_insights.consumer, "consumer", "decision");
     }}
 
     function pill(text) {{
@@ -729,18 +766,6 @@ def render_html(payload: dict[str, Any]) -> str:
           <tr><td>${{e.source}} ↔ ${{e.target}}</td><td>${{fmt.format(e.count)}}</td><td>${{e.npmi.toFixed(3)}}</td><td>${{e.pmi.toFixed(2)}}</td></tr>
         `).join("")}}</tbody>`;
 
-      document.getElementById("playbookTable").innerHTML = `
-        <thead><tr><th>product</th><th>opportunity</th><th>risk/watch</th><th>recommended action</th><th>count</th></tr></thead>
-        <tbody>${{data.playbook.map(row => `
-          <tr>
-            <td class="playbook-cell"><strong>${{row.product_name}}</strong><br><span class="small">${{row.context_count}} contexts / ${{row.high_priority_actions}} high actions</span></td>
-            <td>${{row.top_opportunity}}<br><span class="small">${{row.opportunity_value}}</span></td>
-            <td>${{row.top_risk}}<br><span class="small">${{row.risk_value}}</span></td>
-            <td>${{row.recommended_action || "-"}}</td>
-            <td>${{row.context_count}}</td>
-          </tr>
-        `).join("")}}</tbody>`;
-
     }}
 
     function renderActionBoard() {{
@@ -752,8 +777,9 @@ def render_html(payload: dict[str, Any]) -> str:
           <div class="action-title">${{action.title}}</div>
           <div class="action-desc">${{action.description}}</div>
           <div class="evidence">
-            context: ${{action.context_label}} / pair: ${{action.pair}} / NPMI: ${{Number(action.max_npmi).toFixed(2)}} / pair count: ${{fmt.format(action.total_pair_count)}}
-            <br>rationale: ${{action.rationale}}
+            <span class="field-label">Context</span> ${{action.context_label}}<br>
+            <span class="field-label">Evidence</span> ${{action.pair}} / NPMI ${{Number(action.max_npmi).toFixed(2)}} / count ${{fmt.format(action.total_pair_count)}}<br>
+            <span class="field-label">Rationale</span> ${{action.rationale}}
           </div>
         </div>
       `).join("");
@@ -768,9 +794,9 @@ def render_html(payload: dict[str, Any]) -> str:
           <div class="context-title">${{ctx.context_label}}</div>
           <div class="context-summary">${{ctx.summary}}</div>
           <div class="evidence">
-            pair: ${{ctx.top_pairs.map(p => `${{p.keyword_1}} ↔ ${{p.keyword_2}} (${{p.npmi.toFixed(2)}})`).join(", ")}}
-            <br>action: ${{ctx.actions.map(a => `${{a.action_type}}/${{a.priority}} - ${{a.title}}`).join(", ")}}
-            <br>evidence: ${{ctx.evidence_excerpt}}
+            <span class="field-label">Pair</span> ${{ctx.top_pairs.map(p => `${{p.keyword_1}} ↔ ${{p.keyword_2}} (${{p.npmi.toFixed(2)}})`).join(", ")}}
+            <br><span class="field-label">Action</span> ${{ctx.actions.map(a => `${{a.action_type}}/${{a.priority}} - ${{a.title}}`).join(", ")}}
+            <br><span class="field-label">Review</span> ${{ctx.evidence_excerpt}}
           </div>
         </div>
       `).join("");
@@ -868,11 +894,7 @@ def render_html(payload: dict[str, Any]) -> str:
     }}
 
 
-    renderMetrics();
-    renderInsights();
     renderStakeholderInsights();
-    bars("productBars", data.preprocess.product_counts, "#2563eb");
-    bars("sentimentBars", data.preprocess.sentiment_counts, "#15803d");
     bars("issueBars", data.label.issue_type_counts, "#7c3aed");
     renderTables();
     renderActionBoard();
